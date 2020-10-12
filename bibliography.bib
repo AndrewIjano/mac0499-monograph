@@ -1,280 +1,259 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%% INSERINDO COMENTÁRIOS EM ARQUIVOS .bib %%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% 1. Como em outros arquivos LaTeX, comentários são iniciados por "%" e,
-%    portanto, é preciso usar "\%" para imprimir o caractere "%". Esquecer
-%    disso pode gerar erros difíceis de encontrar!
-%
-% 2. Não é possível inserir comentários dentro de uma entrada, apenas fora.
-%
-% 3. Não é possível incluir o caractere arroba em um comentário.
-%
-% 4. Se quiser desabilitar temporariamente um campo ("comentar" o campo),
-%    troque seu nome para algum nome inválido, como "author-disable".
-%    Se quiser fazer alguma observação permanente dentro de uma entrada,
-%    você também pode usar algum nome de campo inválido, como "lembrete",
-%    ou usar o campo "annotation", que normalmente é ignorado.
-%
-% 5. Se quiser desabilitar temporariamente uma entrada inteira ("comentar" a
-%    entrada), não basta colocar "%" nas linhas correspondentes por causa do
-%    caractere arroba; também é preciso remover a arroba.
-%
-% 6. Na verdade, as regras não são bem essas, mas segui-las é uma boa ideia:
-%    https://tex.stackexchange.com/a/262282
+@inproceedings{Baader2005a,
+ author = {Baader, Franz and Brandt, Sebastian and Lutz, Carsten},
+ title = {Pushing the \text{EL} Envelope},
+ booktitle = {Proceedings of the 19th International Joint Conference on Artificial Intelligence},
+ series = {IJCAI'05},
+ year = {2005},
+ pages = {364--369},
+} 
 
-
-% Esta entrada está comentada, ou seja, não tem efeito: se houvesse uma
-% referência a ela no texto, a referência ficaria inválida. Observe que,
-% para isso, o caractere arroba foi apagado!
-%Book{JW82,
-% author    = {Richard A. Johnson and Dean W. Wichern},
-% title     = {Applied Multivariate Statistical Analysis},
-% publisher = {Prentice-Hall},
-% year      = {1983}
-%}
-
-% Esta entrada não está em uso em tese.tex, apenas em
-% apresentacao.tex, mas isso não é um problema: você pode
-% ter um banco de dados com todos os papers que são de seu
-% interesse e, em um dado texto, citar apenas alguns deles.
-@Manual{CORBA:spec,
- title       = {{CORBA} v3.0 Specification},
- author      = {{Object Management Group}},
- shortauthor = {OMG},
- month       = Jul,
- year        = {2002},
- note        = {OMG Document 02-06-33}
+@InCollection{Fin2019b,
+  author =       {Marcelo Finger},
+  title =        {Extending {EL++} with Linear Constraints on the Probability of Axioms},
+  booktitle =    {Description Logic, Theory Combination, and All That},
+  booksubtitle=  {Essays Dedicated to Franz Baader on the Occasion of His 60th Birthday},
+  OPTcrossref =  {},
+  OPTkey =       {},
+  publisher = {Springer International Publishing},
+  year =      {2019},
+  editor =    {Carsten Lutz and Uli Sattler and Cesare Tinelli and Anni-Yasmin Turhan and Frank Wolter},
+  volume =    {LLNCS 11560},
+  OPTnumber =    {},
+  series =    {Theoretical Computer Science and General Issues},
+  OPTtype =      {},
+  OPTchapter =   {},
+  OPTpages =     {},
+  OPTedition =   {},
+  OPTmonth =     {},
+  OPTaddress =   {},
+  doi =          {10.1007/978-3-030-22102-7},
+  isbn=          {978-3-030-22101-0},
+  OPTnote =      {},
+  OPTannote =    {}
 }
 
-@Book{eco:09,
- author   = {Umberto Eco},
- title    = {Como se Faz uma Tese},
- edition  = 22,
- publisher= {Perspectiva},
- note     = {Tradução Gilson Cesar Cardoso de Souza},
- year     = {2009},
+@incollection{eckhoff1993helly,
+  title={Helly, Radon, and Carath{\'e}odory type theorems},
+  author={Eckhoff, J{\"u}rgen},
+  booktitle={Handbook of convex geometry},
+  pages={389--448},
+  year={1993},
+  publisher={Elsevier}
 }
 
-@Book{zobel:04,
- author   = {Justin Zobel},
- title    = {Writing for Computer Science: The Art of Effective Communication},
- publisher= {Springer},
- edition  = 2,
- year     = {2004},
+@book{bertsimas1997introduction,
+  title={Introduction to linear optimization},
+  author={Bertsimas, Dimitris and Tsitsiklis, John N},
+  volume={6},
+  year={1997},
+  publisher={Athena Scientific Belmont, MA}
 }
 
-@Book{waz:09,
- author   = {Raul S. Wazlawick},
- title    = {Metodologia de Pesquisa em Ciência da Computação},
- publisher= {Campus},
- edition  = 1,
- year     = {2009},
+@book{bondy1976graph,
+  title={Graph theory with applications},
+  author={Bondy, John Adrian and Murty, Uppaluri Siva Ramachandra and others},
+  volume={290},
+  year={1976},
+  publisher={Citeseer}
 }
 
-@Book{Higham:98,
- author   = {Nicholas J. Higham},
- title    = {Handbook of Writing for the Mathematical Sciences},
- edition  = 2,
- publisher= {SIAM: Society for Industrial and Applied Mathematics},
- month    = Aug,
- year     = {1998},
+@book{boole1854investigation,
+  title={An Investigation of the Laws of Thought: On which are Founded the Mathematical Theories of Logic and Probabilities},
+  author={Boole, G.},
+  lccn={19004068},
+  series={Collected logical works},
+  url={https://books.google.com.br/books?id=DqwAAAAAcAAJ},
+  year={1854},
+  publisher={Walton and Maberly}
 }
 
-@book{Knuth:96,
- author   = {Donald E. Knuth and Tracy Larrabee and Paul M. Roberts},
- title    = {Mathematical Writing},
- publisher= {The Mathematical Association of America},
- month    = Sep,
- year     = {1996}
+@article{georgakopoulos1988probabilistic,
+  title={Probabilistic satisfiability},
+  author={Georgakopoulos, George and Kavvadias, Dimitris and Papadimitriou, Christos H},
+  journal={Journal of complexity},
+  volume={4},
+  number={1},
+  pages={1--11},
+  year={1988},
+  publisher={Elsevier}
 }
 
-@InProceedings{alves03:simi,
- author   = {Carlos E. R. Alves and Edson N. Cáceres and Frank Dehne and Siang W. Song},
- title    = {A Parallel Wavefront Algorithm for Efficient Biological Sequence Comparison},
- booktitle= {ICCSA'03: The 2003 International Conference on Computational Science and its Applications},
- year     = {2003},
- pages    = {249-258},
- month    = May,
- publisher= {Springer-Verlag}
+@inproceedings{Finger2011ProbabilisticSL,
+  title={Probabilistic Satisfiability: Logic-Based Algorithms and Phase Transition},
+  author={Marcelo Finger and Glauber De Bona},
+  booktitle={IJCAI},
+  year={2011}
 }
 
-@Article{MenaChalco08,
- author   = {Jesús P. Mena-Chalco and Helaine Carrer and Yossi Zana and Roberto M. Cesar-Jr.},
- title    = {Identification of Protein Coding Regions Using the Modified {G}abor-Wavelet Transform},
- journal  = {IEEE/ACM Transactions on Computational Biology and Bioinformatics},
- volume   = {5},
- pages    = {198-207},
- year     = {2008},
+@article{finger2015probabilistic,
+  title={Probabilistic satisfiability: algorithms with the presence and absence of a phase transition},
+  author={Finger, Marcelo and De Bona, Glauber},
+  journal={Annals of Mathematics and Artificial Intelligence},
+  volume={75},
+  number={3-4},
+  pages={351--389},
+  year={2015},
+  publisher={Springer}
 }
 
-@Article{floats2014,
- author    = {Frank Mittelbach},
- title     = {How to influence the position of float environments like figure and table in {\LaTeX}?},
- journal   = {{TUGboat}},
- journalsubtitle = {Communications of the \TeX\ Users Group},
- volume    = {35},
- number    = {3},
- year      = 2014,
- url       = {tug.org/TUGboat/tb35-3/tb111mitt-float.pdf},
- urldate   = {2020-01-09},
- publisher = {\TeX\ {Users} {Group}},
- address   = {Portland ({OR}), {USA}},
+@article{andersen2001easy,
+  title={Easy cases of probabilistic satisfiability},
+  author={Andersen, Kim Allan and Pretolani, Daniele},
+  journal={Annals of Mathematics and Artificial Intelligence},
+  volume={33},
+  number={1},
+  pages={69--91},
+  year={2001},
+  publisher={Springer}
 }
 
-@Techreport{alvisi99:analysisCIC,
- author      = {Lorenzo Alvisi and Elmootazbellah Elnozahy and Sriram S. Rao and Syed A. Husain and Asanka Del Mel},
- title       = {An Analysis of Comunication-Induced Checkpointing},
- institution = {Department of Computer Science, University of Texas at Austin},
- year        = {1999},
- number      = {TR-99-01},
- address     = {Austin, USA}
+
+@unpublished{Fin2020,
+  author={Marcelo Finger},
+  title={Tractable \text{Max-SAT} in Graphic Description Logics},
+  note={In preparation}
 }
 
-@Misc{gridftp,
- author   = {William Allcock},
- title    = {{GridFTP} Protocol Specification. {Global Grid Forum} Recommendation ({GFD}.20)},
- year     = {2003}
+@incollection{heinsohn1994probabilistic,
+  title={Probabilistic description logics},
+  author={Heinsohn, Jochen},
+  booktitle={Uncertainty Proceedings 1994},
+  pages={311--318},
+  year={1994},
+  publisher={Elsevier}
 }
 
-% A entrada "year" eh usada por bibtex;
-% biblatex pode usar "year" ou "date"
-@Manual{natbib,
- title       = "Reference sheet for \texttt{natbib} usage",
- author      = "Patrick W. Daly",
- year        = {2010},
- date        = {2010-09-13},
- urldate     = {2018-12-20},
- url         = {mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf},
+@article{lukasiewicz2008expressive,
+  title={Expressive probabilistic description logics},
+  author={Lukasiewicz, Thomas},
+  journal={Artificial Intelligence},
+  volume={172},
+  number={6-7},
+  pages={852--883},
+  year={2008},
+  publisher={Elsevier}
 }
 
-@Manual{biblatex,
- title       = "The \texttt{biblatex} Package",
- author      = "Philipp Lehman and Philip Kime and Moritz Wemheuer and Audrey Boruvka and Joseph Wright",
- year        = 2018,
- date        = {2018-10-30},
- urldate     = {2018-12-20},
- url         = {mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf},
+@article{gutierrez2017probabilistic,
+  title={Probabilistic description logics for subjective uncertainty},
+  author={Guti{\'e}rrez-Basulto, V{\'\i}ctor and Jung, Jean Christoph and Lutz, Carsten and Schr{\"o}der, Lutz},
+  journal={Journal of Artificial Intelligence Research},
+  volume={58},
+  pages={1--66},
+  year={2017}
 }
 
-@PhdThesis{garcia01:PhD,
- author   = {Islene C. Garcia},
- title    = {Visões Progressivas de Computações Distribuídas},
- school   = {Instituto de Computação, Universidade de Campinas},
- address  = {Campinas, Brasil},
- year     = {2001},
- month    = Dec
+@InProceedings{GutierrezBasultoEA11,
+  author = {Victor Gutierrez-Basulto and Jean Christoph Jung and Carsten Lutz and Lutz Schr{\"o}der},
+  title = {A Closer Look at the Probabilistic Description Logic Prob-EL},
+  year = {2011},
+  editor = {Wolfram Burgard and Dan Roth},
+  booktitle = {Proc. 25th Conference on Artificial Intelligence (AAAI-11)},
+  publisher = {AAAI Press},
+  pages = {197-202},
+  keywords = {Probabilistic description logic EL complexity convexity},
 }
 
-@Conference{bronevetsky02,
- author     = {Greg Bronevetsky and Daniel Marques and Keshav Pingali and Paul Stodghill},
- title      = {Automated Application-Level Checkpointing of {MPI} Programs},
- booktitle  = {PPoPP'03: Proceedings of the 9th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming},
- year       = {2003},
- pages      = {84-89},
- eventdate  = {2003-06-11/2003-06-13},
- venue      = {San Diego, California}
+@article{ceylan2017bayesian,
+  title={The Bayesian Ontology Language \text{BEL}},
+  author={Ceylan, Ismail Ilkan and Pe{\~n}aloza, Rafael},
+  journal={Journal of Automated Reasoning},
+  volume={58},
+  number={1},
+  pages={67--95},
+  year={2017},
+  publisher={Springer}
 }
 
-@InCollection{bobaoglu93:concepts,
- author   = {Ozalp Babaoglu and Keith Marzullo},
- title    = {Consistent Global States of Distributed Systems: Fundamental Concepts and Mechanisms},
- editor   = {Sape Mullender},
- booktitle= {Distributed Systems},
- edition  = 2,
- year     = {1993},
- pages    = {55-96}
+@article{jaumard1987complexity,
+  title={On the complexity of the maximum satisfiability problem for Horn formulas},
+  author={Jaumard, Brigitte and Simeone, Bruno},
+  journal={Information Processing Letters},
+  volume={26},
+  number={1},
+  pages={1--4},
+  year={1987},
+  publisher={Elsevier}
 }
 
-@MastersThesis{schmidt03:MSc,
- author   = {Rodrigo M. Schmidt},
- title    = {Coleta de Lixo para Protocolos de \emph{Checkpointing}},
- school   = {Instituto de Computação, Universidade de Campinas},
- address  = {Campinas, Brasil},
- year     = {2003},
- month    = Oct
+@ARTICLE{2020SciPy-NMeth,
+       author = {{Virtanen}, Pauli and {Gommers}, Ralf and {Oliphant},
+         Travis E. and {Haberland}, Matt and {Reddy}, Tyler and
+         {Cournapeau}, David and {Burovski}, Evgeni and {Peterson}, Pearu
+         and {Weckesser}, Warren and {Bright}, Jonathan and {van der Walt},
+         St{\'e}fan J.  and {Brett}, Matthew and {Wilson}, Joshua and
+         {Jarrod Millman}, K.  and {Mayorov}, Nikolay and {Nelson}, Andrew
+         R.~J. and {Jones}, Eric and {Kern}, Robert and {Larson}, Eric and
+         {Carey}, CJ and {Polat}, {\.I}lhan and {Feng}, Yu and {Moore},
+         Eric W. and {Vand erPlas}, Jake and {Laxalde}, Denis and
+         {Perktold}, Josef and {Cimrman}, Robert and {Henriksen}, Ian and
+         {Quintero}, E.~A. and {Harris}, Charles R and {Archibald}, Anne M.
+         and {Ribeiro}, Ant{\^o}nio H. and {Pedregosa}, Fabian and
+         {van Mulbregt}, Paul and {Contributors}, SciPy 1. 0},
+        title = "{SciPy 1.0: Fundamental Algorithms for Scientific
+                  Computing in Python}",
+      journal = {Nature Methods},
+      year = "2020",
+      volume={17},
+      pages={261--272},
+      adsurl = {https://rdcu.be/b08Wh},
+      doi = {https://doi.org/10.1038/s41592-019-0686-2},
 }
 
-@online{fowler04:designDead,
- author   = {Martin Fowler},
- title    = {Is Design Dead?},
- year     = {2004},
- month    = May,
- urldate  = {2010-01-30},
- url      = {martinfowler.com/articles/designDead.html},
+@article{lamy2017owlready,
+  title={Owlready: Ontology-oriented programming in Python with automatic classification and high level constructs for biomedical ontologies},
+  author={Lamy, Jean-Baptiste},
+  journal={Artificial intelligence in medicine},
+  volume={80},
+  pages={11--28},
+  year={2017},
+  publisher={Elsevier}
 }
 
-@online{FSF:GNU-GPL,
- author      = {{Free Software Foundation}},
- shortauthor = {FSF},
- title       = {{GNU} General Public License},
- year        = 2007,
- urldate     = {2010-01-30},
- url         = {www.gnu.org/copyleft/gpl.html},
+@book{python3,
+ author = {Van Rossum, Guido and Drake, Fred L.},
+ title = {Python 3 Reference Manual},
+ year = {2009},
+ isbn = {1441412697},
+ publisher = {CreateSpace},
+ address = {Scotts Valley, CA}
 }
 
-@article{alon09:how,
- author   = {Uri Alon},
- title    = {How To Choose a Good Scientific Problem},
- journal  = {Molecular Cell},
- year     = {2009},
- volume   = {35},
- number   = {6},
- pages    = {726--728},
- publisher= {Cell Press},
- month    = sep,
- doi      = {10.1016/j.molcel.2009.09.013},
+@book{swiglpk,
+ author = {Nikolaus Sonnenschein},
+ title = {swiglpk - Simple swig bindings for the GNU Linear Programming Kit},
+ URL = {https://pypi.org/project/swiglpk/}
 }
 
-@book{tufte01:visualDisplay,
- author   = {Edward Tufte},
- title    = {The Visual Display of Quantitative Information},
- year     = {2001},
- edition  = 2,
- publisher= {Graphics Press},
- month    = may,
+@article{numpy,
+  author = {Walt,Stéfan van der  and Colbert,S. Chris  and Varoquaux,Gaël },
+  title = {The NumPy Array: A Structure for Efficient Numerical Computation},
+  journal = {Computing in Science \& Engineering},
+  volume = {13},
+  number = {2},
+  pages = {22-30},
+  year = {2011},
+  doi = {10.1109/MCSE.2011.37},
+  URL = { https://aip.scitation.org/doi/abs/10.1109/MCSE.2011.37},
+  eprint = {https://aip.scitation.org/doi/pdf/10.1109/MCSE.2011.37}
 }
 
-@Manual{usp:guidelines,
- author      = {{Universidade de São Paulo --- Sistema Integrado de Bibliotecas}},
- shortauthor = {SIBiUSP},
- title       = {Diretrizes para Apresentação de
-	        Dissertações e Teses da {USP}:
-	        Documento Eletrônico e Impresso},
- year        = 2009,
- url         = {www.teses.usp.br/index.php?option=com_content&view=article&id=52&Itemid=67},
- urldate     = {2017-11-10},
+@inproceedings{cheeseman1991really,
+  title={Where the Really Hard Problems Are.},
+  author={Cheeseman, Peter C and Kanefsky, Bob and Taylor, William M}
 }
 
-@online{carlis:09,
- author  = {John V. Carlis},
- title   = {Design: The Key to Writing
-            (and Advising) a One-Draft {Ph.D} Dissertation},
- year    = 2009,
- url     = {www-users.cs.umn.edu/~carlis/one-draft.pdf},
- urldate = {2017-11-10},
+@book{boyd2004convex,
+  title={Convex optimization},
+  author={Boyd, Stephen and Boyd, Stephen P and Vandenberghe, Lieven},
+  year={2004},
+  publisher={Cambridge university press}
 }
 
-@book{craftresearch,
- author    = {Wayne C. Booth and Gregory G. Colomb and Joseph M. Williams},
- title     = {The Craft of Research},
- publisher = {The University of Chicago Press},
- year      = 2008,
-}
-
-@book{dissertjourney,
- author    = {Carol M. Roberts},
- title     = {The Dissertation Journey},
- publisher = {Corwin},
- year      = 2010,
- edition   = 2,
- location  = {Thousand Oaks, CA},
-}
-
-@manual{sbctemplate,
- author  = {Luciana P. Nedel and Rafael H. Bordini and Flávio Rech Wagner and Jomi F. H\"{u}bner},
- title   = {Instructions for Authors of {SBC} Conferences Papers and Abstracts},
- year    = 2017,
- url     = {www.sbc.org.br/documentos-da-sbc/category/169-templates-para-artigos-e-capitulos-de-livros},
- urldate = {2018-12-13},
+@book{borgwardt2012simplex,
+  title={The Simplex Method: a probabilistic analysis},
+  author={Borgwardt, Karl Heinz},
+  volume={1},
+  year={2012},
+  publisher={Springer Science \& Business Media}
 }

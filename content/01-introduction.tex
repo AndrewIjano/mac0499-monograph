@@ -2,3 +2,20 @@
 
 \chapter{Introduction}
 \label{cap:introduction}
+
+Description logics are a family of formal knowledge representation languages, being of particular importance in providing a logical formalism for ontologies and the Semantic Web. Also, they are notable in biomedical informatics for assisting the codification of biomedical knowledge. Due to these uses, there is a great demand to find tractable (i.e., polynomial-time decidable) description logics.
+
+One of them, the logic $\elpp$, is one of the most expressive description logics in which the complexity of inferential reasoning is tractable \citep{Baader2005a}. Even though it is expressive enough to deal with several practical applications, there was also a need to model uncertain knowledge.
+
+Consider a medical situation, adapted from \citep{Fin2019b}, in which a patient may have non-specific symptoms, such as high fever, skin rash and joint pains. Also, dengue is a disease that can account for those symptoms, but not all patients present all symptoms. Such an uncertain situation is suitable for probabilistic modeling.
+In a certain hospital, a patient with high fever has some probability of having dengue, but that probability is 5\% larger if the patient has rash too. On the other hand, dengue is not very prevalent and is not observed in the hospital 70\% of the time. If those probabilistic constraints are satisfiable, one can also ask the minimum and maximum probability that a hospital patient John, with fever and rash, is a suspect of suffering from dengue.
+
+For classical propositional formulas, this problem, called \emph{probabilistic satisfiability} (PSAT), has already been presented with tractable fragments \citep{andersen2001easy}. On the other hand, in description logics, most studies result in intractable reasoning; moreover, by adding probabilistic reasoning capabilities to $\elpp$, in order to model such situation, the complexity reaches NP-completeness \citep{Fin2019b}.
+
+To solve this problem, probabilistic constrains can be applied to axioms and its probabilistic satisfaction can be seen in a linear algebraic view. Furthermore, it can be reduced to an optimization problem, which can be solved by an adaptation of the simplex method with column generation \citep{Fin2019b}. Thus, it is possible to reduce the column generation problem to the \emph{weighted partial maximum satisfiability}.
+
+Moreover, recent studies show that it is necessary to focus on a fragment of $\elpp$ for obtain a tractable probabilistic reasoning, which will be called {Graphic} $\elpp$ ($\gelpp$) \citep{Fin2020}. Therefore, this fragment allows axioms to be seen as edges in a graph, as opposed to hyperedges in a hypergraph, which is the case of $\elpp$. This allows the use of graph-based machinery to develop tractable algorithm for the \emph{weighted partial Maximum SATisfiability} for $\gelpp$ (Max $\gelpp$-SAT) and, as a result, a tractable probabilistic description logic.
+
+Then, the objective of this project is to propose and implement tractable algorithms for weighted partial Max-SAT and Probabilistic SAT for a fragment of $\elpp$ description logic.
+
+In this paper, we describe the implementation of these algorithms\footnote{Available at https://github.com/AndrewIjano/pgel-sat} and is organized as follows: Section \ref{sec:relatedWork} highlights related results in the literature. The basic definition of $\gelpp$ with its algorithms for MaxSAT and PSAT are described in Section \ref{sec:methods} and followed by Section \ref{sec:results}, which presents details about the implementation and its experimental evaluation.

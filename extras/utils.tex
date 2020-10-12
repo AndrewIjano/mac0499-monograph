@@ -49,11 +49,6 @@
   \llap{\contour{#1}{#2}}% Escreve o texto com fundo branco/colorido
 }
 
-% Não faço ideia se isto pode ter efeitos colaterais
-% indesejáveis, então melhor deixar desabilitado
-%\let\ul\btul
-%\let\underline\btul
-
 % Notação bra-ket
 %\usepackage{braket}
 
@@ -198,11 +193,40 @@
 % recurso em LaTeX.
 %\usepackage{attachfile}
 
-% Os comandos \TeX e \LaTeX são nativos do LaTeX; esta package acrescenta os
-% comandos \XeLaTeX e \LuaLaTeX. Você provavelmente não precisa desse recurso
-% e, portanto, pode removê-la.
-\usepackage{metalogo}
-\providecommand{\ConTeXt}{\textsc{Con\TeX{}t}}
-% Outros logos da família TeX; você também pode remover estas linhas:
-\usepackage{hologo}
-\renewcommand{\ConTeXt}{\hologo{ConTeXt}}
+
+% EL
+\newcommand{\el}{\mathcal{EL}} 
+% EL++
+\newcommand{\elpp}{\mathcal{EL}^{++}}
+% GEL++
+\newcommand{\gelpp}{\mathcal{GEL}^{++}}
+% PGEL
+\newcommand{\pgel}{\text{P}\gelpp}
+% PGEL-SAT
+\newcommand{\pgelsat}{\text{PGEL-SAT}}
+% concrete domain D
+\newcommand{\D}{\mathcal{D}}
+% concept names
+\newcommand{\Nc}{\mathsf{N_C}}
+% role names
+\newcommand{\Nr}{\mathsf{N_R}}
+% individual names
+\newcommand{\Ni}{\mathsf{N_I}}
+% Nw
+\newcommand{\Nw}{\mathsf{N}_w}
+% Ew
+\newcommand{\Ew}{\mathsf{E}_w}
+% interpretation
+\newcommand{\I}{\mathcal{I}}
+% CBox C
+\newcommand{\CC}{\mathcal{C}}
+% Soft CBox Z
+\newcommand{\Z}{\mathcal{Z}}
+% basic concepts
+\newcommand{\bc}{\mathsf{BC}_\mathcal{C}}
+% P
+\newcommand{\PP}{\mathcal{P}}
+% Knowledge base
+\newcommand{\CP}{\langle \C, \PP \rangle}
+% C is a D
+\newcommand{\CisaD}{C \sqsubseteq D}
