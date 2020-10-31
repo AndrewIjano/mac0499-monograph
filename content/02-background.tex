@@ -3,7 +3,91 @@
 \chapter{Background}
 \label{cap:background}
 
+In this chapter, we present the theoretical background of DLs and some definitions. 
+
+\todo{Add initial description of the chapter}
 \section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
+
+We concentrate on presenting $\elpp$ without concrete domains \citep{Baader2005a}. 
+
+\subsection{Syntax}
+In $\elpp$, \emph{concept descriptions} are defined inductively from a set $\Nc$ of \emph{concept names}, a set $\Nr$ of \emph{role names} and set $\Ni$ of \emph{individual names} as follows:
+\begin{itemize}
+  \item $\top$, $\bot$ and concept names in $\Nc$ are concept descriptions;
+  \item if $C$ and $D$ are concept descriptions, $C \sqcap D$ is a concept description;
+  \item if $C$ is a concept description and $r \in \Nr$, $\exists r.C$ is a concept description;
+  \item if $a \in \Ni$, $\{a\}$ is a concept description.
+\end{itemize}
+
+
+An \emph{axiom}, or a \emph{general concept inclusion} (GCI), is an expression of the form $C \isa D$, where $C$ and $D$ are concept inclusions. A \emph{role inclusion} (RI) is an expression of the form $r_1 \circ \cdots \circ r_k \isa r$, where $r_1, \cdots r_k, r \in \Nr$.  The symbol ``$\circ$'' denotes composition of binary relations. We call a general \emph{terminology box} (TBox) a finite set of GCIs. Also, a \emph{constraint box} (CBox) is a finite set of GCIs and a finite set of RIs. \todo{Improve the strucuture of this paragraph, making it more readable}
+
+Similarly, a \emph{concept assertion} is an expression of the form $C(a)$ and a \emph{role assertion}, $r(a, b)$, where $C$ is a concept description, $a, b \in \Ni$ and $r \in \Nr$. A finite set of concept assertions and role assertions is an \emph{assertional box} (ABox).
+
+Then, an $\elpp$ \emph{knowledge base} $\K$ (KB) is a pair ($\mathcal{C}, \mathcal{A}$), where $\mathcal{C}$ is a CBox and $\mathcal{A}$ is an~ABox.
+
+\subsection{Semantics}
+The semantics of $\elpp$ are given by \emph{interpretations} $\I = (\Delta^\I, \cdot^\I)$. The \emph{domain} $\Delta^\I$ is a non-empty set of individuals, and the \emph{interpretation function} $\cdot^\I$ maps each concept name $A \in \Nc$ to a subset $A^\I$ of $\Delta^\I$, each role name $r$ to a binary relation $r^\I \subseteq \Delta^\I \times \Delta^\I$, and each individual name $a$ to an element $a^\I \in \Delta^\I$. The extension of $\cdot^\I$ for an arbitrary concept description is inductively defined by the third column of \autoref{table:elpp-syntax-semant}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}rcc@{}}
+    \toprule
+    Name & Syntax & Semantics \\
+    \midrule
+    top     & $\top$  & $\Delta^\I$ \\
+    bottom  & $\bot$  & $\emptyset$ \\
+    nominal & $\{a\}$ & $\{a^\I\}$ \\
+    conjunction & $C \sqcap D$ & $C^\I \cap D^\I$ \\
+    existential restriction & $\exists r.C$ & $\{ x \in \Delta^\I \, | \, \exists y \in \Delta^\I \, : \, (x, y) \in r^\I \land y \in C^\I \}$ \\
+    GCI & $C \isa D$ & $C^\I \subseteq D^\I$ \\
+    RI  & $r_1 \circ \cdots \circ r_k \isa r$ & $r_1^\I \circ \cdots \circ r_k^\I \subseteq r^\I$ \\
+    concept assertion & $C(a)$ & $a^\I \in C^\I$ \\
+    role assertion & $r(a, b)$ & $(a^\I, b^\I) \in r^\I$\\ 
+    \bottomrule
+  \end{tabular}
+  \caption{Syntax and semantics of $\elpp$ without concrete domains}
+  \label{table:elpp-syntax-semant}
+\end{table}
+
+The interpretation $\I$ \emph{satisfies}:
+\begin{itemize}
+  \item an axiom $C \isa D$ if $C^\I \subseteq D^\I$ (represented as $I \models C \isa D$);
+  
+  \item a RI $r_1 \circ \cdots \circ r_k \isa r$ if $r_1^\I \circ \cdots \circ r_k^\I \subseteq r^\I$ (represented as $I \models r_1 \circ \cdots \circ r_k \isa r$);
+  
+  \item an assertion $C(a)$ if $a^\I \in C^\I$ (represented as $I \models C(a)$);
+  
+  \item an assertion $r(a, b)$ if $(a^\I, b^\I) \in r^\I$ (represented as $I \models r(a, b)$). 
+\end{itemize}
+
+Also, we say that $\I$ is a \emph{model} of:
+\begin{itemize}
+  \item a CBox $\cbox$ if it satisfies every axiom and RI in $\cbox$ (represented as $\I \models \cbox$);
+  \item an ABox $\abox$ if it satisfies every assertion in $\abox$ (represented as $\I \models \abox$);
+\end{itemize}
+
+Then, an important problem in $\elpp$ is to determine its $consistency$, that is if $\abox$ and $\cbox$ have a common model, which is in PTime \citep{Baader2005a}.
+
+\subsection{Normal form}
+We can convert an $\elpp$ knowledge base into a normal form, in polynomial time, by introducing new concept and role names \citep{Baader2005a}.
+
+First, there is no need of explicit ABox, because $\I \models C(a)\iff \I \models \{a\} \isa C$ and $\I \models r(a, b) \iff \{a\} \isa \exists r.\{b\}$. In other words, a knowledge base can be represented by just a CBox, by transforming assertions in axioms.  
+
+In addition, given a CBox $\cbox$, consider the set $\bc$ of \emph{basic concept descriptions}, which is the smallest set of concept descriptions that contains the top concept $\top$, all concept names used in $\cbox$ and all concepts of the form $\{a\}$ used in $\cbox$.
+
+Then, every axiom can be represented in the following normal form, where $C_1, C_2 \in \bc$, $D \in \bc \cup \{\bot\}$:
+
+\begin{enumerate*}[itemjoin = {\hskip 0.8in}]
+  \item $C_1 \isa D$
+  \item $C_1 \isa \exists r.C_2$
+  \item $C_2 \isa D$
+  \item $C_1 \sqcap C_2 \isa D$
+\end{enumerate*}
+
+And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
+
+\todo{Add example}
 
 \section{Graphic \texorpdfstring{$\elpp$}{𝓔𝓛++} (\texorpdfstring{$\gelpp$}{𝓖𝓔𝓛++})}
 
