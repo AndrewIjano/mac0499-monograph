@@ -8,7 +8,7 @@ In this chapter, we present the theoretical background of DLs and some definitio
 \todo{Add initial description of the chapter}
 \section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
 
-We concentrate on presenting $\elpp$ without concrete domains \citep{Baader2005a}. 
+$\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large biohealth ontologies in mind, such as SNOMED-CT, the NCI thesaurus and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains. 
 
 \subsection{Syntax}
 In $\elpp$, \emph{concept descriptions} are defined inductively from a set $\Nc$ of \emph{concept names}, a set $\Nr$ of \emph{role names} and set $\Ni$ of \emph{individual names} as follows:
@@ -18,7 +18,6 @@ In $\elpp$, \emph{concept descriptions} are defined inductively from a set $\Nc$
   \item if $C$ is a concept description and $r \in \Nr$, $\exists r.C$ is a concept description;
   \item if $a \in \Ni$, $\{a\}$ is a concept description.
 \end{itemize}
-
 
 An \emph{axiom}, or a \emph{general concept inclusion} (GCI), is an expression of the form $C \isa D$, where $C$ and $D$ are concept inclusions. A \emph{role inclusion} (RI) is an expression of the form $r_1 \circ \cdots \circ r_k \isa r$, where $r_1, \cdots r_k, r \in \Nr$.  The symbol ``$\circ$'' denotes composition of binary relations. We call a general \emph{terminology box} (TBox) a finite set of GCIs. Also, a \emph{constraint box} (CBox) is a finite set of GCIs and a finite set of RIs. \todo{Improve the strucuture of this paragraph, making it more readable}
 
@@ -87,7 +86,39 @@ Then, every axiom can be represented in the following normal form, where $C_1, C
 
 And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
 
-\todo{Add example}
+\begin{example}
+  Consider the following CBox representing the situation in \autoref{exmp:real-example}. In the left we have basic knowledge on diseases and, in the right, the specific knowledge about Mary. Note that, for simplicity, it is not in normal form.
+
+  {
+    \sffamily
+    \begin{center}
+        \begin{minipage}{0,4\textwidth}
+                \fontsize{10}{14}
+                \selectfont
+                Fever $\isa$ Symptom\\
+                Cough $\isa$ Symptom\\
+                % FeverAndCough $\isa$ Fever\\
+                COVID-19 $\isa$ Disease\\
+                Symptom $\isa \, \exists$hasCause.Disease\\
+                Patient $\isa\, \exists$hasSymptom.Symptom\\
+                CovidPatient $\equiv\, \exists$suspectOf.COVID-19\\
+                hasSymptom $\circ$ hasCause $\isa$ suspectOf\\
+        \end{minipage}
+        \hspace{10pt}
+        \begin{minipage}{0,4\textwidth}
+                \fontsize{10}{14}
+                \selectfont
+                $\{$mary$\}$ $\isa$ Patient\\
+                $\{$s1$\}$ $\isa$ Fever $\sqcap$ Cough\\
+                $\{$mary$\}$ $\isa \, \exists$hasSymptom.$\{$s1$\}$\\
+        \end{minipage}
+    \end{center} 
+  }
+
+  Because CBoxes can only represent facts, there is no way to describe uncertain knowledge. Even though, $A_{x_1} := Fever \isa \exists hasCause.COVID-19$, $A_{x_1} := Fever \sqcap Cough \isa \exists hasCause.COVID-19$  and $COVID-19 \isa \bot$
+\end{example}
+
+We want to model uncertain information using DLs. However, it was been proved that, by adding probabilistic reasoning capabilities to $\elpp$, the complexity reaches NP-completeness \citep{Fin2019b}. Then, it is necessary to reduce the expressiveness of this language.
 
 \section{Graphic \texorpdfstring{$\elpp$}{𝓔𝓛++} (\texorpdfstring{$\gelpp$}{𝓖𝓔𝓛++})}
 

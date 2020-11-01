@@ -7,8 +7,12 @@ Description logics are a family of formal knowledge representation languages, be
 
 One of them, the logic $\elpp$, is one of the most expressive description logics in which the complexity of inferential reasoning is tractable \citep{Baader2005a}. Even though it is expressive enough to deal with several practical applications, there was also a need to model uncertain knowledge.
 
-Consider a medical situation, adapted from \citep{Fin2019b}, in which a patient may have non-specific symptoms, such as high fever, skin rash and joint pains. Also, dengue is a disease that can account for those symptoms, but not all patients present all symptoms. Such an uncertain situation is suitable for probabilistic modeling.
-In a certain hospital, a patient with high fever has some probability of having dengue, but that probability is 5\% larger if the patient has rash too. On the other hand, dengue is not very prevalent and is not observed in the hospital 70\% of the time. If those probabilistic constraints are satisfiable, one can also ask the minimum and maximum probability that a hospital patient John, with fever and rash, is a suspect of suffering from dengue.
+\begin{example}
+  \label{exmp:real-example}
+Consider a medical situation, in which a patient may have non-specific symptoms, such as high fever, cough and headache. Also, COVID-19, a severe acute respiratory syndrome caused by the  SARS-CoV-2 virus, is a disease that can account for those symptoms, but not all patients present all symptoms. Such an uncertain situation is suitable for probabilistic modeling.
+
+In a certain hospital, a patient with high fever has some probability of having COVID-19, but that probability is 20\% larger if the patient has cough too. On the other hand, COVID-19 is not very prevalent and is not observed in the hospital 90\% of the time. If those probabilistic constraints are satisfiable, one can also ask the minimum and maximum probability that a hospital patient Mary, with fever and cough, is a suspect of suffering from COVID-19.
+\end{example}
 
 For classical propositional formulas, this problem, called \emph{probabilistic satisfiability} (PSAT), has already been presented with tractable fragments \citep{andersen2001easy}. On the other hand, in description logics, most studies result in intractable reasoning; moreover, by adding probabilistic reasoning capabilities to $\elpp$, in order to model such situation, the complexity reaches NP-completeness \citep{Fin2019b}.
 
