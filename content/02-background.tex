@@ -3,23 +3,30 @@
 \chapter{Background}
 \label{cap:background}
 
-In this chapter, we present the theoretical background of DLs and some definitions. 
+In this chapter, we present the theoretical background of DLs and some definitions.
 
-\todo{Add initial description of the chapter}
+\todo[inline]{Add initial description of the chapter}
+
+\section{Description logics}
+\todo[inline]{Add section about DLs in general}
+
 \section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
+\label{sec:el}
 
-$\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large biohealth ontologies in mind, such as SNOMED-CT, the NCI thesaurus and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains. 
+$\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large bio-health ontologies in mind, such as SNOMED-CT, the NCI thesaurus, and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains.
 
 \subsection{Syntax}
 In $\elpp$, \emph{concept descriptions} are defined inductively from a set $\Nc$ of \emph{concept names}, a set $\Nr$ of \emph{role names} and set $\Ni$ of \emph{individual names} as follows:
 \begin{itemize}
-  \item $\top$, $\bot$ and concept names in $\Nc$ are concept descriptions;
-  \item if $C$ and $D$ are concept descriptions, $C \sqcap D$ is a concept description;
-  \item if $C$ is a concept description and $r \in \Nr$, $\exists r.C$ is a concept description;
-  \item if $a \in \Ni$, $\{a\}$ is a concept description.
+	\item $\top$, $\bot$ and concept names in $\Nc$ are concept descriptions;
+	\item if $C$ and $D$ are concept descriptions, $C \sqcap D$ is a concept description;
+	\item if $C$ is a concept description and $r \in \Nr$, $\exists r.C$ is a concept description;
+	\item if $a \in \Ni$, $\{a\}$ is a concept description.
 \end{itemize}
 
-An \emph{axiom}, or a \emph{general concept inclusion} (GCI), is an expression of the form $C \isa D$, where $C$ and $D$ are concept inclusions. A \emph{role inclusion} (RI) is an expression of the form $r_1 \circ \cdots \circ r_k \isa r$, where $r_1, \cdots r_k, r \in \Nr$.  The symbol ``$\circ$'' denotes composition of binary relations. We call a general \emph{terminology box} (TBox) a finite set of GCIs. Also, a \emph{constraint box} (CBox) is a finite set of GCIs and a finite set of RIs. \todo{Improve the strucuture of this paragraph, making it more readable}
+To represent knowledge using concept descriptions, we need to define facts (axioms and role inclusions) and assertions.
+
+An \emph{axiom}, or a \emph{general concept inclusion} (GCI), is an expression of the form $C \isa D$, where $C$ and $D$ are concept inclusions. A \emph{role inclusion} (RI) is an expression of the form $r_1 \circ \cdots \circ r_k \isa r$, where $r_1, \cdots r_k, r \in \Nr$.  The symbol ``$\circ$'' denotes composition of binary relations. A \emph{constraint box} (CBox) is a finite set of GCIs and a finite set of RIs.
 
 Similarly, a \emph{concept assertion} is an expression of the form $C(a)$ and a \emph{role assertion}, $r(a, b)$, where $C$ is a concept description, $a, b \in \Ni$ and $r \in \Nr$. A finite set of concept assertions and role assertions is an \emph{assertional box} (ABox).
 
@@ -29,41 +36,41 @@ Then, an $\elpp$ \emph{knowledge base} $\K$ (KB) is a pair ($\mathcal{C}, \mathc
 The semantics of $\elpp$ are given by \emph{interpretations} $\I = (\Delta^\I, \cdot^\I)$. The \emph{domain} $\Delta^\I$ is a non-empty set of individuals, and the \emph{interpretation function} $\cdot^\I$ maps each concept name $A \in \Nc$ to a subset $A^\I$ of $\Delta^\I$, each role name $r$ to a binary relation $r^\I \subseteq \Delta^\I \times \Delta^\I$, and each individual name $a$ to an element $a^\I \in \Delta^\I$. The extension of $\cdot^\I$ for an arbitrary concept description is inductively defined by the third column of \autoref{table:elpp-syntax-semant}.
 
 \begin{table}
-  \centering
-  \begin{tabular}{@{}rcc@{}}
-    \toprule
-    Name & Syntax & Semantics \\
-    \midrule
-    top     & $\top$  & $\Delta^\I$ \\
-    bottom  & $\bot$  & $\emptyset$ \\
-    nominal & $\{a\}$ & $\{a^\I\}$ \\
-    conjunction & $C \sqcap D$ & $C^\I \cap D^\I$ \\
-    existential restriction & $\exists r.C$ & $\{ x \in \Delta^\I \, | \, \exists y \in \Delta^\I \, : \, (x, y) \in r^\I \land y \in C^\I \}$ \\
-    GCI & $C \isa D$ & $C^\I \subseteq D^\I$ \\
-    RI  & $r_1 \circ \cdots \circ r_k \isa r$ & $r_1^\I \circ \cdots \circ r_k^\I \subseteq r^\I$ \\
-    concept assertion & $C(a)$ & $a^\I \in C^\I$ \\
-    role assertion & $r(a, b)$ & $(a^\I, b^\I) \in r^\I$\\ 
-    \bottomrule
-  \end{tabular}
-  \caption{Syntax and semantics of $\elpp$ without concrete domains}
-  \label{table:elpp-syntax-semant}
+	\centering
+	\begin{tabular}{@{}rcc@{}}
+		\toprule
+		Name                    & Syntax                              & Semantics                                                                                        \\
+		\midrule
+		top                     & $\top$                              & $\Delta^\I$                                                                                      \\
+		bottom                  & $\bot$                              & $\emptyset$                                                                                      \\
+		nominal                 & $\{a\}$                             & $\{a^\I\}$                                                                                       \\
+		conjunction             & $C \sqcap D$                        & $C^\I \cap D^\I$                                                                                 \\
+		existential restriction & $\exists r.C$                       & $\{ x \in \Delta^\I \, | \, \exists y \in \Delta^\I \, : \, (x, y) \in r^\I \land y \in C^\I \}$ \\
+		GCI                     & $C \isa D$                          & $C^\I \subseteq D^\I$                                                                            \\
+		RI                      & $r_1 \circ \cdots \circ r_k \isa r$ & $r_1^\I \circ \cdots \circ r_k^\I \subseteq r^\I$                                                \\
+		concept assertion       & $C(a)$                              & $a^\I \in C^\I$                                                                                  \\
+		role assertion          & $r(a, b)$                           & $(a^\I, b^\I) \in r^\I$                                                                          \\
+		\bottomrule
+	\end{tabular}
+	\caption{Syntax and semantics of $\elpp$ without concrete domains}
+	\label{table:elpp-syntax-semant}
 \end{table}
 
 The interpretation $\I$ \emph{satisfies}:
 \begin{itemize}
-  \item an axiom $C \isa D$ if $C^\I \subseteq D^\I$ (represented as $I \models C \isa D$);
-  
-  \item a RI $r_1 \circ \cdots \circ r_k \isa r$ if $r_1^\I \circ \cdots \circ r_k^\I \subseteq r^\I$ (represented as $I \models r_1 \circ \cdots \circ r_k \isa r$);
-  
-  \item an assertion $C(a)$ if $a^\I \in C^\I$ (represented as $I \models C(a)$);
-  
-  \item an assertion $r(a, b)$ if $(a^\I, b^\I) \in r^\I$ (represented as $I \models r(a, b)$). 
+	\item an axiom $C \isa D$ if $C^\I \subseteq D^\I$ (represented as $I \models C \isa D$);
+
+	\item a RI $r_1 \circ \cdots \circ r_k \isa r$ if $r_1^\I \circ \cdots \circ r_k^\I \subseteq r^\I$ (represented as $I \models r_1 \circ \cdots \circ r_k \isa r$);
+
+	\item an assertion $C(a)$ if $a^\I \in C^\I$ (represented as $I \models C(a)$);
+
+	\item an assertion $r(a, b)$ if $(a^\I, b^\I) \in r^\I$ (represented as $I \models r(a, b)$).
 \end{itemize}
 
 Also, we say that $\I$ is a \emph{model} of:
 \begin{itemize}
-  \item a CBox $\cbox$ if it satisfies every axiom and RI in $\cbox$ (represented as $\I \models \cbox$);
-  \item an ABox $\abox$ if it satisfies every assertion in $\abox$ (represented as $\I \models \abox$);
+	\item a CBox $\cbox$ if it satisfies every axiom and RI in $\cbox$ (represented as $\I \models \cbox$);
+	\item an ABox $\abox$ if it satisfies every assertion in $\abox$ (represented as $\I \models \abox$);
 \end{itemize}
 
 Then, an important problem in $\elpp$ is to determine its $consistency$, that is if $\abox$ and $\cbox$ have a common model, which is in PTime \citep{Baader2005a}.
@@ -71,59 +78,243 @@ Then, an important problem in $\elpp$ is to determine its $consistency$, that is
 \subsection{Normal form}
 We can convert an $\elpp$ knowledge base into a normal form, in polynomial time, by introducing new concept and role names \citep{Baader2005a}.
 
-First, there is no need of explicit ABox, because $\I \models C(a)\iff \I \models \{a\} \isa C$ and $\I \models r(a, b) \iff \{a\} \isa \exists r.\{b\}$. In other words, a knowledge base can be represented by just a CBox, by transforming assertions in axioms.  
+First, there is no need of explicit ABox, because $\I \models C(a)\iff \I \models \{a\} \isa C$ and $\I \models r(a, b) \iff \{a\} \isa \exists r.\{b\}$. In other words, a knowledge base can be represented by just a CBox, by transforming assertions in axioms.
 
 In addition, given a CBox $\cbox$, consider the set $\bc$ of \emph{basic concept descriptions}, which is the smallest set of concept descriptions that contains the top concept $\top$, all concept names used in $\cbox$ and all concepts of the form $\{a\}$ used in $\cbox$.
 
 Then, every axiom can be represented in the following normal form, where $C_1, C_2 \in \bc$, $D \in \bc \cup \{\bot\}$:
-
-\begin{enumerate*}[itemjoin = {\hskip 0.8in}]
-  \item $C_1 \isa D$
-  \item $C_1 \isa \exists r.C_2$
-  \item $C_2 \isa D$
-  \item $C_1 \sqcap C_2 \isa D$
-\end{enumerate*}
-
+\begin{align*}
+	C_1            & \isa D             \tag{simple}           \\
+	C_1            & \isa \exists r.C_2 \tag{existential-head} \\
+	C_2            & \isa D             \tag{existential-body} \\
+	C_1 \sqcap C_2 & \isa D  \tag{conjunctive-body}
+\end{align*}
 And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
 
 \begin{example}
-  Consider the following CBox representing the situation in \autoref{exmp:real-example}. In the left we have basic knowledge on diseases and, in the right, the specific knowledge about Mary. Note that, for simplicity, it is not in normal form.
+	\label{exmp:el-cbox-def}
+	Consider the following CBox $\CC_{exa}$ representing the situation in \autoref{exmp:real-example}. On the left, we have basic knowledge of diseases and, on the right, the specific knowledge about Mary. Note that, for simplicity, it is not in normal form.
 
-  {
-    \sffamily
-    \begin{center}
-        \begin{minipage}{0,4\textwidth}
-                \fontsize{10}{14}
-                \selectfont
-                Fever $\isa$ Symptom\\
-                Cough $\isa$ Symptom\\
-                % FeverAndCough $\isa$ Fever\\
-                COVID-19 $\isa$ Disease\\
-                Symptom $\isa \, \exists$hasCause.Disease\\
-                Patient $\isa\, \exists$hasSymptom.Symptom\\
-                CovidPatient $\equiv\, \exists$suspectOf.COVID-19\\
-                hasSymptom $\circ$ hasCause $\isa$ suspectOf\\
-        \end{minipage}
-        \hspace{10pt}
-        \begin{minipage}{0,4\textwidth}
-                \fontsize{10}{14}
-                \selectfont
-                $\{$mary$\}$ $\isa$ Patient\\
-                $\{$s1$\}$ $\isa$ Fever $\sqcap$ Cough\\
-                $\{$mary$\}$ $\isa \, \exists$hasSymptom.$\{$s1$\}$\\
-        \end{minipage}
-    \end{center} 
-  }
+		{
+			\sffamily
+			\begin{center}
+				\begin{minipage}{0,4\textwidth}
+					\fontsize{10}{14}
+					\selectfont
+					Fever $\isa$ Symptom\\
+					Cough $\isa$ Symptom\\
+					% FeverAndCough $\isa$ Fever\\
+					COVID-19 $\isa$ Disease\\
+					Symptom $\isa \, \exists$hasCause.Disease\\
+					Patient $\isa\, \exists$hasSymptom.Symptom\\
+					CovidPatient $\equiv\, \exists$suspectOf.COVID-19\\
+					hasSymptom $\circ$ hasCause $\isa$ suspectOf\\
+				\end{minipage}
+				\hspace{10pt}
+				\begin{minipage}{0,4\textwidth}
+					\fontsize{10}{14}
+					\selectfont
+					$\{$mary$\}$ $\isa$ Patient\\
+					$\{$s1$\}$ $\isa$ Fever $\sqcap$ Cough\\
+					$\{$mary$\}$ $\isa \, \exists$hasSymptom.$\{$s1$\}$\\
+				\end{minipage}
+			\end{center}
+		}
 
-  Because CBoxes can only represent facts, there is no way to describe uncertain knowledge. Even though, $A_{x_1} := Fever \isa \exists hasCause.COVID-19$, $A_{x_1} := Fever \sqcap Cough \isa \exists hasCause.COVID-19$  and $COVID-19 \isa \bot$
+	Because CBoxes can only represent facts, there is no way to describe uncertain knowledge. Even though, in cases when which of them are true, we could define three axioms
+
+	\begin{description}
+		\item { \sffamily $Ax_1 := $ Fever $\isa \exists$hasCause.COVID-19}, when fever is actually caused by COVID-19;
+		\item { \sffamily $Ax_2 :=$ Fever $\sqcap$ Cough $\isa \exists$hasCause.COVID-19 }, when both fever and cough are caused by COVID-19;
+		\item { \sffamily $Ax_3 :=$ COVID-19 $\isa \bot$}, when there are no presence of COVID-19 in the hospital.
+	\end{description}
+
+	In the following sections, it will be presented how to add these axioms in a KB with probabilistic properties.
 \end{example}
 
-We want to model uncertain information using DLs. However, it was been proved that, by adding probabilistic reasoning capabilities to $\elpp$, the complexity reaches NP-completeness \citep{Fin2019b}. Then, it is necessary to reduce the expressiveness of this language.
+We want to model uncertain information using DLs. However, it has been proved that, by adding probabilistic reasoning capabilities to $\elpp$, the complexity reaches NP-completeness \citep{Fin2019b}. Then, it is necessary to reduce the expressiveness of this language.
 
-\section{Graphic \texorpdfstring{$\elpp$}{𝓔𝓛++} (\texorpdfstring{$\gelpp$}{𝓖𝓔𝓛++})}
+\section{Graphic \texorpdfstring{$\el$}{𝓔𝓛} (\texorpdfstring{$\gel$}{𝓖𝓔𝓛})}
+\label{sec:gel}
 
-\section{MaxSAT for \texorpdfstring{$\gelpp$}{𝓖𝓔𝓛++}}
+\emph{Graphic} $\el$ ($\gel$) is a fragment of $\elpp$ in which every axiom and RI are in normal form and no conjunctive-body axiom is allowed \citep{Fin2020}. The semantics are the same as that of $\elpp$.
 
-\section{Probabilistic \texorpdfstring{$\gelpp$}{𝓖𝓔𝓛++}}
+\begin{example}
+	\label{exmp:gel-def}
+	Since there are conjunctive-body axioms in the CBox in \autoref{exmp:el-cbox-def}, we need to modify this knowledge in order to represent it in $\gel$. First, we substitute every concept description {\sffamily Fever $\sqcap$ Cough} by a new basic concept  {\sffamily FeverAndCough}. After that, we add axioms {\sffamily FeverAndCough $\isa$ Fever} and {\sffamily FeverAndCough $\isa$ Cough} to CBox.
+\end{example}
 
-\section{Related Work}
+The name of this fragment comes from the fact that each GCI can be represented as arrows in a graph where nodes are basic concepts. This representation is useful for the development of algorithms and it is used to define its SAT decision.
+
+\subsection{Graphical representation}
+
+Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ is a labeling function.
+
+
+\todo[inline]{Do I define the graph construction here? It is the same process that I use in the implementation and I could describe it there}
+
+
+\tikzstyle{block} = [draw, rectangle, rounded corners=.2cm, fill=black!5, draw=white]
+\tikzstyle{dashblock} = [draw, rectangle, dashed, rounded corners=.2cm, fill=black!5, draw=black!30, line width=1pt]
+\tikzstyle{arrow} = [>=latex, line width=1pt]
+
+\begin{figure}[ht]
+	\centering
+	\small
+	\begin{tikzpicture}[auto, node distance=1.5cm, ->]
+		\tikzset{every node/.style={minimum height=0.75cm}}
+
+		\sffamily
+		\node (init) {Init};
+		\node [below=of init] (s1) {$\{$s1$\}$};
+		\node [below=of s1] (mary) {$\{$mary$\}$};
+
+		\node [block, right=0.5cm of mary] (patient) {Patient};
+		\node [block, right=of s1] (fevcough) {FeverAndCough};
+		\node [block, below=0.5cm of fevcough] (cough) {Cough};
+		\node [block, right=of fevcough] (fever) {Fever};
+		\node [block, below=of fever] (symptom) {Symptom};
+		\node [block, above=of fever] (covid) {COVID-19};
+		\node [block, above=of covid] (covidpat) {covidPatient};
+		\node [block, right=of fever] (disease) {Disease};
+		\node [dashblock, left=of covidpat] (suspofden) {``suspectOfCOVID-19''};
+		\node [FireBrick, left=of covid] (bot) {$\bot$};
+
+		\path [arrow]
+		(init) edge (s1)
+		(init) edge[bend right = 70] (mary)
+		(s1) edge (fevcough)
+		(mary) edge (patient)
+		(covid) edge[bend right = -45] (disease)
+		(fevcough) edge (fever)
+		(fevcough) edge (cough)
+		(cough) edge (symptom)
+		(fever) edge (symptom)
+		(suspofden) edge (covidpat)
+		;
+
+		\path [arrow, NavyBlue]
+		(mary) edge node [midway, fill=white, anchor=center] {hasSymptom} (s1)
+		(patient) edge node [midway, fill=white, anchor=center] {hasSymptom} (symptom)
+		(covidpat) edge node [midway, fill=white, anchor=center] {suspectOf} (covid)
+		(symptom) edge[bend right = 45] node [midway, fill=white, anchor=center] {hasCause} (disease)
+		;
+
+		\path [arrow, dotted, FireBrick]
+		(fevcough) edge node [midway, fill=white, anchor=center] {hasCause} (covid)
+		(fever) edge node [midway, fill=white, anchor=center] {hasCause} (covid)
+		;
+
+		\path [arrow, dotted, FireBrick]
+		(covid) edge (bot)
+		;
+
+	\end{tikzpicture}
+	\caption{Graphical representation of the ontology in \autoref{exmp:gel-def}.}
+
+	\label{fig:gelppGraph}
+\end{figure}
+
+\subsection{SAT decision}
+
+\todo[inline]{Explain the algorithm of SAT decision and theorems}
+
+- graph completion
+
+- theorem: sat is path init - bot in completed graph
+
+\section{MaxSAT for \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
+\label{sec:maxgel}
+
+Before focusing on the probabilistic extension for $\gel$, we need to define its MaxSAT problem, which will compose further the probabilistic reasoner.
+
+The \emph{weighted partial maximum satisfiability problem for} $\gel$ ($\gel$-MaxSAT) can be defined as follows: given a potentially inconsistent weighted CBox $\cbox$, we want to find the maximal satisfiable subset of axioms; since it is partial, some axioms must be present in this subset. Usually, partiality can be modeled assigning infinite weights to the axioms that must not be excluded.
+
+A \emph{weighted} CBox is a pair $\tuple{\cbox, w}$ where $\cbox$ is a CBox and $w: \cbox \to \Ratios \cup \{\infty\}$ is a weight function, which maps axioms in $\cbox$ to weights. The infinite weight is used to represent axioms that must not be excluded in the maximal satisfiable subset. Also, it is defined that RIs of the form $r \isa s$ and $r_1 \circ r_2 \isa s$ always have infinite weight.
+
+Then, given a weighted CBox $\tuple{\cbox, w}$, a solution for the weighted partial $\gel$-MaxSAT problem is a set $\cbox_{max} \subseteq \cbox$ such that:
+\begin{itemize}
+	\item $\cbox_{max}$ is satisfiable; and
+	\item $\cbox_{max} \models C \isa D$ if $w(C \isa D) = \infty$; and
+	\item the sum of finite weights in $\cbox_{max}$ is maximal.
+\end{itemize}
+
+\section{Probabilistic \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
+\label{sec:pgel}
+
+Probability in $\gel$ is constructed from a \emph{probability function} $P$ \citep{Fin2020}. Consider a finite number of interpretation, $\I_1, \dots, \I_m$, we define the probability function $P: \{\I_1, \dots, \I_m\} \to \Ratios$, such that $P(\I_i) \geq 0$ and $\sum_{i = 1}^m P(\I_i) = 1$. We can also define the probability of an axiom $C \isa D$ as follows
+
+\[
+	P(C \isa D) = \sum_{\I_i \models C \isa D} P(\I_i).
+\]
+
+A \emph{probabilistic knowledge base} is a pair $\tuple{\CC, \PP}$, where $\CC$ is a CBox and $\PP$ is a PBox. A PBox is a set of $k$ linear constraints over $n$ axioms, of the form
+
+\begin{equation}
+\label{eq:pbox-restric}
+	\sum_{j = 1}^n a_{ij} \cdot P(C_j \isa D_j) \leq b_i; \quad 1 \leq i \leq k.
+\end{equation}
+
+We can define the \emph{satisfiability problem} for this probabilistic KB (PGEL-SAT) as deciding if it is consistent or not. If it is consistent, the solution is a set of interpretations $\{\I_1, \dots, \I_m \}$ and a probability function $P: \{\I_1, \dots, \I_m \} \to \Ratios^+$ such that $\sum_{i = 1}^m P(\I_i) = 1$, $P(C \isa D) = 1$ for $C \isa D \in \CC$ (axioms in CBox are certain) and P verifies all linear constraints in $\PP$.
+% 
+\begin{example}
+	Now we can model the uncertain situation stated in \autoref{exmp:real-example} using the probability knowledge base $\tuple{\CC_{exa}, \PP_{exa}}$, where $\CC_{exa}$ is the CBox from \autoref{exmp:gel-def} and $\PP_{exa}$ is given by
+	\begin{align*}
+		\PP_{exa} := \{ \quad P(Ax_2) - P(Ax_1) & = 0.2,           \\
+		P(Ax_3)                                 & = 0.9  \quad \}.
+	\end{align*}
+	\todo[inline]{I don't think this is the right way to express a PBox}
+
+	Then, we need a polynomial algorithm to find if this probabilistic KB is consistent.
+\end{example}
+% 
+\subsection{Linear algebraic view}
+
+The PGEL-SAT problem was also defined by \citet{Fin2020} in a linear algebraic view, which is useful to develop its polynomial reasoning algorithm. It was shown that a probabilistic KB $\tuple{\CC, \PP}$ is satisfiable iff the linear equation $C \cdot x = d$ has a solution $x \geq 0$, where 
+% 
+\begin{equation}
+	\label{pbox-linear}
+	C := \begin{bmatrix}
+		 -I_n           & M_{n \times m} \\
+		 A_{k \times n} & 0_{k \times m} \\
+		 0'_n           & 1'_{m}
+	\end{bmatrix}
+	%
+	\quad
+	x := \begin{bmatrix}
+		p_n \\
+		\pi_m
+	\end{bmatrix}
+	%
+	\quad
+	d := \begin{bmatrix}
+		0_n \\
+		b_k \\
+		1
+	\end{bmatrix}
+\end{equation}
+
+and
+\begin{itemize}
+	\item $A_{k \times n}$ is a $k \times n$ matrix whose elements $a_{ij}$ are given by \autoref{eq:pbox-restric};
+	\item $b_k$ is a $k$ vector whose elements $b_i$ are also given by \autoref{eq:pbox-restric};
+	\item $M_{n \times m}$ is a $n \times m$ matrix given by the following steps:
+	
+	Consider an interpretation $\I$ model of $\CC$, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
+
+	Then, given a set of interpretations $\I_1, \dots, \I_m$, we define $M_{n \times m}$ a matrix whose column $M^j$ is $\I_j$'s corresponding vector in $\PP$; 
+	\item $I_n$ is the $n$-dimensional identity matrix;
+	\item $0_n$ is a column $0$-vector of size $n$ (similarly for $1_n$);
+	\item $0'_n$ is the previous vector's transpose;
+	\item $0_{k \times m}$ is a $0$-matrix of shape $k \times m$; 
+	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \autoref{eq:pbox-restric}. 
+	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
+\end{itemize}
+
+\todo[inline]{Maybe define ill-formed and well-formed columns; Definition of cost vector; Definition of the linear system solution by the minimation problem}
+
+% definition
+
+% column generation algorithm
+
+% example
