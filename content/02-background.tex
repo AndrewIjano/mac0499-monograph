@@ -9,6 +9,17 @@ In this chapter, we present the theoretical background of DLs and some definitio
 
 \section{Description logics}
 \todo[inline]{Add section about DLs in general}
+% Description logics are used to represent knowledge
+% concepts, roles and individuals
+
+% examples patient and mary
+
+% relations: axioms and assertions
+
+% examples
+
+% interpretations
+
 
 \section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
 \label{sec:el}
@@ -151,7 +162,7 @@ The name of this fragment comes from the fact that each GCI can be represented a
 Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ is a labeling function.
 
 
-\todo[inline]{Do I define the graph construction here? It is the same process that I use in the implementation and I could describe it there}
+\todo[inline]{Example about graph completion}
 
 
 \tikzstyle{block} = [draw, rectangle, rounded corners=.2cm, fill=black!5, draw=white]
@@ -217,11 +228,8 @@ Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a
 
 \subsection{SAT decision}
 
-\todo[inline]{Explain the algorithm of SAT decision and theorems}
+\todo[inline]{Graph completion rules; SAT is path init-bot in completed graph}
 
-- graph completion
-
-- theorem: sat is path init - bot in completed graph
 
 \section{MaxSAT for \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
 \label{sec:maxgel}
@@ -263,7 +271,6 @@ We can define the \emph{satisfiability problem} for this probabilistic KB (PGEL-
 		\PP_{exa} := \{ \quad P(Ax_2) - P(Ax_1) & = 0.2,           \\
 		P(Ax_3)                                 & = 0.9  \quad \}.
 	\end{align*}
-	\todo[inline]{I don't think this is the right way to express a PBox}
 
 	Then, we need a polynomial algorithm to find if this probabilistic KB is consistent.
 \end{example}
