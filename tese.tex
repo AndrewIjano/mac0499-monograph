@@ -1,0 +1,208 @@
+% Arquivo LaTeX de exemplo de dissertação/tese a ser apresentada à CPG do IME-USP
+%
+% Criação: Jesús P. Mena-Chalco
+% Revisão: Fabio Kon e Paulo Feofiloff
+% Adaptação para UTF8, biblatex e outras melhorias: Nelson Lago
+%
+% Except where otherwise indicated, these files are distributed under
+% the MIT Licence. The example text, which includes the tutorial and
+% examples as well as the explanatory comments in the source, are
+% available under the Creative Commons Attribution International
+% Licence, v4.0 (CC-BY 4.0) - https://creativecommons.org/licenses/by/4.0/
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PREÂMBULO LaTeX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,twoside,brazil,english]{book}
+\usepackage[a4paper]{geometry}
+
+\geometry{
+  %top=32mm,
+  %bottom=28mm,
+  %left=24mm,
+  %right=34mm,
+  textwidth=152mm, % 210-24-34
+  textheight=237mm, % 297-32-28
+  vmarginratio=8:7, % 32:28
+  hmarginratio=12:17, % 24:34
+  % Com geometry, esta medida não é tão relevante; basta garantir que ela
+  % seja menor que "top" e que o texto do cabeçalho caiba nela.
+  headheight=25.4mm,
+  % distância entre o início do texto principal e a base do cabeçalho;
+  % ou seja, o cabeçalho "invade" a margem superior nessa medida. Essa
+  % é a medida que determina a posição do cabeçalho
+  headsep=11mm,
+  footskip=10mm,
+  marginpar=20mm,
+  marginparsep=5mm,
+}
+
+% Vários pacotes e opções de configuração genéricos; para personalizar o
+% resultado, modifique estes arquivos.
+\input{extras/basics}
+\input{extras/fonts}
+\input{extras/floats}
+\input{extras/thesis-formatting}
+\input{extras/index}
+\input{extras/hyperlinks}
+\input{extras/source-code}
+\input{extras/utils}
+
+% Diretórios onde estão as figuras; com isso, não é preciso colocar o caminho
+% completo em \includegraphics (e nem a extensão).
+\graphicspath{{img/}}
+
+% Comandos rápidos para mudar de língua:
+% \en -> muda para o inglês
+% \br -> muda para o português
+% \texten{blah} -> o texto "blah" é em inglês
+% \textbr{blah} -> o texto "blah" é em português
+\babeltags{br = brazil, en = english}
+
+% Espaçamento simples
+\singlespacing
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[
+  % \citet, \citep
+  natbib=true,
+  % similar a plainnat (autor-data)
+  style=extras/plainnat-ime,
+]{biblatex}
+
+\addbibresource{bibliography.bib}
+\input{extras/bibconfig}
+
+%%%%%%%%%%%%%%%%%%%%%%% METADADOS (TÍTULO, AUTOR ETC.) %%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Tractable Probabilistic Description Logic}
+\author{Andrew Ijano Lopes}
+
+% TODO: update keywords
+\hypersetup{
+  pdfkeywords={LaTeX, tese, dissertação, IME/USP},
+}
+
+% Este pacote define o formato sugerido da capa, páginas de rosto,
+% dedicatória e resumo. Se você pretende criar essas páginas manualmente,
+% não precisa carregar este pacote nem carregar o arquivo folhas-de-rosto.
+\dowithsubdir{extras/}{\usepackage{imeusp-capa}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%% AQUI COMEÇA O CONTEÚDO DE FATO %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+  % Aqui vai o conteúdo inicial que aparece antes do capítulo 1, ou seja,
+  % página de rosto, resumo, sumário etc. O comando frontmatter faz números
+  % de página aparecem em algarismos romanos ao invés de arábicos e
+  % desabilita a contagem de capítulos.
+  \frontmatter
+
+  % Este formato está (re)definido na package imeusp-headers
+  \pagestyle{plain}
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%% CAPA E FOLHAS DE ROSTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Para gerar o título sem seguir o formato deste modelo, você pode usar o
+  % comando padrão do LaTeX "\maketitle".
+  %\maketitle
+
+  % Capa e folhas de rosto no formato sugerido para teses/dissertações do IME/USP.
+  % Se for gerar a capa etc. manualmente, remova.
+  \onehalfspacing % Espaçamento 1,5 nas páginas iniciais
+  %\input{conteudo-exemplo/folhas-de-rosto}
+  \input{front-back-matter/title-page.tex}
+  
+  \par
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CAPÍTULOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Aqui vai o conteúdo principal do trabalho, ou seja, os capítulos que compõem
+  % a dissertação/tese. O comando mainmatter reinicia a contagem de páginas,
+  % modifica a numeração para números arábicos e ativa a contagem de capítulos.
+  \mainmatter
+
+  % Este formato está definido na package imeusp-headers e só funciona com
+  % book/report, pois usa o nome dos capítulos nos cabeçalhos.
+  \pagestyle{mainmatter}
+
+  % Espaçamento simples
+  \singlespacing
+
+  \input{content/01-introduction.tex}
+  \input{content/02-background.tex}
+  \input{content/03-development.tex}
+  \input{content/04-experiments.tex}
+  \input{content/05-results.tex}
+  \input{content/06-related-work.tex}
+  \input{content/07-conclusion.tex}
+
+  \par
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%% APÊNDICES E ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Um apêndice é algum conteúdo adicional de sua autoria que colabora com a
+  % ideia geral do texto mas que, por alguma razão, não precisa fazer parte
+  % da sequência do discurso; por exemplo, a demonstração de um teorema, as
+  % perguntas usadas em uma pesquisa qualitativa etc.
+  %
+  % Um anexo é um documento que não é de sua autoria mas que é relevante para
+  % a tese; por exemplo, a especificação do padrão que o trabalho discute.
+  %
+  % Os comandos appendix e annex reiniciam a numeração de capítulos e passam
+  % a numerá-los com letras. "annex" não faz parte de nenhuma classe padrão,
+  % ele foi criado para este modelo (em annex.sty e utils.tex). Se o
+  % trabalho não tiver apêndices ou anexos, remova estas linhas.
+  %
+  % Diferentemente de \mainmatter, \backmatter etc., \appendix e \annex não
+  % forçam o início de uma nova página. Em geral isso não é importante, pois
+  % o comando seguinte costuma ser "\chapter", mas pode causar problemas com
+  % a formatação dos cabeçalhos. Assim, vamos forçar uma nova página antes
+  % de cada um deles.
+
+  %%%% Apêndices %%%%
+  % \makeatletter
+  % \if@openright\cleardoublepage\else\clearpage\fi
+  % \makeatother
+
+  % Este formato está definido na package imeusp-headers.
+  % \pagestyle{appendix}
+
+  % \appendix
+
+  %\input{conteudo-exemplo/apendices}
+  % \input{conteudo/apendices}
+  % \par
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SEÇÕES FINAIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % Aqui vão a bibliografia, índice remissivo e outras seções similares.
+
+  % O comando backmatter desabilita a numeração de capítulos.
+  \backmatter
+
+  % Este formato está definido na package imeusp-headers
+  \pagestyle{backmatter}
+
+  % Espaço adicional no sumário antes das referências / índice remissivo
+  \addtocontents{toc}{\vspace{2\baselineskip plus .5\baselineskip minus .5\baselineskip}}
+
+  % A bibliografia é obrigatória
+  %%%%%%%% Bibliografia com biblatex (preferido): %%%%%%%%
+
+  \printbibliography[
+    title=\refname\label{bibliography}, % "Referências", recomendado pela ABNT
+    heading=bibintoc,
+  ]
+
+  % imprime o índice remissivo no documento (opcional)
+  % \printindex
+
+\end{document}
