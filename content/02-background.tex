@@ -3,23 +3,55 @@
 \chapter{Background}
 \label{cap:background}
 
-In this chapter, we present the theoretical background of DLs and some definitions.
+In this chapter, we present the theoretical background of description logics, 
 
 \todo[inline]{Add initial description of the chapter}
 
 \section{Description logics}
-\todo[inline]{Add section about DLs in general}
-% Description logics are used to represent knowledge
-% concepts, roles and individuals
+Description logics (DLs) are used to represent knowledge, such as the semantic of words,  people and their relations, and medical terms. These scenarios require precise specification and meaning so that different systems behave the same way. The first DL modeling languages appeared in the mid-1980s and have an important role in the context of the Semantic Web, an initiative to represent web content in a form that is more machine friendly \citep{krotzsch2012description}.
 
-% examples patient and mary
+As their name suggests, DLs are logics; indeed, most of them are fragments of first-order logic. This relation with logics is what provides their precise specification, called \emph{formal semantics}. Also, it equips their languages with a formal deduction to \emph{infer} additional information, and the computation of these inferences is called \emph{reasoning}. The performance of algorithms for reasoning strongly relies on the expressiveness of the DL: fast algorithms usually exist for lightweight logics. Then, there is not just a single DL because the balance between expressiveness and performance depends on the application. \citep{krotzsch2012description}
 
-% relations: axioms and assertions
+\subsection{Building blocks of description logic ontologies}
+A DL is composed of concepts, roles, and individual names. Concepts are sets of individuals, roles are binary relations between individuals and individual names are single individuals in the domain.
 
-% examples
+For example, an ontology\todo{Maybe explain what is an ontology} modeling the situation in \autoref{exmp:real-example} can use the concepts \textsf{Patient}, to represent the set of all patients in the hospital, and \textsf{Symptom}, to represent the set of all symptoms; roles such \textsf{hasSymptom}, to represent the binary relation between patients and symptoms; and individual names such as \textsf{mary} and \textsf{s1}, to represent the individuals Mary and Mary's symptoms.
 
-% interpretations
+Additionally, DLs allows us to describe more complex situations, creating new concepts and roles from the previously defined ones. 
 
+Some concept constructors provide boolean operations similar to that found in set theory and logic expressions. For example, if we want to describe the set of individuals that are both fever and cough, we could use the \emph{conjunction} operator, as follows
+\[
+	\textsf{Fever} \sqcap \textsf{Cough}.
+\]
+
+We can link concepts and roles using role restrictions. For example, to describe all individuals that are suspect of some disease that is COVID-19, we use the \emph{existential restriction}
+\[
+	\exists \textsf{suspectOf}.\textsf{COVID-19}.
+\]
+
+Also, to define concepts with only one individual we use \emph{nominals} like $\{\textsf{mary}\}$.
+
+More expressive logics can have other operations such as \emph{disjunction} ($C \sqcup D$), \emph{negation} ($\lnot C$), \emph{universal restriction} ($\forall r.C$) and \emph{number restrictions} ($\leq\!\! n\, r.C$).  
+
+To capture knowledge about the world, DL ontologies also allow us to describe relations between concepts, roles, and individual names. For example, the fact that all fevers are symptoms is represented by the \emph{concept inclusion}
+\[
+	\textsf{Fever} \isa \textsf{Symptom};	
+\]
+the knowledge that someone that has a symptom which is caused by some disease is suspect of that disease can be expressed by the \emph{role inclusion} with a \emph{role composition}
+\[
+	\textsf{hasSymptom} \, \circ \, \textsf{hasCause} \isa \textsf{suspectOf};	
+\]
+and the fact that Mary is a patient of the hospital and has symptoms is represented by the \emph{assertions} $\textsf{Patient}(\textsf{mary})$ and $\textsf{hasSymptom(mary, s1)}$.
+
+After that, if we have a set of these relations, one could ask if there is a set of individuals, or instances, that satisfies these relations, which is called an \emph{interpretation}. Interpretations can be understood as the assignment of meaning to logical terms in an ontology. Because a DL usually considers all the possibles situations, property that is sometimes referred to as \emph{open world assumption}, an ontology can have multiple satisfiable interpretations. The fewer restrictions it has, the more interpretations satisfy this ontology. The computational complexity to find the existence of these interpretations is one of the key aspects to choose different DL fragments.
+
+These terms will be formally defined in the \autoref{sec:el}, in the case of the DL $\elpp$.
+
+\subsection{Description logic fragments and OWL}
+
+There are many DL fragments. Each subset of features, like those described previously, can lead to different fragments of first-order logic. For example, the logic $\mathcal{ALC}$ does not allow role inclusions and admits only $\sqcap, \sqcup, \lnot, \exists$ and $\forall$ as concept constructors; their best reasoning algorithms, however, are worst-case exponential time. On the other hand, the $\el$ logic allows only $\sqcap$ and $\exists$ as concept constructors, and its reasoning algorithms are polynomial time.
+
+To express DL ontologies, the World Wide Web Consortium (W3C) designed the OWL~2 Web Ontology Language (OWL 2) \citep{owl2}. This declarative language is part of the W3C's Semantic Web technology stack and comes with various syntaxes, such as RDF/XML. Because of this use in the web, names in OWL are \emph{international resource identifiers} (IRIs).
 
 \section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
 \label{sec:el}
@@ -37,7 +69,7 @@ In $\elpp$, \emph{concept descriptions} are defined inductively from a set $\Nc$
 
 To represent knowledge using concept descriptions, we need to define facts (axioms and role inclusions) and assertions.
 
-An \emph{axiom}, or a \emph{general concept inclusion} (GCI), is an expression of the form $C \isa D$, where $C$ and $D$ are concept inclusions. A \emph{role inclusion} (RI) is an expression of the form $r_1 \circ \cdots \circ r_k \isa r$, where $r_1, \cdots r_k, r \in \Nr$.  The symbol ``$\circ$'' denotes composition of binary relations. A \emph{constraint box} (CBox) is a finite set of GCIs and a finite set of RIs.
+An \emph{axiom}, or a \emph{general concept inclusion} (GCI), is an expression of the form $C \isa D$, where $C$ and $D$ are concept inclusions. Also, we write $C \equiv D$ to represent the axioms $C \isa D$ and $D \isa C$. A \emph{role inclusion} (RI) is an expression of the form $r_1 \circ \cdots \circ r_k \isa r$, where $r_1, \dots r_k, r \in \Nr$.  The symbol ``$\circ$'' denotes composition of binary relations. A \emph{constraint box} (CBox) is a finite set of GCIs and a finite set of RIs.
 
 Similarly, a \emph{concept assertion} is an expression of the form $C(a)$ and a \emph{role assertion}, $r(a, b)$, where $C$ is a concept description, $a, b \in \Ni$ and $r \in \Nr$. A finite set of concept assertions and role assertions is an \emph{assertional box} (ABox).
 
@@ -161,8 +193,27 @@ The name of this fragment comes from the fact that each GCI can be represented a
 
 Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ is a labeling function.
 
+In addition, \citet{Fin2020} defines the following notation. The set $E_i \subseteq E$ is the set of all edges $e$ such that $\ell(e) = i$. We write $X_1 \to_i X_2$ if there is an edge $(X_1, X_2) \in E_i$, and $X_1 \nto_i X_2$ if $(X_1, X_2) \not\in E_i$. The expression $X \to_i^* Y$ represents the reflexive transitive closure of $\to_i$, which is the existence of a path in the graph of size $\geq 0$, starting in $X$, ending in $Y$, and only going through edges in $E_i$, for $0 \leq i \leq n_R$. Finally, $X \rightsquigarrow Y$ represents a path from $X$ to $Y$ using any type of edge.     
 
-\todo[inline]{Example about graph completion}
+Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$ with the following steps:
+\begin{enumerate}
+	\item remove existential body axioms
+	\item create N
+	\item create ->0 arrows
+	\item create ->i arrows
+	\item init ->0 T
+	\item init ->0 $\{ai\}$
+\end{enumerate}
+
+\begin{example}
+	CBox in \autoref{exmp:gel-def}
+\end{example}
+- graph can be constructed using blah
+
+- completion rules
+
+- example
+
 
 
 \tikzstyle{block} = [draw, rectangle, rounded corners=.2cm, fill=black!5, draw=white]
@@ -228,6 +279,10 @@ Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a
 
 \subsection{SAT decision}
 
+\todo[inline]{Example about graph completion}
+
+- unsat in a gel-kb is a path init-bot in the completed graph
+
 \todo[inline]{Graph completion rules; SAT is path init-bot in completed graph}
 
 
@@ -259,7 +314,7 @@ Probability in $\gel$ is constructed from a \emph{probability function} $P$ \cit
 A \emph{probabilistic knowledge base} is a pair $\tuple{\CC, \PP}$, where $\CC$ is a CBox and $\PP$ is a PBox. A PBox is a set of $k$ linear constraints over $n$ axioms, of the form
 
 \begin{equation}
-\label{eq:pbox-restric}
+	\label{eq:pbox-restric}
 	\sum_{j = 1}^n a_{ij} \cdot P(C_j \isa D_j) \leq b_i; \quad 1 \leq i \leq k.
 \end{equation}
 
@@ -277,14 +332,14 @@ We can define the \emph{satisfiability problem} for this probabilistic KB (PGEL-
 % 
 \subsection{Linear algebraic view}
 
-The PGEL-SAT problem was also defined by \citet{Fin2020} in a linear algebraic view, which is useful to develop its polynomial reasoning algorithm. It was shown that a probabilistic KB $\tuple{\CC, \PP}$ is satisfiable iff the linear equation $C \cdot x = d$ has a solution $x \geq 0$, where 
+The PGEL-SAT problem was also defined by \citet{Fin2020} in a linear algebraic view, which is useful to develop its polynomial reasoning algorithm. It was shown that a probabilistic KB $\tuple{\CC, \PP}$ is satisfiable iff the linear equation $C \cdot x = d$ has a solution $x \geq 0$, where
 % 
 \begin{equation}
 	\label{pbox-linear}
 	C := \begin{bmatrix}
-		 -I_n           & M_{n \times m} \\
-		 A_{k \times n} & 0_{k \times m} \\
-		 0'_n           & 1'_{m}
+		-I_n           & M_{n \times m} \\
+		A_{k \times n} & 0_{k \times m} \\
+		0'_n           & 1'_{m}
 	\end{bmatrix}
 	%
 	\quad
@@ -306,15 +361,15 @@ and
 	\item $A_{k \times n}$ is a $k \times n$ matrix whose elements $a_{ij}$ are given by \autoref{eq:pbox-restric};
 	\item $b_k$ is a $k$ vector whose elements $b_i$ are also given by \autoref{eq:pbox-restric};
 	\item $M_{n \times m}$ is a $n \times m$ matrix given by the following steps:
-	
-	Consider an interpretation $\I$ model of $\CC$, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
 
-	Then, given a set of interpretations $\I_1, \dots, \I_m$, we define $M_{n \times m}$ a matrix whose column $M^j$ is $\I_j$'s corresponding vector in $\PP$; 
+	      Consider an interpretation $\I$ model of $\CC$, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
+
+	      Then, given a set of interpretations $\I_1, \dots, \I_m$, we define $M_{n \times m}$ a matrix whose column $M^j$ is $\I_j$'s corresponding vector in $\PP$;
 	\item $I_n$ is the $n$-dimensional identity matrix;
 	\item $0_n$ is a column $0$-vector of size $n$ (similarly for $1_n$);
 	\item $0'_n$ is the previous vector's transpose;
-	\item $0_{k \times m}$ is a $0$-matrix of shape $k \times m$; 
-	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \autoref{eq:pbox-restric}. 
+	\item $0_{k \times m}$ is a $0$-matrix of shape $k \times m$;
+	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \autoref{eq:pbox-restric}.
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
