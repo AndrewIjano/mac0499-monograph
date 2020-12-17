@@ -129,7 +129,7 @@ Then, every axiom can be represented in the following normal form, where $C_1, C
 \begin{align*}
 	C_1            & \isa D             \tag{simple}           \\
 	C_1            & \isa \exists r.C_2 \tag{existential-head} \\
-	C_2            & \isa D             \tag{existential-body} \\
+	\exists r.C_1  & \isa D             \tag{existential-body} \\
 	C_1 \sqcap C_2 & \isa D  \tag{conjunctive-body}
 \end{align*}
 And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
@@ -146,7 +146,6 @@ And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
 					\selectfont
 					Fever $\isa$ Symptom\\
 					Cough $\isa$ Symptom\\
-					% FeverAndCough $\isa$ Fever\\
 					COVID-19 $\isa$ Disease\\
 					Symptom $\isa \, \exists$hasCause.Disease\\
 					Patient $\isa\, \exists$hasSymptom.Symptom\\
@@ -197,28 +196,31 @@ In addition, \citet{Fin2020} defines the following notation. The set $E_i \subse
 
 Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$ with the following steps:
 \begin{enumerate}
-	\item remove existential body axioms
-	\item create N
-	\item create ->0 arrows
-	\item create ->i arrows
-	\item init ->0 T
-	\item init ->0 $\{ai\}$
+	\item for each concept $\exists r.C$ in a existential-body axiom of the form $\exists r.C \isa D$ create a \emph{virtual concept} ``$\exists r.C$''. The set of all virtual concepts in $\CC$ is called $\textsf{VC}_\CC$;
+	\item the set $N$ of nodes is obtained from the basic concepts of $\CC$, an initial-node symbol $Init$, the bottom concept $\bot$ and the set of virtual concepts of $\CC$ as follows:
+	\[ N := \{Init, \bot\} \cup \textsf{BC}_\CC \cup \textsf{VC}_\CC; \]
+	\item if $C \isa D \in \CC$ then $C \to_0 D$; \todo[inline]{In the last paragraph, I wrote ``We write $X_1 \to_i X_2$ if there is an edge $(X_1, X_2) \in E_i$''. So the right notation is $C \to_0 D$ instead of $C \to_0 D \in E_0$ (the one you wrote in the paper), isnt it?  Doesnt $X_1 \to_i X_2$ already mean the existence of the edge in $E$? }
+	\item if $C \isa \exists r_i.D$ then $C \to_i D$;
+	\item if $\exists r_i.C \isa D$ then $\vc{\exists r_i.C} \to_0 D$, $\vc{\exists r_i.C} \to_i C$ and $C \to_{u_{r_i.C}} \vc{\exists r_i.C}$; \todo{Need to review this. I dont think the theory is finalized}
+	\item $Init \to_0 \top$; \todo{The original rule was ``if $\top$ occurs in $\CC$ then $Init \to_0 \top$''. Can I change this?}
+	\item for every node of the form $\{a_i\} \in N$, $Init \to_0 \{a_i\}$.
 \end{enumerate}
 
 \begin{example}
-	CBox in \autoref{exmp:gel-def}
+	Consider the CBox in \autoref{exmp:gel-def} and the uncertain information in \autoref{exmp:el-cbox-def}. Its graphical representation is displayed in the \autoref{fig:gel-graph}. The $\to_0$-edges are represented by continuous black arrows, the $\to_i$-edges, $i \geq 1$, are represented by blue labeled arrows and red dotted arrows indicate that source is uncertain information.
+	
+	Note that the axiom \textsf{CovidPatient $\equiv\, \exists$suspectOf.COVID-19} implies the existential-body axiom \textsf{$\exists$suspectOf.COVID-19 $\isa$ CovidPatient}. Therefore, it generates: 
+	\begin{itemize}
+		\item the virtual concept ``\textsf{suspectOf.COVID-19}'';
+		\item \textsf{``suspectOf.COVID-19''$\,\to\,$CovidPatient};
+		\item \textsf{``suspectOf.COVID-19''$\,\to_{\textsf{suspectOf}}\,$CovidPatient};
+		\item and \textsf{COVID-19$\,\to_{u_{\text{suspectOf.Covid}}}\,$ ``suspectOf.COVID-19''}. \todo[inline]{Is this the right notation? Doesn't the label need to be an integer?}
+	\end{itemize}
 \end{example}
-- graph can be constructed using blah
-
-- completion rules
-
-- example
-
-
 
 \tikzstyle{block} = [draw, rectangle, rounded corners=.2cm, fill=black!5, draw=white]
-\tikzstyle{dashblock} = [draw, rectangle, dashed, rounded corners=.2cm, fill=black!5, draw=black!30, line width=1pt]
-\tikzstyle{arrow} = [>=latex, line width=1pt]
+\tikzstyle{dashblock} = [draw, rectangle, dashed, rounded corners=.2cm, fill=black!5, draw=black!30, line width=0.8pt]
+\tikzstyle{arrow} = [>=latex, line width=0.8pt]
 
 \begin{figure}[ht]
 	\centering
@@ -237,10 +239,10 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 		\node [block, right=of fevcough] (fever) {Fever};
 		\node [block, below=of fever] (symptom) {Symptom};
 		\node [block, above=of fever] (covid) {COVID-19};
-		\node [block, above=of covid] (covidpat) {covidPatient};
 		\node [block, right=of fever] (disease) {Disease};
-		\node [dashblock, left=of covidpat] (suspofden) {``suspectOfCOVID-19''};
-		\node [FireBrick, left=of covid] (bot) {$\bot$};
+		\node [dashblock, above=of covid] (suspofcov) {``suspectOfCOVID-19''};
+		\node [block, left=0.5cm of suspofcov] (covidpat) {covidPatient};
+		\node [above=of fevcough, yshift=-0.15cm] (bot) {$\bot$};
 
 		\path [arrow]
 		(init) edge (s1)
@@ -252,14 +254,16 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 		(fevcough) edge (cough)
 		(cough) edge (symptom)
 		(fever) edge (symptom)
-		(suspofden) edge (covidpat)
+		(suspofcov) edge (covidpat)
 		;
 
 		\path [arrow, NavyBlue]
 		(mary) edge node [midway, fill=white, anchor=center] {hasSymptom} (s1)
 		(patient) edge node [midway, fill=white, anchor=center] {hasSymptom} (symptom)
-		(covidpat) edge node [midway, fill=white, anchor=center] {suspectOf} (covid)
+		(covidpat) edge[bend right = 40] node [near start, fill=white, anchor=center] {suspectOf} (covid.170)
 		(symptom) edge[bend right = 45] node [midway, fill=white, anchor=center] {hasCause} (disease)
+		(suspofcov) edge[bend right = 60] node [midway, fill=white, anchor=center] {suspectOf} (covid)
+	(covid) edge[bend right = 60] node [midway, fill=white, anchor=center] {$u_{\text{suspectOf.Covid}}$} (suspofcov)
 		;
 
 		\path [arrow, dotted, FireBrick]
@@ -268,13 +272,13 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 		;
 
 		\path [arrow, dotted, FireBrick]
-		(covid) edge (bot)
+		(covid.190) edge (bot)
 		;
 
 	\end{tikzpicture}
 	\caption{Graphical representation of the ontology in \autoref{exmp:gel-def}.}
 
-	\label{fig:gelppGraph}
+	\label{fig:gel-graph}
 \end{figure}
 
 \subsection{SAT decision}
