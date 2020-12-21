@@ -5,7 +5,7 @@
 
 In this chapter, we present the theoretical background of description logics, 
 
-\todo[inline]{Add initial description of the chapter}
+\improvement[inline]{Add initial description of the chapter}
 
 \section{Description logics}
 Description logics (DLs) are used to represent knowledge, such as the semantic of words,  people and their relations, and medical terms. These scenarios require precise specification and meaning so that different systems behave the same way. The first DL modeling languages appeared in the mid-1980s and have an important role in the context of the Semantic Web, an initiative to represent web content in a form that is more machine friendly \citep{krotzsch2012description}.
@@ -51,7 +51,7 @@ These terms will be formally defined in the \autoref{sec:el}, in the case of the
 
 There are many DL fragments. Each subset of features, like those described previously, can lead to different fragments of first-order logic. For example, the logic $\mathcal{ALC}$ does not allow role inclusions and admits only $\sqcap, \sqcup, \lnot, \exists$ and $\forall$ as concept constructors; their best reasoning algorithms, however, are worst-case exponential time. On the other hand, the $\el$ logic allows only $\sqcap$ and $\exists$ as concept constructors, and its reasoning algorithms are polynomial time.
 
-To express DL ontologies, the World Wide Web Consortium (W3C) designed the OWL~2 Web Ontology Language (OWL 2) \citep{owl2}. This declarative language is part of the W3C's Semantic Web technology stack and comes with various syntaxes, such as RDF/XML. Because of this use in the web, names in OWL are \emph{international resource identifiers} (IRIs).
+To express DL ontologies, the World Wide Web Consortium (W3C) designed the OWL~2 Web Ontology Language (OWL 2) \citep{owl2}. This declarative language is part of the W3C's Semantic Web technology stack and comes with various syntaxes, such as RDF/XML. Because of this use on the web, names in OWL are \emph{international resource identifiers} (IRIs).
 
 \section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
 \label{sec:el}
@@ -190,7 +190,7 @@ The name of this fragment comes from the fact that each GCI can be represented a
 
 \subsection{Graphical representation}
 
-Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ is a labeling function.
+Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ \todo{How do I define $\ell$ with the addition of artificial edges of the form $u_{r.C}$?} is a labeling function.
 
 In addition, \citet{Fin2020} defines the following notation. The set $E_i \subseteq E$ is the set of all edges $e$ such that $\ell(e) = i$. We write $X_1 \to_i X_2$ if there is an edge $(X_1, X_2) \in E_i$, and $X_1 \nto_i X_2$ if $(X_1, X_2) \not\in E_i$. The expression $X \to_i^* Y$ represents the reflexive transitive closure of $\to_i$, which is the existence of a path in the graph of size $\geq 0$, starting in $X$, ending in $Y$, and only going through edges in $E_i$, for $0 \leq i \leq n_R$. Finally, $X \rightsquigarrow Y$ represents a path from $X$ to $Y$ using any type of edge.     
 
@@ -283,12 +283,9 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 
 \subsection{SAT decision}
 
-\todo[inline]{Example about graph completion}
+\improvement[inline]{Graph completion rules}
 
-- unsat in a gel-kb is a path init-bot in the completed graph
-
-\todo[inline]{Graph completion rules; SAT is path init-bot in completed graph}
-
+After the graph completion, the satisfiability (SAT) decision of a $\gel$ CBox can be reduced to a path search in a graph, that is, a $\gel$ CBox is unsatisfiable iff $Init \to_0^* \bot$. 
 
 \section{MaxSAT for \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
 \label{sec:maxgel}
@@ -377,7 +374,7 @@ and
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
-\todo[inline]{Maybe define ill-formed and well-formed columns; Definition of cost vector; Definition of the linear system solution by the minimation problem}
+\todo[inline]{Do I need to define \textit{here} the solution of PGEL-SAT by the minimization problem? Isnt it better in the development chapter? }
 
 % definition
 

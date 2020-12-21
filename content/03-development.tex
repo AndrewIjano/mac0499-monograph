@@ -2,14 +2,67 @@
 
 \chapter{Development}
 \label{cap:development}
+
+In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}. It was built using Python programming language \citep{python3}.
+
 \section{Input and output format}
 
+The algorithm accepts as input a $\pgel$ KB encoded in an OWL 2 ontology. Both certain and uncertain knowledge must be a $\gel$-CBox in the normal form, with the additional support of equivalence axioms. Due to limitations in the OWL parser used, which will be detailed further, RDF/XML and NTriples are the only file formats supported.
+
+In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) with its unique numerical index. That is, given an uncertain axiom $Ax_i$, its annotation must be of the following form
+\begin{lstlisting}[style=mystyle]
+	#! pbox-id
+	$i$
+\end{lstlisting}
+\todo{I dont know how to place correctly this code}
+
+PBox restrictions are represented with annotations in the $\top$ concept (\texttt{owl:Thing}). That is, given a restriction of the form $a_0 P(Ax_0) + a_1P(Ax_1) + \cdots + a_{n-1} P(Ax_{n-1}) = b$, its annotation must be of the form
+\begin{lstlisting}[style=mystyle]
+    #! pbox-restriction
+    0   $a_0$
+    1   $a_1$
+    $\cdots$
+    $n-1$ $a_{n-1}$
+    ==
+    $b$
+\end{lstlisting}
+
+The output of the algorithm is \texttt{True} if the given KB has a solution, and \texttt{False} if not.
+
+\improvement{Maybe explain how to execute the algorithm}
+
 \section{OWL parser}
+- lib used: owlready2
+
+- explores the data Structure of this lib to get the right information
 
 \section{Knowledge Base}
+- how it is stored
+
 
 \section{GEL-MaxSAT}
+- explain the theory of the solution
+
+- pseudocode of the algorithm 
+
+- max flow / min cut
 
 \section{Linear solver}
+- explain the theory of the solution
+
+  - define cost vector (and ill-formed and well-formed columns)
+  
+  - define the linear solution from the cost vector and the linear view of the PGEL-SAT problem
+
+- explain the implementation; lib used: glpk python
+
+- interior points -> tractable
 
 \section{PGEL-SAT reasoner}
+- wrap all the concepts
+
+- column generation
+
+- numpy
+
+- explain the final solution

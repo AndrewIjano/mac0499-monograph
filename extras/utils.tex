@@ -203,7 +203,7 @@
 % GEL++
 \newcommand{\gelpp}{\mathcal{GEL}^{++}}
 % PGEL
-\newcommand{\pgel}{\text{P}\gelpp}
+\newcommand{\pgel}{\text{P}\gel}
 % PGEL-SAT
 \newcommand{\pgelsat}{\text{PGEL-SAT}}
 % concrete domain D
@@ -261,7 +261,7 @@
   \refstepcounter{example}
   \par\noindent\normalfont\textbf{Example~\theexample}\par\nopagebreak%
   \begin{mdframed}[
-     linewidth=1pt,
+     linewidth=0.8pt,
      linecolor=gray,
      bottomline=false, 
      topline=false,
@@ -297,3 +297,6 @@
 \newcommand{\nto}{\nrightarrow}
 
 \DeclarePairedDelimiter{\vc}{\text{``}}{\text{''}}
+
+% customize verbatim
+\usepackage{fancyvrb}
