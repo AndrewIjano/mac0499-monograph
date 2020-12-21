@@ -283,8 +283,9 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 
 \subsection{SAT decision}
 
-\improvement[inline]{Graph completion rules}
+\improvement[inline]{Need to describe the graph completion rules}
 
+\todo[inline]{Question about this part: do we really need the graph completion to define the SAT decision? Isn't it true that a $\gel$ CBox $\CC$ is \textbf{unsatisfiable}  iff $Init \rightsquigarrow \bot$  (using any type of edge) in a graph $G(\CC)$ \textbf{without} completion? I couldn't find any counterexample...}
 After the graph completion, the satisfiability (SAT) decision of a $\gel$ CBox can be reduced to a path search in a graph, that is, a $\gel$ CBox is unsatisfiable iff $Init \to_0^* \bot$. 
 
 \section{MaxSAT for \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
@@ -374,7 +375,7 @@ and
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
-\todo[inline]{Do I need to define \textit{here} the solution of PGEL-SAT by the minimization problem? Isnt it better in the development chapter? }
+\todo[inline]{Do I need to define \textit{here} the solution of PGEL-SAT by the minimization problem? Isn't it better in the development chapter? }
 
 % definition
 
