@@ -53,7 +53,7 @@ There are many DL fragments. Each subset of features, like those described previ
 
 To express DL ontologies, the World Wide Web Consortium (W3C) designed the OWL~2 Web Ontology Language (OWL 2) \citep{owl2}. This declarative language is part of the W3C's Semantic Web technology stack and comes with various syntaxes, such as RDF/XML. Because of this use on the web, names in OWL are \emph{international resource identifiers} (IRIs).
 
-\section{The description logic \texorpdfstring{$\elpp$}{𝓔𝓛++}}
+\section{The description logic \texorpdfstring{$\elpp$}{����++}}
 \label{sec:el}
 
 $\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large bio-health ontologies in mind, such as SNOMED-CT, the NCI thesaurus, and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains.
@@ -176,7 +176,7 @@ And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
 
 We want to model uncertain information using DLs. However, it has been proved that, by adding probabilistic reasoning capabilities to $\elpp$, the complexity reaches NP-completeness \citep{Fin2019b}. Then, it is necessary to reduce the expressiveness of this language.
 
-\section{Graphic \texorpdfstring{$\el$}{𝓔𝓛} (\texorpdfstring{$\gel$}{𝓖𝓔𝓛})}
+\section{Graphic \texorpdfstring{$\el$}{����} (\texorpdfstring{$\gel$}{������})}
 \label{sec:gel}
 
 \emph{Graphic} $\el$ ($\gel$) is a fragment of $\elpp$ in which every axiom and RI are in normal form and no conjunctive-body axiom is allowed \citep{Fin2020}. The semantics are the same as that of $\elpp$.
@@ -288,7 +288,7 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 \todo[inline]{Question about this part: do we really need the graph completion to define the SAT decision? Isn't it true that a $\gel$ CBox $\CC$ is \textbf{unsatisfiable}  iff $Init \rightsquigarrow \bot$  (using any type of edge) in a graph $G(\CC)$ \textbf{without} completion? I couldn't find any counterexample...}
 After the graph completion, the satisfiability (SAT) decision of a $\gel$ CBox can be reduced to a path search in a graph, that is, a $\gel$ CBox is unsatisfiable iff $Init \to_0^* \bot$. 
 
-\section{MaxSAT for \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
+\section{MaxSAT for \texorpdfstring{$\gel$}{������}}
 \label{sec:maxgel}
 
 Before focusing on the probabilistic extension for $\gel$, we need to define its MaxSAT problem, which will compose further the probabilistic reasoner.
@@ -304,7 +304,7 @@ Then, given a weighted CBox $\tuple{\cbox, w}$, a solution for the weighted part
 	\item the sum of finite weights in $\cbox_{max}$ is maximal.
 \end{itemize}
 
-\section{Probabilistic \texorpdfstring{$\gel$}{𝓖𝓔𝓛}}
+\section{Probabilistic \texorpdfstring{$\gel$}{������}}
 \label{sec:pgel}
 
 Probability in $\gel$ is constructed from a \emph{probability function} $P$ \citep{Fin2020}. Consider a finite number of interpretation, $\I_1, \dots, \I_m$, we define the probability function $P: \{\I_1, \dots, \I_m\} \to \Ratios$, such that $P(\I_i) \geq 0$ and $\sum_{i = 1}^m P(\I_i) = 1$. We can also define the probability of an axiom $C \isa D$ as follows
