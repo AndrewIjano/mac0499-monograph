@@ -3,66 +3,110 @@
 \chapter{Development}
 \label{cap:development}
 
-In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}. It was built using Python programming language \citep{python3}.
+In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}, described by \citet{Fin2020}. It was implemented using Python programming language \citep{python3}.
 
 \section{Input and output format}
 
-The algorithm accepts as input a $\pgel$ KB encoded in an OWL 2 ontology. Both certain and uncertain knowledge must be a $\gel$-CBox in the normal form, with the additional support of equivalence axioms. Due to limitations in the OWL parser used, which will be detailed further, RDF/XML and NTriples are the only file formats supported.
+The algorithm accepts as input a $\pgel$ KB encoded in an OWL 2 ontology. Both certain and uncertain knowledge must be a $\gel$-CBox in the normal form, with the additional support of equivalence axioms. Due to limitations in the OWL parser used, which will be detailed further, RDF/XML, OWL/XML and NTriples are the only file formats supported.
 
-In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) with its unique numerical index. That is, given an uncertain axiom $Ax_i$, its annotation must be of the following form
-\begin{lstlisting}[style=mystyle]
-	#! pbox-id
-	$i$
-\end{lstlisting}
-\todo{I dont know how to place correctly this code}
+In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) with its unique numerical index. That is, given an uncertain axiom $Ax_i$, its annotation must be of the following form in \autoref{fig:annot-axiom}.
+\begin{figure}
+	\centering
+	\begin{minipage}{6cm}
+		\begin{lstlisting}[style=mystyle]
+      #!pbox-id $i$
+    \end{lstlisting}
+  \end{minipage}
+	\caption{Annotation format for an uncertain axiom}
+  \label{fig:annot-axiom}
+\end{figure}
 
-PBox restrictions are represented with annotations in the $\top$ concept (\texttt{owl:Thing}). That is, given a restriction of the form $a_0 P(Ax_0) + a_1P(Ax_1) + \cdots + a_{n-1} P(Ax_{n-1}) = b$, its annotation must be of the form
-\begin{lstlisting}[style=mystyle]
-    #! pbox-restriction
+PBox restrictions are represented with annotations in the $\top$ concept (\texttt{owl:Thing}). That is, given a restriction of the form $a_0 P(Ax_0) + a_1P(Ax_1) + \cdots + a_{n-1} P(Ax_{n-1}) = b$, its annotation must be of the form in \autoref{fig:pbox-rest}.  Also, inequalities $\leq$ and $\geq$ can be represented, respectively, with the symbols \texttt{<=} and \texttt{>=}.
+
+\begin{figure}
+	\centering
+	\begin{minipage}{6cm}
+		\begin{lstlisting}[style=mystyle]
+    #!pbox-restriction
     0   $a_0$
     1   $a_1$
     $\cdots$
     $n-1$ $a_{n-1}$
     ==
     $b$
-\end{lstlisting}
+    \end{lstlisting}
+	\end{minipage}
+  \caption{Annotation format for a PBox restriction}
+  \label{fig:pbox-rest}
+\end{figure}
+
 
 The output of the algorithm is \texttt{True} if the given KB has a solution, and \texttt{False} if not.
 
 \improvement{Maybe explain how to execute the algorithm}
 
-\section{OWL parser}
-- lib used: owlready2
+\section{Knowledge base representation}
+To read the ontology in OWL 2, it was used the Python module \textit{Owlready2} \citep{lamy2017owlready}. 
 
-- explores the data Structure of this lib to get the right information
 
-\section{Knowledge Base}
-- how it is stored
+The probabilistic KB is represented as the edge-labeled graph in \autoref{subsec:graph-repr} with three matrices for the inequalities in \autoref{eq:pbox-restric}. 
+
+\improvement[inline]{Need to improve this}
+
+The probabilistic KB representation allows us to develop a PGEL-SAT solver, using this data structure as input.
+
+\section{PGEL-SAT solver}
+
+In order to understand the PGEL-SAT solver implemented, we need to find a solution for the linear system stated in \autoref{subsec:lin-alg-view}.
+
+First, consider the matrix $C$ in \autoref{eq:pbox-restric}, it has $p$-columns and $\pi$-columns, referring to which part of $x$ they multiply. We say that a $p$-column $pc_i$ is \emph{well-formed} if it is of the form in \autoref{eq:pbox-restric}, starting with the $i$-th column of $-I_n$, followed by the $i$-th column of $A$ and with one $0$ at the end. Also, we say that a $\pi$-column is \emph{well-formed} if it starts with a corresponding vector of an interpretation model of $\CC$, followed by $k$ zeros and with one $1$ at the end. A column that is not well-formed is \emph{ill-formed}.
+
+Now, consider that the matrix $C$ may have ill-formed columns. We define a binary \emph{cost vector} $c$ such that each element $c_i = 1$ iff column $C^i$ is ill-formed; otherwise $c_i = 0$. Then, the linear system stated in \autoref{subsec:lin-alg-view} has a solution iff the following minimization problem has minimum 0.
+
+\begin{equation*}
+  \begin{array}{ll}
+    \text{minimize}   & c' \cdot x \\
+    \text{subject to} & C \cdot x = d\\
+                      & x \geq 0
+  \end{array}
+\end{equation*}
+
+This problem can be solved by a linear algebraic solver but we need to find beforehand $C$ and $d$ that reaches the minimum 0. Since matrix $A$ and vector $b$ are generated from PBox, we need to choose a set of interpretations that provides the solution. However, we potentially have an exponential collection of possible interpretations, and looking over all of them would make the algorithm untractable. \todo{Need to say about M being large not the collection of possible columns}
+
+Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin2020} states that if constrains in \autoref{eq:pbox-restric} are solvable then there exists  a solution where $x$ has at most $n + k + 1$ values such that $x_j > 0$. 
+
+- there are many possible columns
+
+- need to generate the right ones
+
+- column generation + linear solver
+
+- columns are generated on the fly
+
+- the start
+
+- explain the program
+
+- the program
+
+\section{Linear solver}
+- explain the implementation; lib used: glpk python
+
+- interior points -> tractable
+
+\section{Column generation}
+- explain the theory of the solution
+
+- pseudocode of the algorithm
 
 
 \section{GEL-MaxSAT}
 - explain the theory of the solution
 
-- pseudocode of the algorithm 
+- pseudocode of the algorithm
 
 - max flow / min cut
 
-\section{Linear solver}
-- explain the theory of the solution
 
-  - define cost vector (and ill-formed and well-formed columns)
-  
-  - define the linear solution from the cost vector and the linear view of the PGEL-SAT problem
 
-- explain the implementation; lib used: glpk python
 
-- interior points -> tractable
-
-\section{PGEL-SAT reasoner}
-- wrap all the concepts
-
-- column generation
-
-- numpy
-
-- explain the final solution

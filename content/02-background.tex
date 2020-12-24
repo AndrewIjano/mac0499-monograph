@@ -189,6 +189,7 @@ We want to model uncertain information using DLs. However, it has been proved th
 The name of this fragment comes from the fact that each GCI can be represented as arrows in a graph where nodes are basic concepts. This representation is useful for the development of algorithms and it is used to define its SAT decision.
 
 \subsection{Graphical representation}
+\label{subsec:graph-repr}
 
 Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ \todo{How do I define $\ell$ with the addition of artificial edges of the form $u_{r.C}$?} is a labeling function.
 
@@ -333,11 +334,12 @@ We can define the \emph{satisfiability problem} for this probabilistic KB (PGEL-
 \end{example}
 % 
 \subsection{Linear algebraic view}
+\label{subsec:lin-alg-view}
 
 The PGEL-SAT problem was also defined by \citet{Fin2020} in a linear algebraic view, which is useful to develop its polynomial reasoning algorithm. It was shown that a probabilistic KB $\tuple{\CC, \PP}$ is satisfiable iff the linear equation $C \cdot x = d$ has a solution $x \geq 0$, where
 % 
 \begin{equation}
-	\label{pbox-linear}
+	\label{eq:pbox-linear}
 	C := \begin{bmatrix}
 		-I_n           & M_{n \times m} \\
 		A_{k \times n} & 0_{k \times m} \\
@@ -371,14 +373,9 @@ and
 	\item $0_n$ is a column $0$-vector of size $n$ (similarly for $1_n$);
 	\item $0'_n$ is the previous vector's transpose;
 	\item $0_{k \times m}$ is a $0$-matrix of shape $k \times m$;
-	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \autoref{eq:pbox-restric}.
+	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \autoref{eq:pbox-restric};
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
-\todo[inline]{Do I need to define \textit{here} the solution of PGEL-SAT by the minimization problem? Isn't it better in the development chapter? }
-
-% definition
-
-% column generation algorithm
-
-% example
+% \todo[inline]{Do I need to define \textit{here} the solution of PGEL-SAT by the minimization problem? Isn't it better in the development chapter? }
+Thus, we can use techniques for solving linear equations to find a tractable algorithm for PGEL-SAT.
