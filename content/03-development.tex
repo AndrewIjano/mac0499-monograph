@@ -3,7 +3,7 @@
 \chapter{Development}
 \label{cap:development}
 
-In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}, described by \citet{Fin2020}. It was implemented using Python programming language \citep{python3}.
+In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}, described by \citet{Fin2020}. It was implemented using Python programming language \citep{python3}. \todo{Numpy}
 
 \section{Input and output format}
 
@@ -16,9 +16,9 @@ In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) wi
 		\begin{lstlisting}[style=mystyle]
       #!pbox-id $i$
     \end{lstlisting}
-  \end{minipage}
+	\end{minipage}
 	\caption{Annotation format for an uncertain axiom}
-  \label{fig:annot-axiom}
+	\label{fig:annot-axiom}
 \end{figure}
 
 PBox restrictions are represented with annotations in the $\top$ concept (\texttt{owl:Thing}). That is, given a restriction of the form $a_0 P(Ax_0) + a_1P(Ax_1) + \cdots + a_{n-1} P(Ax_{n-1}) = b$, its annotation must be of the form in \autoref{fig:pbox-rest}.  Also, inequalities $\leq$ and $\geq$ can be represented, respectively, with the symbols \texttt{<=} and \texttt{>=}.
@@ -36,8 +36,8 @@ PBox restrictions are represented with annotations in the $\top$ concept (\textt
     $b$
     \end{lstlisting}
 	\end{minipage}
-  \caption{Annotation format for a PBox restriction}
-  \label{fig:pbox-rest}
+	\caption{Annotation format for a PBox restriction}
+	\label{fig:pbox-rest}
 \end{figure}
 
 
@@ -46,16 +46,17 @@ The output of the algorithm is \texttt{True} if the given KB has a solution, and
 \improvement{Maybe explain how to execute the algorithm}
 
 \section{Knowledge base representation}
-To read the ontology in OWL 2, it was used the Python module \textit{Owlready2} \citep{lamy2017owlready}. 
+To read the ontology in OWL 2, it was used the Python module \textit{Owlready2} \citep{lamy2017owlready}.
 
 
-The probabilistic KB is represented as the edge-labeled graph in \autoref{subsec:graph-repr} with three matrices for the inequalities in \autoref{eq:pbox-restric}. 
+The probabilistic KB is represented as the edge-labeled graph in \autoref{subsec:graph-repr} with three matrices for the inequalities in \autoref{eq:pbox-restric}.
 
 \improvement[inline]{Need to improve this}
 
 The probabilistic KB representation allows us to develop a PGEL-SAT solver, using this data structure as input.
 
 \section{PGEL-SAT solver}
+\label{sec:pgelsatsolver}
 
 In order to understand the PGEL-SAT solver implemented, we need to find a solution for the linear system stated in \autoref{subsec:lin-alg-view}.
 
@@ -63,50 +64,183 @@ First, consider the matrix $C$ in \autoref{eq:pbox-restric}, it has $p$-columns 
 
 Now, consider that the matrix $C$ may have ill-formed columns. We define a binary \emph{cost vector} $c$ such that each element $c_i = 1$ iff column $C^i$ is ill-formed; otherwise $c_i = 0$. Then, the linear system stated in \autoref{subsec:lin-alg-view} has a solution iff the following minimization problem has minimum 0.
 
-\begin{equation*}
-  \begin{array}{ll}
-    \text{minimize}   & c' \cdot x \\
-    \text{subject to} & C \cdot x = d\\
-                      & x \geq 0
-  \end{array}
-\end{equation*}
+\begin{equation}
+	\label{eq:linprog}
+	\begin{array}{ll}
+		\text{minimize}   & c' \cdot x    \\
+		\text{subject to} & C \cdot x = d \\
+		                  & x \geq 0
+	\end{array}
+\end{equation}
 
 This problem can be solved by a linear algebraic solver but we need to find beforehand $C$ and $d$ that reaches the minimum 0. Since matrix $A$ and vector $b$ are generated from PBox, we need to choose a set of interpretations that provides the solution. However, we potentially have an exponential collection of possible interpretations, and looking over all of them would make the algorithm untractable. \todo{Need to say about M being large not the collection of possible columns}
 
-Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin2020} states that if constrains in \autoref{eq:pbox-restric} are solvable then there exists  a solution where $x$ has at most $n + k + 1$ values such that $x_j > 0$. 
+Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin2020} states that if constrains in \autoref{eq:pbox-restric} are solvable then there exists  a solution where $x$ has at most $n + k + 1$ values such that $x_j > 0$. This allows us to avoid generating an exponential number of columns of $C$ by using a linear algebraic technique called \emph{column generation} \citep{gilmore1961linear,gilmore1963linear}. With this technique, we can create an algorithm \textsc{PGEL-SAT-Solver} which generates well-formed $\pi$-columns of $C$ on the fly by solving an auxiliary problem and uses a linear solver in each iteration to verify if the solution for \autoref{eq:linprog} has reached minimum 0. This solution leads to the algorithm implemented, which is shown in \autoref{alg:pgelsat}.
 
-- there are many possible columns
+\begin{algorithm}
+	\caption{The PGEL-SAT solver algorithm}
+  	\label{alg:pgelsat}
+	\begin{algorithmic}[1]
+		\Function {PGEL-SAT-Solver}{$\tuple{\CC, \PP}$}
+		\State $c \gets \Call{Initialize-c}{\PP}$
+		\State $C \gets \Call{Initialize-C}{\PP}$
+		\State $d \gets \Call{Initialize-d}{\PP}$
+		\Statex
+		\State $lp \gets \Call{LinProg}{c, C, d}$
+		\Statex
+		\While{$lp.minCost \neq 0$}
+		\State $result \gets \Call{GenerateColumn}{\tuple{\CC, \PP}, lp}$
+		\If{$result.isSuccess = \text{False}$}
+		\State \textbf{return} False \Comment{$\tuple{\CC, \PP}$ is unsatisfiable}
+		\EndIf
+		\Statex
+		\State $y \gets result.column$ \Comment{well-formed $\pi$-column}
+		\State $C \gets ( C \, | \, y) $
+		\State $c \gets (c \, | \, 0)$
+		\State $lp \gets \Call{LinProg}{c, C, d}$
+		\EndWhile
+		\Statex
+		\State \textbf{return} $($True$, lp)$ \Comment{$\tuple{\CC, \PP}$ is satisfiable}
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
 
-- need to generate the right ones
+\begin{algorithm}
+	\caption{Matrices initializations}
+	\label{alg:mat-init}
+	\begin{algorithmic}[1]
+		\Function {Initialize-c}{$\PP$}
+      \State \textbf{return} $(\, 1'_{n + k + 1} \, | \, 0'_n \,)'$
+    \EndFunction
+    \Statex
+    \Function {Initialize-C}{$\PP$}
+      \State Get $A$ from PBox $\PP$ restrictions
+      \State $\vphantom{\begin{smallmatrix}\vphantom{x}\\-I_n\\A\\1'_n\\\vphantom{x}\end{smallmatrix}}$ 
+      $PC$ $\gets \left( \begin{smallmatrix}
+            -I_n\\
+            A\\
+            1'_n\\
+          \end{smallmatrix} \right)$  \Comment{$p$-columns}
+      \State \textbf{return} $(\, I_{n + k + 1} \, | \, PC \,)$
+		\EndFunction
+		\Statex
+		\Function {Initialize-d}{$\PP$}
+    \State Get $b$ from PBox $\PP$ restrictions
+		  \State \textbf{return} $(\, 0'_n \, | \, b' \, | \, 1 \,)'$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
 
-- column generation + linear solver
+The algorithm \textsc{PGEL-SAT-Solver} in \autoref{alg:pgelsat} receives a potentially unsatisfiable probabilistic knowledge base and returns \emph{True} if it is satisfiable, and \emph{False}, otherwise. 
 
-- columns are generated on the fly
+It starts with matrices $c$,  $C$ and $d$. Because the algorithm needs to start with a cost vector with non-zero elements, the $C$ matrix is initialized with $n + k + 1$ ill-formed columns, represented by the identity matrix $I_{n + k + 1}$, and well-formed $p$-columns as shown in \autoref{eq:pbox-linear}; therefore, the cost vector $c$ is initialized with $n + k + 1$ $1$-elements plus $n$ $0$-elements. The $d$ vector is unaltered during the execution and is given by \autoref{eq:pbox-linear}. These initializations are shown in \autoref{alg:mat-init}.
 
-- the start
+In addition, the algorithm uses a program \textsc{LinProg}. It receives matrices $c$, $C$ and $d$ and returns the solution for the optimization problem in \autoref{eq:linprog}. Its output $lp$ needs to contain the minimal cost ($lp.minCost$), the primal solution ($lp.primal$) and dual solution ($lp.dual$). 
 
-- explain the program
-
-- the program
+Then, the algorithm executes the column generation process while the minimal cost is not zero. In each iteration, a well-formed $\pi$-column $y$ is generated by an auxiliary program \textsc{GenerateColumn}. After that, the column is appended to $C$, with its respective $0$ cost in $c$, and a new minimal cost is calculated. If no more columns can be generated with a minimal cost higher than $0$, represented by $result.isSuccess = False$, the KB is unsatisfiable.  
 
 \section{Linear solver}
-- explain the implementation; lib used: glpk python
+The program \textsc{LinProg} was implemented using the open-source GNU linear program kit \citep{makhorin2001gnu} and the Python wrapper for this library, the \emph{swiglpk} package \citep{swiglpk}. The library was chosen because it is open-source, has tractable algorithms for large-scale problems, and provides a solution that contains the required elements described in \autoref{sec:pgelsatsolver}. 
 
-- interior points -> tractable
+There are several methods for solving a linear optimization problem. The \emph{simplex method} is known to be very efficient in practice \citep{borgwardt2012simplex} although its worst time complexity is untractable \citep{klee1972good}. On the other hand, the modern \emph{interior point method} has a proven polynomial-time complexity and is especially ideal for very sparse problems \citep{boyd2004convex} but may not be as efficient as the simplex method in all cases.
+
+Because of the theoretical tractability, the linear solver \textsc{LinProg} implemented uses the interior point method.
 
 \section{Column generation}
+The program \textsc{GenerateColumn} is responsible for generating a well-formed $\pi$-column for $C$ that reduces $c' x$ until it is minimal; in particular, when the KB is satisfiable, this value is equal to 0. To find such a column, we need to analyze the optimization problem we are solving.
+
+\subsection{Cost reduction}
+
+Suppose that the matrix $C$ is composed of $I_{n+k+1}$ and all well-formed $p$-columns $PC$, which are result of \textsc{Initialize-C}, concatenated with all possible (ill and well formed) $\pi$-columns $y^{(j)}$, as illustrated below. 
+
+\[
+	C := \left( I_{n+k+1} \, | \, PC \, | \, y^{(1)} \, | \, y^{(2)} \, \cdots \, \right)
+\]
+
+This matrix can be rearranged in the form $C = (B \, | \, N)$, where $B$ is a linear independent square matrix called \emph{basis matrix}. This allows obtaining a \emph{basic feasible solution} $x = (\, x_B' \, | \, x_N' \,)'$ where $x_N = 0$ and $x_B = B^{-1}d$. In particular, if $B = I_{n+k+1}$ we have $x_B = d$.
+
+
+However, this solution may, and probably will, not be optimal. Then, we need to find some column $C^j$ in $N$ and increase $x_j$ by some positive value $\theta$. For that, we create a vector~$s$ such that $s_j = 1$, $s_i = 0$ for every non basic index $i \neq j$ and its basic part $s_B = (s_{B(1)}, s_{B(2)}, \dots, s_{B(m)})$. 
+
+\improvement[inline]{Explain the derivation of reduced cost}
+
+From that, we define that the \emph{reduced cost} $r_y$ of a column $y$ to be added to the solution is
+\[
+	r_y = c_y - w \cdot y.	
+\]  
+
+Because $y$ is well-formed, we have $c_y = 0$. Then, to reduce the cost of the objective function, we need $r_y \leq 0$ and, therefore, the new column must satisfy
+\[
+	w \cdot y \leq 0.	
+\]
+
+\subsection{The algorithm}
+
+- just the columns of M must be generated
+
+- this is the corresponding vector of a interpretation of axioms in P. Similar to truth values from propositional logic.
+
+- to maximize the cost reduction, we want to priorize interpretations that model axioms associated with higher values in w
+
+- this calculation can be done by solving the gel max sat problem where only axioms from pbox have finite weight given by w. 
+
+- this leads to the algorithm in \autoref{alg:gen-col}
+
+\begin{algorithm}
+	\caption{The algorithm of column generation}
+  	\label{alg:gen-col}
+	\begin{algorithmic}[1]
+		\Function {GenerateColumn}{$\tuple{\CC, \PP}, lp$}
+			\State $w \gets lp.dual$
+			\State $result \gets \Call{$\gel$-Max-SAT-Solver}{\tuple{\CC, \PP}, w}$ 
+			\If{$result.isSuccess = \text{False}$}
+				\State \textbf{return} False 
+			\EndIf
+			\Statex
+			\State $y \gets \Call{ExtractColumn}{result}$
+			\If{$w \cdot y < 0$}
+				\State \textbf{return} False 
+			\EndIf
+			\Statex
+			\State \textbf{return} $($True$, y)$ 
+		\EndFunction
+		\Statex
+		\Function{ExtractColumn}{$result$}
+			\State Define $n$-vector $m_n$ such that $m_i = 1$ iff we have $Ax_i$ in $result$
+			\State $y \gets (\, m_n' \, | \, 0_k' \, |\, 1 \,)'$
+			\State \textbf{return} $y$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+
+\section{$\gel$-MaxSAT solver}
+
+- explain the generation of the weighted graph $G_w$
+
+
+
 - explain the theory of the solution
 
 - pseudocode of the algorithm
 
+- explain the min cut algorithm
 
-\section{GEL-MaxSAT}
-- explain the theory of the solution
-
-- pseudocode of the algorithm
-
-- max flow / min cut
-
+\begin{algorithm}
+	\caption{The $\gel$-MaxSAT solver algorithm}
+  	\label{alg:gen-col}
+	\begin{algorithmic}[1]
+		\Function {$\gel$-Max-SAT}{$\tuple{\CC, \PP}, w$}
+			\State Compute $G_w(\CC, \PP) \gets (N_w, E_w, w)$
+			\State $CS \gets \Call{MinCut}{G_w(\CC, \PP)}$ 
+			\If{$w(CS) = \infty$}
+				\State \textbf{return} False 
+			\EndIf
+			\Statex
+			\State \textbf{return} $($True$, CS.indexes)$ 
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
 
 
 

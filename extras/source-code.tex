@@ -16,6 +16,11 @@
 %  * pseudocode foi usada no livro "Combinatorial Algorithms"
 %    de Kreher e Stinson.
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \newcommand{\:=}{\leftarrow}
+
+
 \usepackage{listings}
 \usepackage{lstautogobble}
 % Carrega a "linguagem" pseudocode para listings
@@ -54,10 +59,10 @@
 	stepnumber=1,                       % the step between two line-numbers. If it's 1 each line will be numbered
 	numbersep=20pt,                     % how far the line-numbers are from the code
 	autogobble,                         % ignore irrelevant indentation
-	commentstyle=\color{Brown}\upshape,
+	commentstyle=\color{gray}\upshape,
 	stringstyle=\color{black},
-	identifierstyle=\color{DarkBlue},
-	keywordstyle=\color{cyan},
+	identifierstyle=\color{NavyBlue},
+	keywordstyle=\color{FireBrick},
 	showspaces=false,                   % show spaces adding particular underscores
 	showstringspaces=false,             % underline spaces within strings
 	showtabs=false,                     % show tabs within strings adding particular underscores
