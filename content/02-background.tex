@@ -356,7 +356,7 @@ and
 	\item $b_k$ is a $k$ vector whose elements $b_i$ are also given by \autoref{eq:pbox-restric};
 	\item $M_{n \times m}$ is a $n \times m$ matrix given by the following steps:
 
-	      Consider an interpretation $\I$ model of $\CC$, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
+	      Consider an interpretation $\I$ model of $\CC$, also called $C$-\emph{satisfiable interpretation}, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
 
 	      Then, given a set of interpretations $\I_1, \dots, \I_m$, we define $M_{n \times m}$ a matrix whose column $M^j$ is $\I_j$'s corresponding vector in $\PP$;
 	\item $I_n$ is the $n$-dimensional identity matrix;
@@ -367,5 +367,6 @@ and
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
-% \todo[inline]{Do I need to define \textit{here} the solution of PGEL-SAT by the minimization problem? Isn't it better in the development chapter? }
+\todo[inline]{Intuition about this matrices}
+
 Thus, we can use techniques for solving linear equations to find a tractable algorithm for PGEL-SAT.
