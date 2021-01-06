@@ -196,11 +196,11 @@ Define $\CC \cup \PP$ as a potentially unsatisfiable CBox with all axioms of $\C
 
 Instead of generating a column $y$ that just satisfies the conditions above, we could generate one that maximizes the cost reduction in \autoref{eq:col-restr}. This can be done maximizing $\sum_{i = 1}^n w_i \cdot y_i$ which is choosing axioms $Ax_i$ for $\CC^\bullet$ based on weights $w_i$, $1 \leq i \leq n$.
 
-Then, this problem can be modeled as a $\gel$-MaxSAT for $\CC \cup \PP$ where axioms of $\CC$ have infinite weight and axioms $Ax_i$ from $\PP$ have weight $w_i$. 
+Then, this problem can be modeled as a $\gel$-MaxSAT for $\CC \cup \PP$ where axioms of $\CC$ have infinite weight and every axiom $Ax_i$ from $\PP$ has weight $w_i$. 
 
 \subsection{Generating column}
 
-This leads to the solution in \autoref{alg:gen-col}.
+This leads to the solution in \autoref{alg:gen-col}. We generate a new column solving the intermediate problem with $\gel$\textsc{-Max-SAT-Solver} and an auxiliary function \textsc{ExtractColumn}. If the $\gel$-MaxSAT problem does not have a solution or \autoref{eq:col-restr} cannot be satisfied, it returns False; otherwise, it returns True and the generated column $y$. 
 
 \begin{algorithm}
 	\caption{The algorithm of column generation}
@@ -232,8 +232,20 @@ This leads to the solution in \autoref{alg:gen-col}.
 
 \section{$\gel$-MaxSAT solver}
 
+- unsat in gel is a path init bot
+
+(define cut)
+
+- if we find a init-bot cut set in the graph and remove this edges, we have a satisfiable KB
+
+- we do not want to remove every edge
+
+- min cut! with infinite edges
+
+
 - explain the generation of the weighted graph $G_w$
 
+- negative weights
 
 
 - explain the theory of the solution

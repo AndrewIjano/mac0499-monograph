@@ -3,7 +3,7 @@
 \chapter{Background}
 \label{cap:background}
 
-In this chapter, we present the theoretical background of description logics, 
+In this chapter, we present the theoretical background of description logics,
 
 \improvement[inline]{Add initial description of the chapter}
 
@@ -17,7 +17,7 @@ A DL is composed of concepts, roles, and individual names. Concepts are sets of 
 
 For example, an ontology\todo{Maybe explain what is an ontology} modeling the situation in \autoref{exmp:real-example} can use the concepts \textsf{Patient}, to represent the set of all patients in the hospital, and \textsf{Symptom}, to represent the set of all symptoms; roles such \textsf{hasSymptom}, to represent the binary relation between patients and symptoms; and individual names such as \textsf{mary} and \textsf{s1}, to represent the individuals Mary and Mary's symptoms.
 
-Additionally, DLs allows us to describe more complex situations, creating new concepts and roles from the previously defined ones. 
+Additionally, DLs allows us to describe more complex situations, creating new concepts and roles from the previously defined ones.
 
 Some concept constructors provide boolean operations similar to that found in set theory and logic expressions. For example, if we want to describe the set of individuals that are both fever and cough, we could use the \emph{conjunction} operator, as follows
 \[
@@ -31,15 +31,15 @@ We can link concepts and roles using role restrictions. For example, to describe
 
 Also, to define concepts with only one individual we use \emph{nominals} like $\{\textsf{mary}\}$.
 
-More expressive logics can have other operations such as \emph{disjunction} ($C \sqcup D$), \emph{negation} ($\lnot C$), \emph{universal restriction} ($\forall r.C$) and \emph{number restrictions} ($\leq\!\! n\, r.C$).  
+More expressive logics can have other operations such as \emph{disjunction} ($C \sqcup D$), \emph{negation} ($\lnot C$), \emph{universal restriction} ($\forall r.C$) and \emph{number restrictions} ($\leq\!\! n\, r.C$).
 
 To capture knowledge about the world, DL ontologies also allow us to describe relations between concepts, roles, and individual names. For example, the fact that all fevers are symptoms is represented by the \emph{concept inclusion}
 \[
-	\textsf{Fever} \isa \textsf{Symptom};	
+	\textsf{Fever} \isa \textsf{Symptom};
 \]
 the knowledge that someone that has a symptom which is caused by some disease is suspect of that disease can be expressed by the \emph{role inclusion} with a \emph{role composition}
 \[
-	\textsf{hasSymptom} \, \circ \, \textsf{hasCause} \isa \textsf{suspectOf};	
+	\textsf{hasSymptom} \, \circ \, \textsf{hasCause} \isa \textsf{suspectOf};
 \]
 and the fact that Mary is a patient of the hospital and has symptoms is represented by the \emph{assertions} $\textsf{Patient}(\textsf{mary})$ and $\textsf{hasSymptom(mary, s1)}$.
 
@@ -192,16 +192,16 @@ The name of this fragment comes from the fact that each GCI can be represented a
 
 Consider a $\gel$-CBox $\CC$ with $n_R$ roles, its graphical representation is a edge-labeled graph $G(\CC) := (N, E, \ell)$, where $N$ is a set of nodes, $E \subseteq N^2$ is a set of directed edges and $\ell: E \to \{0, 1, \dots, n_R\}$ is a labeling function.
 
-In addition, \citet{Fin2020} defines the following notation. The set $E_i \subseteq E$ is the set of all edges $e$ such that $\ell(e) = i$. We write $X_1 \to_i X_2$ if there is an edge $(X_1, X_2) \in E_i$, and $X_1 \nto_i X_2$ if $(X_1, X_2) \not\in E_i$. The expression $X \to_i^* Y$ represents the reflexive transitive closure of $\to_i$, which is the existence of a path in the graph of size $\geq 0$, starting in $X$, ending in $Y$, and only going through edges in $E_i$, for $0 \leq i \leq n_R$. Finally, $X \rightsquigarrow Y$ represents a path from $X$ to $Y$ using any type of edge.     
+In addition, \citet{Fin2020} defines the following notation. The set $E_i \subseteq E$ is the set of all edges $e$ such that $\ell(e) = i$. We write $X_1 \to_i X_2$ if there is an edge $(X_1, X_2) \in E_i$, and $X_1 \nto_i X_2$ if $(X_1, X_2) \not\in E_i$. The expression $X \to_i^* Y$ represents the reflexive transitive closure of $\to_i$, which is the existence of a path in the graph of size $\geq 0$, starting in $X$, ending in $Y$, and only going through edges in $E_i$, for $0 \leq i \leq n_R$. Finally, $X \rightsquigarrow Y$ represents a path from $X$ to $Y$ using any type of edge. Furthermore, we write $(u \to_i v)$ to refer to an edge $e := (u, v)$ such that $\ell(e) = i$; and we write $(x \cdots u \to_i v \to_j w \cdots y)$ to refer to a path~$(x, \dots, u, (u~\to_i~v), v, (v~\to_j~w), w, \dots, y)$.
 
 Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$ with the following steps:
 \begin{enumerate}
 	\item for each concept $\exists r.C$ in a existential-body axiom of the form $\exists r.C \isa D$ create a \emph{virtual concept} ``$\exists r.C$''. The set of all virtual concepts in $\CC$ is called $\textsf{VC}_\CC$;
 	\item the set $N$ of nodes is obtained from the basic concepts of $\CC$, an initial-node symbol $Init$, the bottom concept $\bot$ and the set of virtual concepts of $\CC$ as follows:
-	\[ N := \{Init, \bot\} \cup \textsf{BC}_\CC \cup \textsf{VC}_\CC; \]
+	      \[ N := \{Init, \bot\} \cup \textsf{BC}_\CC \cup \textsf{VC}_\CC; \]
 	\item if $C \isa D \in \CC$ then $C \to_0 D$;
 	\item if $C \isa \exists r_i.D$ then $C \to_i D$;
-	\item $Init \to_0 \top$;\footnote{Talk about sat} 
+	\item $Init \to_0 \top$;\footnote{Talk about sat}
 	\item for every node of the form $\{a_i\} \in N$, $Init \to_0 \{a_i\}$.
 \end{enumerate}
 
@@ -274,10 +274,107 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 
 \subsection{SAT decision}
 
-\improvement[inline]{Need to describe the graph completion rules}
+To calculate the satisfiability of a CBox $\CC$, \citet{Fin2020} defined a completed graph $G^\bullet(\CC)$, obtained by applying the \emph{graph completion rules} in \autoref{fig:rules} until no more rules apply. Also, edges from the original graph $G(\CC)$ are called \emph{basic edges} and the edges inserted from the rules in $G^\bullet(\CC)$ are called \emph{derived edges}. 
 
-\todo[inline]{Question about this part: do we really need the graph completion to define the SAT decision? Isn't it true that a $\gel$ CBox $\CC$ is \textbf{unsatisfiable}  iff $Init \rightsquigarrow \bot$  (using any type of edge) in a graph $G(\CC)$ \textbf{without} completion? I couldn't find any counterexample...}
-After the graph completion, the satisfiability (SAT) decision of a $\gel$ CBox can be reduced to a path search in a graph, that is, a $\gel$ CBox is unsatisfiable iff $Init \to_0^* \bot$. 
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\begin{description}
+			\item[GC1] If $C \to_0 C'$, $C' \to_i D$ but $C \nrightarrow_i D$; insert $(C \to_i D)$ into $E_i$;
+			\item[GC2] If $C \to_i C'$, $C' \to_0 D$ but $C \nrightarrow_i D$; insert $(C \to_i D)$ into $E_i$;
+			\item[GC3] If $D \to_0^* \bot$, $C \to_i D$ but $C \nto^* D$; insert $(C \to_0 D)$ into $E_0$;
+		\end{description}  \end{minipage}
+	$\quad$
+	\begin{minipage}{0.45\textwidth}
+		\begin{description}
+			\item[GC4] If $C \to_0^* \{a\}, D \to_0^* \{a\}, Init \rightsquigarrow D$, $Init \rightsquigarrow C$ but $C \nto_0^* D$; insert $(C \to_0 D)$ into $E_0$;
+			\item[GC5] If $r_i \isa r_j \in \CC$, $C \to_i$ but $C \not\to_j D$; insert $(C \to_j D)$ into $E_j$;
+			\item[GC6] If $r_i \circ r_j \isa r_k \in \CC, C \to_i D'$ and $D' \to_j D$ but $C \not\to_k D$; insert $(C \to_k D)$ into $E_k$.
+		\end{description}  \end{minipage}
+	\caption{Graph completion rules}
+	\label{fig:rules}
+\end{figure}
+
+From \citet{Fin2020}, we have the following lemma.
+
+\begin{lemma}
+\label{lemma-comp-sat}
+Given a $\gel$-CBox $\CC$, it is unsatisfiable iff $Init \to_0^* \bot$ in the completed graph $G^\bullet(\CC)$. Furthermore, this decision can be made in polynomial time in $|\CC|$, the number of symbols in $\CC$.
+\end{lemma}
+
+\begin{lemma}
+\label{lemma-equiv}
+Given a $\gel$-CBox $\CC$, the following two statements are equivalent
+\begin{enumerate}[label=(\alph*)]
+    \item $Init \rightsquigarrow \bot$ in $G(\CC)$;
+    \item $Init \to_0^* \bot$ in~$G^\bullet(\CC)$, which is $G(\CC)$ after completion.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We break the proof in two parts.
+\begin{description}
+    \item $(a) \implies (b)$. Suppose that we have $Init \rightsquigarrow \bot$ in $G(\CC)$. In particular, consider one path $P := (Init, e_1, \dots, e_m, \bot)$ in $G(\CC)$. Every edge $e_j$, $1 \leq j \leq m$, in this path or has a zero label ($\ell(e_j) = 0$) or a non-zero label ($\ell(e_j) \neq 0$).
+    
+    Because the graph completion only add edges to the completed graph, there is also a path $P^\bullet := P$ in $G^\bullet(\CC)$.
+    
+    By induction in the number $k$ of non-zero labeled edges in $P^\bullet$, we are going to prove that for every $k \geq 0$ there is a path $P' := (Init, e'_1, \dots, e'_{m'}, \bot)$ in $G^\bullet(\CC)$ such that $\ell(e_j) = 0$ $\forall j$, $1 \leq j \leq m'$.
+    
+    \begin{description}
+        \item \emph{Base case}: If $k = 0$, every edge in $P^\bullet$ is labeled with 0. Thus, there is nothing to prove.
+        
+        \item \emph{Inductive case}: Assume the induction hypothesis that the proposition is true for $k = n$. 
+        
+        Consider a path $P$ with $n + 1$ non-zero labeled edges. So, there are vertices $u, v$ such that $(Init, e_1, \dots, u,  e, v, \dots, \bot)$, $\ell(e) \neq 0$ and $v \to_0^* \bot$. That is, $(u, v)$ is the last non-zero labeled edge in $P$.
+        
+        By the \emph{graph completion rule 3}, the completed graph $G^\bullet(\CC)$ will also have $u \to_0 v$ by inserting an artificial edge $e'$. Then, we have a path $P' := (Init, \dots, u, e', v, \dots, \bot)$ in $G^\bullet(\CC)$, which has $n$ non-zero labeled edges. 
+        
+        By the induction hypothesis and $P'$, there is also a path $P''$ in $G^\bullet(\CC)$ such that every edge is labeled with 0, which completes the inductive step.
+    \end{description}
+    
+    Then, we have that there is a path $P' := (Init, e'_1, \dots, e'_{m'}, \bot)$ in $G^\bullet(\CC)$ with every edge labeled with 0. That is, we have $Init \to_0^* \bot$ in~$G^\bullet(\CC)$.
+    
+    \item $(a) \impliedby (b)$. Suppose that we have $Init \to_0^* \bot$ in~$G^\bullet(\CC)$. In particular, consider one path $P^\bullet := (Init, e_1, \dots, e_m, \bot)$ such that $\ell(e_j) = 0$ $\forall j$, $1 \leq j \leq m$. This path may have derived edges, which are not in $G(\CC)$. 
+    
+    We can create a path $P'$ in $G^\bullet(\CC)$ without derived edges using the following algorithm: If there is an derived edge $e := (u \to_i v)$ in $P^\bullet$, it was derived by some graph completion rule $N$. Then, modify $P^\bullet$ following the \emph{path recovering rule} $N$ (PR$N$). At the end, we obtain a path $P'$ without derived edges. Because there are a finite number of edges, this algorithm terminates. \todo{Need to improve this because of PR5.}
+    
+    \begin{description}
+        \item[PR1] If $e$ was inserted by rule GC1, there is a vertex $u'$ such that $u \to_0 u'$ and $u' \to_i v$, for some $i \neq 0$. 
+        
+        Then, we substitute $(u \to_i v)$ by $(u \to_0 u' \to_i v)$ in $P^\bullet$.
+        
+        \item[PR2] If $e$ was inserted by rule GC2, there is a vertex $u'$ such that $u \to_i u'$ and $u' \to_0 v$, for some $i \neq 0$. 
+        
+        Then, we substitute $(u \to_i v)$ by $(u \to_i u' \to_0 v)$ in $P^\bullet$.
+        
+        \item[PR3] If $e$ was inserted by rule GC4, we also have $u \to_i v$, for some $i \neq 0$.
+        
+        Then, we substitute $(u \to_0 v)$ by $(u \to_i v)$ in $P^\bullet$.
+        
+        \item[PR4] If $e$ was inserted by rule GC5, we have a path $P_v$ from $Init$ to $v$, because $Init \rightsquigarrow v$.
+        
+        Then, we substitute $(Init, \cdots, u)$ by $P_v$ in $P^\bullet$.
+        
+        \item[PR5] If $e$ was inserted by rule GC6, $e$ is of the form $(u \to_j v)$, we have $r_i \isa r_j \in \CC$ and $u \to_i v$, for some $i,j \neq 0$.
+        
+        Then, we substitute $(u \to_j v)$ by $(u \to_i v)$ in $P^\bullet$.
+        
+        \item[PR6] If $e$ was inserted by rule GC7, $e$ is of the form $(u \to_k v)$, we have $r_i \circ r_j \isa r_k \in \CC$, and a vertex $u'$ such that $u \to_i u'$ and $u' \to_j v$, for some $i,j,k \neq 0$.
+        
+        Then, we substitute $(u \to_k v)$ by $(u \to_i u' \to_j v)$ in $P^\bullet$.
+    \end{description}
+    Because $P'$ does not have any derived edge, there is a path $P := P'$ in $G(\CC)$. That is, we have $Init \rightsquigarrow \bot$ in $G(\CC)$.
+\end{description}
+\end{proof}
+
+\begin{theorem}
+Given a $\gel$-CBox $\CC$, it is unsatisfiable iff $Init \rightsquigarrow \bot$ in $G(\CC)$. Furthermore, this decision can be made in polynomial time in $|\CC|$, the number of symbols in $\CC$.
+\end{theorem}
+\begin{proof}
+    By \autoref{lemma-comp-sat} and \autoref{lemma-equiv}, we have that a $\gel$-CBox $\CC$ is unsatisfiable iff $Init \rightsquigarrow \bot$ in $G(\CC)$. Also, by \autoref{lemma-comp-sat}, the graph construction can be made in polynomial time, and finding a path in a graph is also computed in polynomial time, and so is the satisfiability decision. 
+\end{proof}
+
+Then, we have that the unsatisfiability decision in $\gel$ can be reduced to finding a path $Init-\bot$ in the graph $G(\CC)$.
 
 \section{MaxSAT for \texorpdfstring{$\gel$}{������}}
 \label{sec:maxgel}
@@ -356,7 +453,7 @@ and
 	\item $b_k$ is a $k$ vector whose elements $b_i$ are also given by \autoref{eq:pbox-restric};
 	\item $M_{n \times m}$ is a $n \times m$ matrix given by the following steps:
 
-	      Consider an interpretation $\I$ model of $\CC$, also called $C$-\emph{satisfiable interpretation}, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
+	      Consider an interpretation $\I$ model of $\CC$, also called $\CC$-\emph{satisfiable interpretation}, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
 
 	      Then, given a set of interpretations $\I_1, \dots, \I_m$, we define $M_{n \times m}$ a matrix whose column $M^j$ is $\I_j$'s corresponding vector in $\PP$;
 	\item $I_n$ is the $n$-dimensional identity matrix;
