@@ -53,7 +53,7 @@ There are many DL fragments. Each subset of features, like those described previ
 
 To express DL ontologies, the World Wide Web Consortium (W3C) designed the OWL~2 Web Ontology Language (OWL 2) \citep{owl2}. This declarative language is part of the W3C's Semantic Web technology stack and comes with various syntaxes, such as RDF/XML. Because of this use on the web, names in OWL are \emph{international resource identifiers} (IRIs).
 
-\section{The description logic \texorpdfstring{$\elpp$}{����++}}
+\section{The description logic \texorpdfstring{$\elpp$}{GEL++}}
 \label{sec:el}
 
 $\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large bio-health ontologies in mind, such as SNOMED-CT, the NCI thesaurus, and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains.
@@ -175,7 +175,7 @@ And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
 
 We want to model uncertain information using DLs. However, it has been proved that, by adding probabilistic reasoning capabilities to $\elpp$, the complexity reaches NP-completeness \citep{Fin2019b}. Then, it is necessary to reduce the expressiveness of this language.
 
-\section{Graphic \texorpdfstring{$\el$}{����} (\texorpdfstring{$\gel$}{������})}
+\section{Graphic \texorpdfstring{$\el$}{EL} (\texorpdfstring{$\gel$}{GEL})}
 \label{sec:gel}
 
 \emph{Graphic} $\el$ ($\gel$) is a fragment of $\elpp$ in which every axiom and RI are in normal form and only simple and existential-head axioms are allowed \citep{Fin2020}. The semantics are the same as that of $\elpp$.
@@ -368,6 +368,7 @@ We break the proof in two parts.
 \end{proof}
 
 \begin{theorem}
+	\label{theorem:gel-sat}
 Given a $\gel$-CBox $\CC$, it is unsatisfiable iff $Init \rightsquigarrow \bot$ in $G(\CC)$. Furthermore, this decision can be made in polynomial time in $|\CC|$, the number of symbols in $\CC$.
 \end{theorem}
 \begin{proof}
@@ -376,7 +377,7 @@ Given a $\gel$-CBox $\CC$, it is unsatisfiable iff $Init \rightsquigarrow \bot$ 
 
 Then, we have that the unsatisfiability decision in $\gel$ can be reduced to finding a path $Init-\bot$ in the graph $G(\CC)$.
 
-\section{MaxSAT for \texorpdfstring{$\gel$}{������}}
+\section{MaxSAT for \texorpdfstring{$\gel$}{GEL}}
 \label{sec:maxgel}
 
 Before focusing on the probabilistic extension for $\gel$, we need to define its MaxSAT problem, which will compose further the probabilistic reasoner.
@@ -392,7 +393,9 @@ Then, given a weighted CBox $\tuple{\cbox, w}$, a solution for the weighted part
 	\item the sum of finite weights in $\cbox_{max}$ is maximal.
 \end{itemize}
 
-\section{Probabilistic \texorpdfstring{$\gel$}{������}}
+To handle evenly finite and infinite weights, and given that $\CC$ is finite, we could use an alternative definition. The solution for the weighted partial $\gel$-MaxSAT problem is a satisfiable set $\CC_{max}$ such that the sum of weights in the deleted set $\CC_{del} := \CC \setminus \CC_{max}$ is minimal and finite.
+
+\section{Probabilistic \texorpdfstring{$\gel$}{GEL}}
 \label{sec:pgel}
 
 Probability in $\gel$ is constructed from a \emph{probability function} $P$ \citep{Fin2020}. Consider a finite number of interpretation, $\I_1, \dots, \I_m$, we define the probability function $P: \{\I_1, \dots, \I_m\} \to \Ratios$, such that $P(\I_i) \geq 0$ and $\sum_{i = 1}^m P(\I_i) = 1$. We can also define the probability of an axiom $C \isa D$ as follows

@@ -222,7 +222,8 @@ This leads to the solution in \autoref{alg:gen-col}. We generate a new column so
 		\EndFunction
 		\Statex
 		\Function{ExtractColumn}{$result$}
-		\State Define $n$-vector $m_n$ such that $m_i = 1$ iff we have $Ax_i$ in $result$
+		\State $\CC_{max} \gets result.solution$
+		\State Define $n$-vector $m_n$ such that $m_i = 1$ iff we have $Ax_i$ in $\CC_{max}$
 		\State $y \gets (\, m_n' \, | \, 0_k' \, |\, 1 \,)'$
 		\State \textbf{return} $y$
 		\EndFunction
@@ -230,38 +231,36 @@ This leads to the solution in \autoref{alg:gen-col}. We generate a new column so
 \end{algorithm}
 
 
-\section{$\gel$-MaxSAT solver}
+\section{\texorpdfstring{$\gel$}{GEL}-MaxSAT solver}
 
-- unsat in gel is a path init bot
+The function $\gel$\textsc{-Max-SAT-Solver} is responsible for generating a solution to the $\gel$-MaxSAT problem. To find such solution, we need to look at the graph modeling used for its SAT decision.
 
-(define cut)
+A weighted $\gel$-CBox $\tuple{\CC\cup\PP, w}$ can be represented as a weighted directed graph $G_w(\CC\cup\PP) = (N, E, \ell, w)$, following the representation in \autoref{sec:gel}, where $(N, E, \ell)$ are the same as before and $w: E \to \Ratios \cup \{\infty\}$ is an edge weight function with $w\left(\left(C \to_0 D\right)\right) = \infty$ iff $C \isa D \in \CC$.
 
-- if we find a init-bot cut set in the graph and remove this edges, we have a satisfiable KB
+In this problem, we want to find a satisfiable subset of $\CC \cup \PP$. From \autoref{theorem:gel-sat}, we know that a $\gel$-CBox $\CC$ is satisfiable iff there is a $Init$-$\bot$ path in $G(\CC)$. Thus, to find a satisfiable $\CC^\bullet \subseteq \CC \cup \PP$, we need to remove every $Init$-$\bot$ path in $G_w(\CC \cup \PP)$ which can be done by removing some edges in these paths. For maximality, we need to remove edges that minimize the sum of weights of the deleted set.
 
-- we do not want to remove every edge
+Also, given a weighted directed graph $G_w(\CC)$ and nodes $s, t \in N$, a $s$-$t$ \emph{cut} in $G_w(\CC)$ is a partition $(S, T)$ such that $s \in S$ and $t \in T$. A \emph{cut set} $Cut(S, T)$ is the set of edges of $G_w(\CC)$ with one end in $S$ and other end in $T$; we use $Cut(s, t)$ to refer to a cut set from a $s$-$t$ cut.  To remove all paths from $s$ to $t$, we need to remove all edges of a cut set $Cut(s, t)$. The weight of a cut set is given by the sum of weights of its edges:
+\[
+	w(Cut(s, t)) = \sum_{(u, v) \, \in \, Cut(s, t)} w(u, v).	
+\]
+A graph usually has many $s$-$t$ cuts; a $s$-$t$ cut is \emph{minimal} (\emph{min cut}) if it has minimal weight; it is finite if its cut set has only edges of finite weight.
 
-- min cut! with infinite edges
+explain mincut and max sat
 
+explain algorithm
 
-- explain the generation of the weighted graph $G_w$
+explain weights
 
-- negative weights
-
-
-- explain the theory of the solution
-
-- pseudocode of the algorithm
-
-- explain the min cut algorithm
+explain weight infinite
 
 \begin{algorithm}
 	\caption{The $\gel$-MaxSAT solver algorithm}
 	\label{alg:max-sat}
 	\begin{algorithmic}[1]
-		\Function {$\gel$-Max-SAT-Solver}{$\tuple{\CC, \PP}, w$}
-		\State Compute $G_w(\CC, \PP) \gets (N_w, E_w, w)$
-		\State $CS \gets \Call{MinCut}{G_w(\CC, \PP)}$
-		\If{$w(CS) = \infty$}
+		\Function {$\gel$-Max-SAT-Solver}{$\CC \cup \PP, w$}
+		\State Compute $G_w(\CC \cup \PP) \gets (N, E, \ell, w)$
+		\State $Cut(Init, \bot) \gets \Call{MinCut}{G_w(\CC \cup \PP),\, Init,\, \bot}$
+		\If{$w(Cut(Init, \bot)) = \infty$}
 		\State \textbf{return} False
 		\EndIf
 		\Statex
@@ -271,4 +270,14 @@ This leads to the solution in \autoref{alg:gen-col}. We generate a new column so
 \end{algorithm}
 
 
+\begin{algorithm}
+	\caption{The minimal cut algorithm}
+	\label{alg:max-sat}
+	\begin{algorithmic}[1]
+		\Function {MinCut}{$G_w(\CC \cup \PP),\, Init,\, \bot$}
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\section{Time complexity analysis}
 
