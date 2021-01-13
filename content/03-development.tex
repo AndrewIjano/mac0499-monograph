@@ -164,16 +164,16 @@ However, this solution may, and probably will, not be optimal. Then, we need to 
 
 Since we want feasible solution, we need $C (x + \theta s) = d$; given that $x$ is feasible, we also have $C x = d$. Thus, we need $C \cdot s = C \cdot (x + \theta s - x) = d - d = 0$. Also, because $s_j = 1$ and $s_i = 0$ for every non basic index $i \neq j$, we have that
 \[
-	0 = C s = \sum_{i = 1}^{n + k + 1} C_i s_i = \sum_{i = i}^m C_{B(i)} s_{B(i)} + C_j = B s_B + C_j.
+	0 = C s = \sum_{i = 1}^{n + k + 1} C^i s_i = \sum_{i = i}^m C^{B(i)} s_{B(i)} + C^j = B s_B + C^j.
 \]
 
-This follows that $s_B = - B^{-1} C_j$.
+This follows that $s_B = - B^{-1} C^j$.
 
 Then, we could calculate the variation of the objective function by:
 \begin{align*}
-	c' (x + \theta s) - c'x & = \theta c's = \theta (c_j + c_B' s_B) = \theta (c_j - c'_B B^{-1} C_j).
+	c' (x + \theta s) - c'x & = \theta c's = \theta (c_j + c_B' s_B) = \theta (c_j - c'_B B^{-1} C^j).
 \end{align*}
-This value $r_j := c_j - c'_B B^{-1} C_j$ is called \emph{reduced cost} of the variable $x_j$. The quantity is useful for finding columns in $C$ that lead to an optimal solution. In case of nondegeneracy, if $r_j < 0$ for some $j$, we could minimize the goal increasing $x_j$.
+This value $r_j := c_j - c'_B B^{-1} C^j$ is called \emph{reduced cost} of the variable $x_j$. The quantity is useful for finding columns in $C$ that lead to an optimal solution. In case of nondegeneracy, if $r_j < 0$ for some $j$, we could minimize the goal increasing $x_j$.
 
 \improvement[inline]{Explain the derivation of reduced cost}
 
@@ -196,11 +196,11 @@ Define $\CC \cup \PP$ as a potentially unsatisfiable CBox with all axioms of $\C
 
 Instead of generating a column $y$ that just satisfies the conditions above, we could generate one that maximizes the cost reduction in \autoref{eq:col-restr}. This can be done maximizing $\sum_{i = 1}^n w_i \cdot y_i$ which is choosing axioms $Ax_i$ for $\CC^\bullet$ based on weights $w_i$, $1 \leq i \leq n$.
 
-Then, this problem can be modeled as a $\gel$-MaxSAT for $\CC \cup \PP$ where axioms of $\CC$ have infinite weight and every axiom $Ax_i$ from $\PP$ has weight $w_i$. 
+Then, this problem can be modeled as a $\gel$-MaxSAT for $\CC \cup \PP$ where axioms of $\CC$ have infinite weight and every axiom $Ax_i$ from $\PP$ has weight $w_i$.
 
 \subsection{Generating column}
 
-This leads to the solution in \autoref{alg:gen-col}. We generate a new column solving the intermediate problem with $\gel$\textsc{-Max-SAT-Solver} and an auxiliary function \textsc{ExtractColumn}. If the $\gel$-MaxSAT problem does not have a solution or \autoref{eq:col-restr} cannot be satisfied, it returns False; otherwise, it returns True and the generated column $y$. 
+This leads to the solution in \autoref{alg:gen-col}. We generate a new column solving the intermediate problem with $\gel$\textsc{-Max-SAT-Solver} and an auxiliary function \textsc{ExtractColumn}. If the $\gel$-MaxSAT problem does not have a solution or \autoref{eq:col-restr} cannot be satisfied, it returns False; otherwise, it returns True and the generated column $y$.
 
 \begin{algorithm}
 	\caption{The algorithm of column generation}
@@ -235,23 +235,17 @@ This leads to the solution in \autoref{alg:gen-col}. We generate a new column so
 
 The function $\gel$\textsc{-Max-SAT-Solver} is responsible for generating a solution to the $\gel$-MaxSAT problem. To find such solution, we need to look at the graph modeling used for its SAT decision.
 
-A weighted $\gel$-CBox $\tuple{\CC\cup\PP, w}$ can be represented as a weighted directed graph $G_w(\CC\cup\PP) = (N, E, \ell, w)$, following the representation in \autoref{sec:gel}, where $(N, E, \ell)$ are the same as before and $w: E \to \Ratios \cup \{\infty\}$ is an edge weight function with $w\left(\left(C \to_0 D\right)\right) = \infty$ iff $C \isa D \in \CC$.
+A weighted $\gel$-CBox $\tuple{\CC\cup\PP, w}$ can be represented as a weighted directed graph $G_w(\CC\cup\PP) = (N, E, \ell, w)$, following the representation in \autoref{sec:gel}, where $(N, E, \ell)$ are the same as before and $w: E \to \Ratios \cup \{\infty\}$ is an edge weight function with $w\left(\left(C \to_0 D\right)\right) = \infty$ iff $C \isa D \in \CC$. We also write $w(u, v)$ to represent $w((u, v))$, with $u, v \in N$.
 
 In this problem, we want to find a satisfiable subset of $\CC \cup \PP$. From \autoref{theorem:gel-sat}, we know that a $\gel$-CBox $\CC$ is satisfiable iff there is a $Init$-$\bot$ path in $G(\CC)$. Thus, to find a satisfiable $\CC^\bullet \subseteq \CC \cup \PP$, we need to remove every $Init$-$\bot$ path in $G_w(\CC \cup \PP)$ which can be done by removing some edges in these paths. For maximality, we need to remove edges that minimize the sum of weights of the deleted set.
 
 Also, given a weighted directed graph $G_w(\CC)$ and nodes $s, t \in N$, a $s$-$t$ \emph{cut} in $G_w(\CC)$ is a partition $(S, T)$ such that $s \in S$ and $t \in T$. A \emph{cut set} $Cut(S, T)$ is the set of edges of $G_w(\CC)$ with one end in $S$ and other end in $T$; we use $Cut(s, t)$ to refer to a cut set from a $s$-$t$ cut.  To remove all paths from $s$ to $t$, we need to remove all edges of a cut set $Cut(s, t)$. The weight of a cut set is given by the sum of weights of its edges:
 \[
-	w(Cut(s, t)) = \sum_{(u, v) \, \in \, Cut(s, t)} w(u, v).	
+	w(Cut(s, t)) = \sum_{(u, v) \, \in \, Cut(s, t)} w(u, v).
 \]
 A graph usually has many $s$-$t$ cuts; a $s$-$t$ cut is \emph{minimal} (\emph{min cut}) if it has minimal weight; it is finite if its cut set has only edges of finite weight.
 
-explain mincut and max sat
-
-explain algorithm
-
-explain weights
-
-explain weight infinite
+Then, the $\gel$-MaxSAT problem can be modeled as finding a min cut in a weighted directed graph, which leads to the solution in \autoref{alg:max-sat}. It receives a CBox $\CC \cup \PP$ and an $n$-vector $w$. First, we compute $G_w(\CC \cup \PP)$ where the weights are defined as $w(C_i, D_i) = w_i$ if $C_i \isa D_i$ appears in $\PP$; otherwise, $w(C, D) = \infty$. After that, we use the program \textsc{MinCut} to calculate the cut set of a $Init$-$\bot$ min cut. If the weight of the minimal cut set is infinite, meaning that we need to remove a certain axiom to keep satisfiability, then there is no solution; otherwise, return $E$ without the edges in the cut set.
 
 \begin{algorithm}
 	\caption{The $\gel$-MaxSAT solver algorithm}
@@ -264,20 +258,45 @@ explain weight infinite
 		\State \textbf{return} False
 		\EndIf
 		\Statex
-		\State \textbf{return} $($True$, CS.indexes)$
+		\State \textbf{return} $($True$, E \setminus Cut(Init, \bot))$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
 
+The solution in \autoref{alg:min-cut} calculates the $Init$-$\bot$ min cut in $G_w(\CC \cup \PP)$, based on Edmonds-Karp algorithm for maximum-flow \citep{cormen2009introduction}. We create a \emph{residual graph} $G_R$ where its weights $w_R$ represent its \emph{residual capacity}. In each iteration we search for the shortest $Init$-$\bot$ path $P$ with positive weights (augment path), calculated with a \emph{breadth first search}. We get a augment flow $\alpha := \{ \, w_R(u,v) \, : \, (u,v) \in P \, \}$ and propagate the flow through the path, which is decrementing by $\alpha$ the residual capacity forward, and incrementing backwards. 
+
+After executing the iterations in lines 5-10, we have a partition $(S, T)$, where $Init \in S$, $\bot \in T$ and every edge $(u, v)$ such that $u \in S$ and $v \in T$ have residual capacity 0. Also, the sum of residual capacities from edges from $T$ to $S$ is equal to the flow $f$ passing from $S$ to $T$. Then, because every edge from $S$ to $T$ have residual capacity 0, $f$ is the sum of capacities (or weights) of these edges in $G_w(\CC \cup \PP)$ which means that $Cut(S, T)$ is minimal \citep{ford1962flows}.
+
+Also, note that edges with negative weight are removed beforehand from $G_w(\CC \cup \PP)$ for maximality. 
 
 \begin{algorithm}
 	\caption{The minimal cut algorithm}
-	\label{alg:max-sat}
+	\label{alg:min-cut}
 	\begin{algorithmic}[1]
 		\Function {MinCut}{$G_w(\CC \cup \PP),\, Init,\, \bot$}
+		\State remove edges with negative weight in $G_w(\CC \cup \PP)$
+		\State define the residual graph $G_R := (N_R, E_R, \ell_R, w_R)$ as a copy of $G_w(\CC \cup \PP)$
+		\While{there is an augment shortest path $P$ in $G_R$}
+		\State $\alpha \gets \min\, \{ \, w_R(u,v) \, : \, (u,v) \in P \, \}$ \Comment{$\alpha$ is the augment flow in $P$}
+		\For{each $(u, v) \in P$}
+		\State decrement $\alpha$ of $w_R(u,v)$
+		\State increment $\alpha$ of $w_R(v,u)$
+		\EndFor
+		\EndWhile
+		\State get the set $S$ of nodes reachable from $Init$ by edges with positive weight
+		\State \textbf{return} edges $(u,v) \in E$ such that $u \in S$  and $v \notin S$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
 
 \section{Time complexity analysis}
 
+In this section, we concentrate on presenting a polynomial time complexity bound of \textsc{PGEL-SAT} in \autoref{alg:pgelsat}. Consider a probabilistic $\gel$-knowledge base with $n$~concepts, $m$ certain axioms, $p$ uncertain axioms and $k$ probabilistic restrictions. Also, define $N = p + k + 1$.
+
+\autoref{alg:pgelsat} starts with $O(N^2)$ arithmetic operations plus a call to \textsc{LinProg}. After that, it executes several iterations with calls to \textsc{GenerateColumn} and \textsc{LinProg}. From Carathéodory's Theorem \citep{eckhoff1993helly}, the algorithm stops after at most $N$ iterations. 
+
+The linear solver \textsc{LinProg} in this project implements an easy version of the primal-dual interior-point method based on Mehrotra's technique \citep{makhorin2001gnu, mehrotra1992implementation}. Although there are polynomial bounds for several variations of this method \citep{zhang1995polynomiality, salahi2008mehrotra, teixeira2012complexity}, we did not investigate the exact implementation to justify the use of a specific bound. Thus, for simplicity, we choose the known $O(N^3L)$ time complexity for interior-point methods \citep{goldfarb1989chapter}, where $L$ is the bit-length of input data.
+
+The program \textsc{GenerateColumn} in \autoref{alg:gen-col} executes $O(N)$ operations, to handle the column, plus a call to $\gel$-\textsc{Max-SAT-Solver}. This function, in \autoref{alg:max-sat}, builds the weighted graph, whose complexity is $O(n + (m + p))$, and calculates the minimal cut with \autoref{alg:min-cut}. The program \textsc{MinCut} is based on Edmonds-Karp algorithm \citep{cormen2009introduction}, which is $O(n (m + p)^2)$, with an additional search in the graph for the cut, which is~$O(n + m + p)$. Then, we have that \autoref{alg:gen-col} has an upper bound of $O(N + n(m + p)^2)$. 
+
+Finally, \autoref{alg:pgelsat} has an upper bound of $O(N^4L + Nn(m+p)^2)$ operations. Therefore, the algorithm proposed to solve the PGEL-SAT problem is polynomial.
