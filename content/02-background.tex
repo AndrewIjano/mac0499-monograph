@@ -196,9 +196,13 @@ In addition, \citet{Fin2020} defines the following notation. The set $E_i \subse
 
 Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$ with the following steps:
 \begin{enumerate}
-	\item for each concept $\exists r.C$ in a existential-body axiom of the form $\exists r.C \isa D$ create a \emph{virtual concept} ``$\exists r.C$''. The set of all virtual concepts in $\CC$ is called $\textsf{VC}_\CC$;
-	\item the set $N$ of nodes is obtained from the basic concepts of $\CC$, an initial-node symbol $Init$, the bottom concept $\bot$ and the set of virtual concepts of $\CC$ as follows:
-	      \[ N := \{Init, \bot\} \cup \textsf{BC}_\CC \cup \textsf{VC}_\CC; \]
+	% \item for each concept $\exists r.C$ in a existential-body axiom of the form $\exists r.C \isa D$ create a \emph{virtual concept} ``$\exists r.C$''. The set of all virtual concepts in $\CC$ is called $\textsf{VC}_\CC$;
+	\item the set $N$ of nodes is obtained from the basic concepts of $\CC$, an initial-node symbol $Init$ and the bottom concept $\bot$ %and the set of virtual concepts of $\CC$ 
+	as follows:
+		  \[ N := \{Init, \bot\} \cup \textsf{BC}_\CC 
+		%   \cup \textsf{VC}_\CC
+		  ; 
+		  \]
 	\item if $C \isa D \in \CC$ then $C \to_0 D$;
 	\item if $C \isa \exists r_i.D$ then $C \to_i D$;
 	\item $Init \to_0 \top$;\footnote{Talk about sat}
