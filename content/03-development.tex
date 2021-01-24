@@ -290,12 +290,13 @@ Also, note that edges with negative weight are removed beforehand from $G_w(\CC 
 \end{algorithm}
 
 \section{Time complexity analysis}
+\label{sec:time-compl}
 
 In this section, we concentrate on presenting a polynomial time complexity bound of \textsc{PGEL-SAT} in \autoref{alg:pgelsat}. Consider a probabilistic $\gel$-knowledge base with $n$~concepts, $m$ certain axioms, $p$ uncertain axioms and $k$ probabilistic restrictions. Also, define $N = p + k + 1$.
 
 \autoref{alg:pgelsat} starts with $O(N^2)$ arithmetic operations plus a call to \textsc{LinProg}. After that, it executes several iterations with calls to \textsc{GenerateColumn} and \textsc{LinProg}. From Carathéodory's Theorem \citep{eckhoff1993helly}, the algorithm stops after at most $N$ iterations. 
 
-The linear solver \textsc{LinProg} in this project implements an easy version of the primal-dual interior-point method based on Mehrotra's technique \citep{makhorin2001gnu, mehrotra1992implementation}. Although there are polynomial bounds for several variations of this method \citep{zhang1995polynomiality, salahi2008mehrotra, teixeira2012complexity}, we did not investigate the exact implementation to justify the use of a specific bound. Thus, for simplicity, we choose the known $O(N^3L)$ time complexity for interior-point methods \citep{goldfarb1989chapter}, where $L$ is the bit-length of input data.
+The linear solver \textsc{LinProg} in this project implements an easy version of the primal-dual interior-point method based on Mehrotra's technique \citep{makhorin2001gnu, mehrotra1992implementation}. Although there are polynomial bounds for several variations of this method \citep{zhang1995polynomiality, salahi2008mehrotra, teixeira2012complexity}, we did not investigate the exact implementation to justify the use of a specific bound. Thus, for simplicity, we choose the known $O(N^3L)$ time complexity for interior-point methods \citep{goldfarb1989chapter}, where $L$ is the bit-length of input data. \todo{improve this. Read the discussion in e-mails}
 
 The program \textsc{GenerateColumn} in \autoref{alg:gen-col} executes $O(N)$ operations, to handle the column, plus a call to $\gel$-\textsc{Max-SAT-Solver}. This function, in \autoref{alg:max-sat}, builds the weighted graph, whose complexity is $O(n + (m + p))$, and calculates the minimal cut with \autoref{alg:min-cut}. The program \textsc{MinCut} is based on Edmonds-Karp algorithm \citep{cormen2009introduction}, which is $O(n (m + p)^2)$, with an additional search in the graph for the cut, which is~$O(n + m + p)$. Then, we have that \autoref{alg:gen-col} has an upper bound of $O(N + n(m + p)^2)$. 
 
