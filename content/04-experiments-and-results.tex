@@ -3,6 +3,8 @@
 \chapter{Experiments and results}
 \label{cap:experiments}
 
+To understand the performance of the algorithm in practice, we proposed two experiments: one tries to identify phase transition behavior in the solution, and the other analyses its empirical run time complexity.
+
 \section{Phase transition analysis}
 \label{sec:phase-trans}
 
@@ -25,7 +27,7 @@ For this experiment, we fixed $n = 700$, $n_R = 3$, $p = 10$ and increased $m$ f
 These experiments show that:
 \begin{enumerate}[label=(\alph*)]
 	\item There is an S-shaped first-order phase transition, from mostly satisfiable to mostly unsatisfiable, like its propositional problem;
-	\item There is not a second-order phase transition. We can see that, when $m/n$ increases, the average time decreases. This can be explained because the algorithm tries to find an inconsistency. Consequently, when the axioms or restrictions are higher, it is easier to find such inconsistency.
+	\item There is not a second-order phase transition. We can see that, when $m/n$ increases, the average time increses until the ratio of satisfiability starts to decrease. This can be explained because the algorithm tries to find an inconsistency. Consequently, when the axioms or restrictions are higher, it is easier to find such inconsistency. \todo{Modify this}
 \end{enumerate}
 
 \section{Run time analysis}
