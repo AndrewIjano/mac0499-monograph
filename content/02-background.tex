@@ -3,9 +3,7 @@
 \chapter{Background}
 \label{cap:background}
 
-In this chapter, we present the theoretical background of description logics,
-
-\improvement[inline]{Add initial description of the chapter}
+In this chapter, we present the theoretical background of description logics and the fragment of logic focused in this work. The main satisfatibility problems are defined and detailed.  
 
 \section{Description logics}
 Description logics (DLs) are used to represent knowledge, such as the semantic of words,  people and their relations, and medical terms. These scenarios require precise specification and meaning so that different systems behave the same way. The first DL modeling languages appeared in the mid-1980s and have an important role in the context of the Semantic Web, an initiative to represent web content in a form that is more machine friendly \citep{krotzsch2012description}.
@@ -13,7 +11,7 @@ Description logics (DLs) are used to represent knowledge, such as the semantic o
 As their name suggests, DLs are logics; indeed, most of them are fragments of first-order logic. This relation with logics is what provides their precise specification, called \emph{formal semantics}. Also, it equips their languages with a formal deduction to \emph{infer} additional information, and the computation of these inferences is called \emph{reasoning}. The performance of algorithms for reasoning strongly relies on the expressiveness of the DL: fast algorithms usually exist for lightweight logics. Then, there is not just a single DL because the balance between expressiveness and performance depends on the application. \citep{krotzsch2012description}
 
 \subsection{Building blocks of description logic ontologies}
-A DL is composed of concepts, roles, and individual names. Concepts are sets of individuals, roles are binary relations between individuals and individual names are single individuals in the domain.
+A DL is composed of concepts, roles, and individual names. Concepts are sets of individuals, roles are binary relations between individuals, and individual names are single individuals in the domain.
 
 For example, an ontology\todo{Maybe explain what is an ontology} modeling the situation in \autoref{exmp:real-example} can use the concepts \textsf{Patient}, to represent the set of all patients in the hospital, and \textsf{Symptom}, to represent the set of all symptoms; roles such \textsf{hasSymptom}, to represent the binary relation between patients and symptoms; and individual names such as \textsf{mary} and \textsf{s1}, to represent the individuals Mary and Mary's symptoms.
 
@@ -205,7 +203,7 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 		  \]
 	\item if $C \isa D \in \CC$ then $C \to_0 D$;
 	\item if $C \isa \exists r_i.D$ then $C \to_i D$;
-	\item $Init \to_0 \top$;\footnote{Talk about sat}
+	\item If $\top$ occurs in $\CC$, $Init \to_0 \top$;
 	\item for every node of the form $\{a_i\} \in N$, $Init \to_0 \{a_i\}$.
 \end{enumerate}
 
@@ -340,7 +338,7 @@ We break the proof in two parts.
     
     \item $(a) \impliedby (b)$. Suppose that we have $Init \to_0^* \bot$ in~$G^\bullet(\CC)$. In particular, consider one path $P^\bullet := (Init, e_1, \dots, e_m, \bot)$ such that $\ell(e_j) = 0$ $\forall j$, $1 \leq j \leq m$. This path may have derived edges, which are not in $G(\CC)$. 
     
-    We can create a path $P'$ in $G^\bullet(\CC)$ without derived edges using the following algorithm: If there is an derived edge $e := (u \to_i v)$ in $P^\bullet$, it was derived by some graph completion rule $N$. Then, modify $P^\bullet$ following the \emph{path recovering rule} $N$ (PR$N$). At the end, we obtain a path $P'$ without derived edges. Because there are a finite number of edges, this algorithm terminates. \todo{Need to improve this because of PR5.}
+    We can create a path $P'$ in $G^\bullet(\CC)$ without derived edges using the following algorithm: If there is an derived edge $e := (u \to_i v)$ in $P^\bullet$, it was derived by some graph completion rule $N$. Then, modify $P^\bullet$ following the \emph{path recovering rule} $N$ (PR$N$). At the end, we obtain a path $P'$ without derived edges. Because there are a finite number of edges, this algorithm terminates. \todo{Need to improve this because of PR5. I'm not sure if this is a valid argument that the algorithm terminates}
     
     \begin{description}
         \item[PR1] If $e$ was inserted by rule GC1, there is a vertex $u'$ such that $u \to_0 u'$ and $u' \to_i v$, for some $i \neq 0$. 
@@ -471,6 +469,6 @@ and
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
-\todo[inline]{Intuition about this matrices}
+\todo[inline]{Maybe add the intuition about this matrices}
 
 Thus, we can use techniques for solving linear equations to find a tractable algorithm for PGEL-SAT.

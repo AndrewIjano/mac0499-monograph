@@ -11,18 +11,16 @@ One of them, the logic $\elpp$, is one of the most expressive description logics
 
 \begin{example}
   \label{exmp:real-example}
-Consider a medical situation, in which a patient may have non-specific symptoms, such as high fever, cough, and headache. Also, COVID-19, a severe acute respiratory syndrome caused by the  SARS-CoV-2 virus, is a disease that can account for those symptoms, but not all patients present all symptoms. Such an uncertain situation is suitable for probabilistic modeling.
+Consider a medical situation in which a patient may have non-specific symptoms, such as high fever, cough, and headache. Also, COVID-19, a severe acute respiratory syndrome caused by the  SARS-CoV-2 virus, is a disease that can account for those symptoms, but not all patients present all symptoms. Such an uncertain situation is suitable for probabilistic modeling.
 
 In a certain hospital, a patient with a high fever has some probability of having COVID-19, but that probability is 20\% larger if the patient has a cough too. On the other hand, COVID-19 is not very prevalent and is not observed in the hospital 90\% of the time. If those probabilistic constraints are satisfiable, one can also ask the minimum and maximum probability that a hospital patient Mary, with fever and cough, is a suspect of suffering from COVID-19.
 \end{example}
 
 For classical propositional formulas, this problem, called \emph{probabilistic satisfiability} (PSAT), has already been presented with tractable fragments \citep{andersen2001easy}. On the other hand, in description logics, most studies result in intractable reasoning; moreover, by adding probabilistic reasoning capabilities to $\elpp$, in order to model such situation, the complexity reaches NP-completeness \citep{Fin2019b}. 
     
-    
 To solve this problem, probabilistic constrains can be applied to axioms and its probabilistic satisfaction can be seen in a linear algebraic view. Furthermore, it can be reduced to an optimization problem, which can be solved by an adaptation of the simplex method with column generation. \citep{Fin2019b} Thus, it is possible to reduce the column generation problem to the \emph{weighted partial maximum satisfatibility}.
 
-
-Then, recent studies show that it is necessary to focus on a fragment of $\elpp$ for obtain a tractable probabilistic reasoning. This fragment is called \emph{Graphic} $\elpp$ ($\gel$) and it is defined as an $\elpp$-fragment in which its set of axioms and \emph{role inclusions} contains formulas in \emph{normal form} and does not allow explicit conjunction axioms. Therefore, axioms can be seen as edges in a graph, as opposed to hyperedges in a hypergraph, which is the case of $\elpp$. This allows the use of graph-based machinery to develop tractable algorithm for the \emph{weighted partial Maximum SATisfatibility} for $\gel$ (Max $\gel$-SAT) and, as a result, a tractable probabilistic description logic.
+Then, recent studies show that it is necessary to focus on a fragment of $\elpp$ for obtaining a tractable probabilistic reasoning. This fragment is called \emph{Graphic} $\el$ ($\gel$) and it is defined as an $\elpp$-fragment in which its set of axioms and \emph{role inclusions} contains formulas in \emph{normal form} and does not allow explicit conjunction axioms. Therefore, axioms can be seen as edges in a graph, as opposed to hyperedges in a hypergraph, which is the case of $\elpp$. This allows the use of graph-based machinery to develop tractable algorithm for the \emph{weighted partial Maximum SATisfatibility} for $\gel$ (Max $\gel$-SAT) and, as a result, a tractable probabilistic description logic.
 
 \section{Objectives}
 \begin{itemize}

@@ -3,7 +3,7 @@
 \chapter{Development}
 \label{cap:development}
 
-In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}, described by \citet{Fin2020}. It was implemented using Python programming language \citep{python3}. \todo{Numpy}
+In this section, we describe the development of a tractable algorithm for PGEL-SAT\footnote{Available at \url{https://github.com/AndrewIjano/pgel-sat}.}, described by \citet{Fin2020}. It was implemented using Python programming language \citep{python3}.
 
 \section{Input and output format}
 
@@ -49,9 +49,7 @@ The output of the algorithm is \texttt{True} if the given KB has a solution, and
 To read the ontology in OWL 2, it was used the Python module \textit{Owlready2} \citep{lamy2017owlready}.
 
 
-The probabilistic KB is represented as the edge-labeled graph in \autoref{subsec:graph-repr} with three matrices for the inequalities in \autoref{eq:pbox-restric}.
-
-\improvement[inline]{Need to improve this}
+The probabilistic KB is represented as the edge-labeled graph in \autoref{subsec:graph-repr} with three matrices for the inequalities in \autoref{eq:pbox-restric}. The graph implemented is slightly different from the definition but the property in \autoref{theorem:gel-sat} is maintained. The vertex $\top$ is always present but it will not be inserted arrows $(\top \to C)$ for every vertex $C$, because it is redundant for the algorithm. Also, the matrices are represented and manipulated using the numerical computing package Numpy \citep{numpy}.
 
 The probabilistic KB representation allows us to develop a PGEL-SAT solver, using this data structure as input.
 
@@ -175,7 +173,7 @@ Then, we could calculate the variation of the objective function by:
 \end{align*}
 This value $r_j := c_j - c'_B B^{-1} C^j$ is called \emph{reduced cost} of the variable $x_j$. The quantity is useful for finding columns in $C$ that lead to an optimal solution. In case of nondegeneracy, if $r_j < 0$ for some $j$, we could minimize the goal increasing $x_j$.
 
-\improvement[inline]{Explain the derivation of reduced cost}
+\improvement[inline]{Explain the derivation of the dual solution in the reduced cost}
 
 From that, we define that the \emph{reduced cost} $r_y$ of a column $y$ to be added to the solution is
 \[
