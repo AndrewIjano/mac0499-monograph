@@ -9,7 +9,7 @@ In this section, we describe the development of a tractable algorithm for PGEL-S
 
 The algorithm accepts as input a $\pgel$ KB encoded in an OWL 2 ontology. Both certain and uncertain knowledge must be a $\gel$-CBox in the normal form, with the additional support of equivalence axioms. Due to limitations in the OWL parser used, which will be detailed further, RDF/XML, OWL/XML and NTriples are the only file formats supported.
 
-In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) with its unique numerical index. That is, given an uncertain axiom $Ax_i$, its annotation must be of the following form in \autoref{fig:annot-axiom}.
+In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) with its unique numerical index. That is, given an uncertain axiom $Ax_i$, its annotation must be of the following form in \cref{fig:annot-axiom}.
 \begin{figure}
 	\centering
 	\begin{minipage}{6cm}
@@ -21,7 +21,7 @@ In addition, uncertain axioms must have an annotation (\texttt{rdfs:comment}) wi
 	\label{fig:annot-axiom}
 \end{figure}
 
-PBox restrictions are represented with annotations in the $\top$ concept (\texttt{owl:Thing}). That is, given a restriction of the form $a_0 P(Ax_0) + a_1P(Ax_1) + \cdots + a_{n-1} P(Ax_{n-1}) = b$, its annotation must be of the form in \autoref{fig:pbox-rest}.  Also, inequalities $\leq$ and $\geq$ can be represented, respectively, with the symbols \texttt{<=} and \texttt{>=}.
+PBox restrictions are represented with annotations in the $\top$ concept (\texttt{owl:Thing}). That is, given a restriction of the form $a_0 P(Ax_0) + a_1P(Ax_1) + \cdots + a_{n-1} P(Ax_{n-1}) = b$, its annotation must be of the form in \cref{fig:pbox-rest}.  Also, inequalities $\leq$ and $\geq$ can be represented, respectively, with the symbols \texttt{<=} and \texttt{>=}.
 
 \begin{figure}
 	\centering
@@ -43,24 +43,22 @@ PBox restrictions are represented with annotations in the $\top$ concept (\textt
 
 The output of the algorithm is \texttt{True} if the given KB has a solution, and \texttt{False} if not.
 
-\improvement{Maybe explain how to execute the algorithm}
-
 \section{Knowledge base representation}
 To read the ontology in OWL 2, it was used the Python module \textit{Owlready2} \citep{lamy2017owlready}.
 
 
-The probabilistic KB is represented as the edge-labeled graph in \autoref{subsec:graph-repr} with three matrices for the inequalities in \autoref{eq:pbox-restric}. The graph implemented is slightly different from the definition but the property in \autoref{theorem:gel-sat} is maintained. The vertex $\top$ is always present but it will not be inserted arrows $(\top \to C)$ for every vertex $C$, because it is redundant for the algorithm. Also, the matrices are represented and manipulated using the numerical computing package Numpy \citep{numpy}.
+The probabilistic KB is represented as the edge-labeled graph in \cref{subsec:graph-repr} with three matrices for the inequalities in \cref{eq:pbox-restric}. The graph implemented is slightly different from the definition but the property in \cref{theorem:gel-sat} is maintained. The vertex $\top$ is always present but the implementation will not insert arrows $(\top \to C)$ for every vertex $C$, because it is unnecessary for the algorithm. Also, the matrices are represented and manipulated using the numerical computing package Numpy \citep{numpy}.
 
 The probabilistic KB representation allows us to develop a PGEL-SAT solver, using this data structure as input.
 
 \section{PGEL-SAT solver}
 \label{sec:pgelsatsolver}
 
-In order to understand the PGEL-SAT solver implemented, we need to find a solution for the linear system stated in \autoref{subsec:lin-alg-view}.
+In order to understand the PGEL-SAT solver implemented, we need to find a solution for the linear system stated in \cref{subsec:lin-alg-view}.
 
-First, consider the matrix $C$ in \autoref{eq:pbox-restric}, it has $p$-columns and $\pi$-columns, referring to which part of $x$ they multiply. We say that a $p$-column $pc_i$ is \emph{well-formed} if it is of the form in \autoref{eq:pbox-restric}, starting with the $i$-th column of $-I_n$, followed by the $i$-th column of $A$ and with one $0$ at the end. Also, we say that a $\pi$-column is \emph{well-formed} if it starts with a corresponding vector of an interpretation model of $\CC$, followed by $k$ zeros and with one $1$ at the end. A column that is not well-formed is \emph{ill-formed}.
+First, consider the matrix $C$ in \cref{eq:pbox-restric}, it has $p$-columns and $\pi$-columns, referring to which part of $x$ they multiply. We say that a $p$-column $pc_i$ is \emph{well-formed} if it is of the form in \cref{eq:pbox-restric}, starting with the $i$-th column of $-I_n$, followed by the $i$-th column of $A$ and with one $0$ at the end. Also, we say that a $\pi$-column is \emph{well-formed} if it starts with a corresponding vector of an interpretation model of $\CC$, followed by $k$ zeros and with one $1$ at the end. A column that is not well-formed is \emph{ill-formed}.
 
-Now, consider that the matrix $C$ may have ill-formed columns. We define a binary \emph{cost vector} $c$ such that each element $c_i = 1$ iff column $C^i$ is ill-formed; otherwise $c_i = 0$. Then, the linear system stated in \autoref{subsec:lin-alg-view} has a solution iff the following minimization problem has minimum 0.
+Now, consider that the matrix $C$ may have ill-formed columns. We define a binary \emph{cost vector} $c$ such that each element $c_i = 1$ iff column $C^i$ is ill-formed; otherwise $c_i = 0$. Then, the linear system stated in \cref{subsec:lin-alg-view} has a solution iff the following minimization problem has minimum 0.
 
 \begin{equation}
 	\label{eq:linprog}
@@ -71,9 +69,9 @@ Now, consider that the matrix $C$ may have ill-formed columns. We define a binar
 	\end{array}
 \end{equation}
 
-This problem can be solved by a linear algebraic solver but we need to find beforehand $C$ and $d$ that reaches the minimum 0. Since matrix $A$ and vector $b$ are generated from PBox, we need to choose a set of interpretations that provides the solution. However, we potentially have an exponential collection of possible interpretations, and looking over all of them would make the algorithm untractable. \todo{Need to say about M being large not the collection of possible columns}
+This problem can be solved by a linear algebraic solver but we need to find beforehand $C$ and $d$ that reaches the minimum 0. Since matrix $A$ and vector $b$ are generated from PBox, we need to choose a set of interpretations that provides the solution. However, we potentially have an exponential collection of possible interpretations, which is encoded in $M$, and calculating all of them would make the algorithm untractable.
 
-Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin2020} states that if constrains in \autoref{eq:pbox-restric} are solvable then there exists  a solution where $x$ has at most $n + k + 1$ values such that $x_j > 0$. This allows us to avoid generating an exponential number of columns of $C$ by using a linear algebraic technique called \emph{column generation} \citep{gilmore1961linear,gilmore1963linear}. With this technique, we can create an algorithm \textsc{PGEL-SAT-Solver} which generates well-formed $\pi$-columns of $C$ on the fly by solving an auxiliary problem and uses a linear solver in each iteration to verify if the solution for \autoref{eq:linprog} has reached minimum 0. This solution leads to the algorithm implemented, which is shown in \autoref{alg:pgelsat}.
+Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin2020} states that if constraints in \cref{eq:pbox-restric} are solvable then there exists  a solution where $x$ has at most $n + k + 1$ values such that $x_j > 0$. This allows us to avoid generating an exponential number of columns of $C$ by using a linear algebraic technique called \emph{column generation} \citep{gilmore1961linear,gilmore1963linear}. With this technique, we can create an algorithm \textsc{PGEL-SAT-Solver} which generates well-formed $\pi$-columns of $C$ on the fly by solving an auxiliary problem and uses a linear solver in each iteration to verify if the solution for \cref{eq:linprog} has reached minimum 0. This solution leads to the algorithm implemented, which is shown in \cref{alg:pgelsat}.
 
 \begin{algorithm}
 	\caption{The PGEL-SAT solver algorithm}
@@ -129,16 +127,16 @@ Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin20
 	\end{algorithmic}
 \end{algorithm}
 
-The algorithm \textsc{PGEL-SAT-Solver} in \autoref{alg:pgelsat} receives a potentially unsatisfiable probabilistic knowledge base and returns \emph{True} if it is satisfiable, and \emph{False}, otherwise.
+The algorithm \textsc{PGEL-SAT-Solver} in \cref{alg:pgelsat} receives a potentially unsatisfiable probabilistic knowledge base and returns \emph{True} if it is satisfiable, and \emph{False}, otherwise.
 
-It starts with matrices $c$,  $C$ and $d$. Because the algorithm needs to start with a cost vector with non-zero elements, the $C$ matrix is initialized with $n + k + 1$ ill-formed columns, represented by the identity matrix $I_{n + k + 1}$, and well-formed $p$-columns as shown in \autoref{eq:pbox-linear}; therefore, the cost vector $c$ is initialized with $n + k + 1$ $1$-elements plus $n$ $0$-elements. The $d$ vector is unaltered during the execution and is given by \autoref{eq:pbox-linear}. These initializations are shown in \autoref{alg:mat-init}.
+It starts with matrices $c$,  $C$ and $d$. Because the algorithm needs to start with a cost vector with non-zero elements, the $C$ matrix is initialized with $n + k + 1$ ill-formed columns, represented by the identity matrix $I_{n + k + 1}$, and well-formed $p$-columns as shown in \cref{eq:pbox-linear}; therefore, the cost vector $c$ is initialized with $n + k + 1$ $1$-elements plus $n$ $0$-elements. The $d$ vector is unaltered during the execution and is given by \cref{eq:pbox-linear}. These initializations are shown in \cref{alg:mat-init}.
 
-In addition, the algorithm uses a program \textsc{LinProg}. It receives matrices $c$, $C$ and $d$ and returns the solution for the optimization problem in \autoref{eq:linprog}. Its output $lp$ needs to contain the minimal cost ($lp.minCost$), the primal solution ($lp.primal$) and dual solution ($lp.dual$).
+In addition, the algorithm uses a program \textsc{LinProg}. It receives matrices $c$, $C$ and $d$ and returns the solution for the optimization problem in \cref{eq:linprog}. Its output $lp$ needs to contain the minimal cost ($lp.minCost$), the primal solution ($lp.primal$) and dual solution ($lp.dual$).
 
 Then, the algorithm executes the column generation process while the minimal cost is not zero. In each iteration, a well-formed $\pi$-column $y$ is generated by an auxiliary program \textsc{GenerateColumn}. After that, the column is appended to $C$, with its respective $0$ cost in $c$, and a new minimal cost is calculated. If no more columns can be generated with a minimal cost higher than $0$, represented by $result.isSuccess = False$, the KB is unsatisfiable.
 
 \section{Linear solver}
-The program \textsc{LinProg} was implemented using the open-source GNU linear program kit \citep{makhorin2001gnu} and the Python wrapper for this library, the \emph{swiglpk} package \citep{swiglpk}. The library was chosen because it is open-source, has tractable algorithms for large-scale problems, and provides a solution that contains the required elements described in \autoref{sec:pgelsatsolver}.
+The program \textsc{LinProg} was implemented using the open-source GNU linear program kit \citep{makhorin2001gnu} and the Python wrapper for this library, the \emph{swiglpk} package \citep{swiglpk}. The library was chosen because it is open-source, has tractable algorithms for large-scale problems, and provides a solution that contains the required elements described in \cref{sec:pgelsatsolver}.
 
 There are several methods for solving a linear optimization problem. The \emph{simplex method} is known to be very efficient in practice \citep{borgwardt2012simplex} although its worst time complexity is untractable \citep{klee1972good}. On the other hand, the modern \emph{interior point method} has a proven polynomial-time complexity and is especially ideal for very sparse problems \citep{boyd2004convex} but may not be as efficient as the simplex method in all cases.
 
@@ -171,9 +169,7 @@ Then, we could calculate the variation of the objective function by:
 \begin{align*}
 	c' (x + \theta s) - c'x & = \theta c's = \theta (c_j + c_B' s_B) = \theta (c_j - c'_B B^{-1} C^j).
 \end{align*}
-This value $r_j := c_j - c'_B B^{-1} C^j$ is called \emph{reduced cost} of the variable $x_j$. The quantity is useful for finding columns in $C$ that lead to an optimal solution. In case of nondegeneracy, if $r_j < 0$ for some $j$, we could minimize the goal increasing $x_j$.
-
-\improvement[inline]{Explain the derivation of the dual solution in the reduced cost}
+This value $r_j := c_j - c'_B B^{-1} C^j$ is called \emph{reduced cost} of the variable $x_j$. The quantity is useful for finding columns in $C$ that lead to an optimal solution. In case of nondegeneracy, if $r_j < 0$ for some $j$, we could minimize the goal increasing $x_j$. Also, from duality properties, given an optimal dual variable $w$, we have $w = c'_B B^{-1}$.
 
 From that, we define that the \emph{reduced cost} $r_y$ of a column $y$ to be added to the solution is
 \[
@@ -190,15 +186,15 @@ Because $y$ is well-formed, we have $c_y = 0$. Then, to reduce the cost of the o
 
 In this algorithm, only the $n$ first elements, which correspond to a column of $M$, must be generated, since the last elements are composed of $k$ 0-elements and one 1-element. This new column $M^j$ is the corresponding vector in $\PP$ of a $C$-satisfiable interpretation. Then, to find such column, we can solve an intermediate problem.
 
-Define $\CC \cup \PP$ as a potentially unsatisfiable CBox with all axioms of $\CC$ and axioms from restrictions of $\PP$. We want to find a new CBox $\CC^\bullet \subseteq \CC \cup \PP$ such that $\CC^\bullet$ is satisfiable and $\CC^\bullet \models C \isa D$ if $C \isa D \in \CC$. An interpretation model of $\CC^\bullet$ will be $\CC$-satisfiable and can generate a corresponding vector $M^j$ in $\PP$. Also, the new column $y$ created from $M^j$ must obey the restriction in \autoref{eq:col-restr}.
+Define $\CC \cup \PP$ as a potentially unsatisfiable CBox with all axioms of $\CC$ and axioms from restrictions of $\PP$. We want to find a new CBox $\CC^\bullet \subseteq \CC \cup \PP$ such that $\CC^\bullet$ is satisfiable and $\CC^\bullet \models C \isa D$ if $C \isa D \in \CC$. An interpretation model of $\CC^\bullet$ will be $\CC$-satisfiable and can generate a corresponding vector $M^j$ in $\PP$. Also, the new column $y$ created from $M^j$ must obey the restriction in \cref{eq:col-restr}.
 
-Instead of generating a column $y$ that just satisfies the conditions above, we could generate one that maximizes the cost reduction in \autoref{eq:col-restr}. This can be done maximizing $\sum_{i = 1}^n w_i \cdot y_i$ which is choosing axioms $Ax_i$ for $\CC^\bullet$ based on weights $w_i$, $1 \leq i \leq n$.
+Instead of generating a column $y$ that just satisfies the conditions above, we could generate one that maximizes the cost reduction in \cref{eq:col-restr}. This can be done maximizing $\sum_{i = 1}^n w_i \cdot y_i$ which is choosing axioms $Ax_i$ for $\CC^\bullet$ based on weights $w_i$, $1 \leq i \leq n$.
 
 Then, this problem can be modeled as a $\gel$-MaxSAT for $\CC \cup \PP$ where axioms of $\CC$ have infinite weight and every axiom $Ax_i$ from $\PP$ has weight $w_i$.
 
 \subsection{Generating column}
 
-This leads to the solution in \autoref{alg:gen-col}. We generate a new column solving the intermediate problem with $\gel$\textsc{-Max-SAT-Solver} and an auxiliary function \textsc{ExtractColumn}. If the $\gel$-MaxSAT problem does not have a solution or \autoref{eq:col-restr} cannot be satisfied, it returns False; otherwise, it returns True and the generated column $y$.
+This leads to the solution in \cref{alg:gen-col}. We generate a new column solving the intermediate problem with $\gel$\textsc{-Max-SAT-Solver} and an auxiliary function \textsc{ExtractColumn}. If the $\gel$-MaxSAT problem does not have a solution or \cref{eq:col-restr} cannot be satisfied, it returns False; otherwise, it returns True and the generated column $y$.
 
 \begin{algorithm}
 	\caption{The algorithm of column generation}
@@ -233,9 +229,9 @@ This leads to the solution in \autoref{alg:gen-col}. We generate a new column so
 
 The function $\gel$\textsc{-Max-SAT-Solver} is responsible for generating a solution to the $\gel$-MaxSAT problem. To find such solution, we need to look at the graph modeling used for its SAT decision.
 
-A weighted $\gel$-CBox $\tuple{\CC\cup\PP, w}$ can be represented as a weighted directed graph $G_w(\CC\cup\PP) = (N, E, \ell, w)$, following the representation in \autoref{sec:gel}, where $(N, E, \ell)$ are the same as before and $w: E \to \Ratios \cup \{\infty\}$ is an edge weight function with $w\left(\left(C \to_0 D\right)\right) = \infty$ iff $C \isa D \in \CC$. We also write $w(u, v)$ to represent $w((u, v))$, with $u, v \in N$.
+A weighted $\gel$-CBox $\tuple{\CC\cup\PP, w}$ can be represented as a weighted directed graph $G_w(\CC\cup\PP) = (N, E, \ell, w)$, following the representation in \cref{sec:gel}, where $(N, E, \ell)$ are the same as before and $w: E \to \Ratios \cup \{\infty\}$ is an edge weight function with $w\left(\left(C \to_0 D\right)\right) = \infty$ iff $C \isa D \in \CC$. We also write $w(u, v)$ to represent $w((u, v))$, with $u, v \in N$.
 
-In this problem, we want to find a satisfiable subset of $\CC \cup \PP$. From \autoref{theorem:gel-sat}, we know that a $\gel$-CBox $\CC$ is satisfiable iff there is a $Init$-$\bot$ path in $G(\CC)$. Thus, to find a satisfiable $\CC^\bullet \subseteq \CC \cup \PP$, we need to remove every $Init$-$\bot$ path in $G_w(\CC \cup \PP)$ which can be done by removing some edges in these paths. For maximality, we need to remove edges that minimize the sum of weights of the deleted set.
+In this problem, we want to find a satisfiable subset of $\CC \cup \PP$. From \cref{theorem:gel-sat}, we know that a $\gel$-CBox $\CC$ is satisfiable iff there is a $Init$-$\bot$ path in $G(\CC)$. Thus, to find a satisfiable $\CC^\bullet \subseteq \CC \cup \PP$, we need to remove every $Init$-$\bot$ path in $G_w(\CC \cup \PP)$ which can be done by removing some edges in these paths. For maximality, we need to remove edges that minimize the sum of weights of the deleted set.
 
 Also, given a weighted directed graph $G_w(\CC)$ and nodes $s, t \in N$, a $s$-$t$ \emph{cut} in $G_w(\CC)$ is a partition $(S, T)$ such that $s \in S$ and $t \in T$. A \emph{cut set} $Cut(S, T)$ is the set of edges of $G_w(\CC)$ with one end in $S$ and other end in $T$; we use $Cut(s, t)$ to refer to a cut set from a $s$-$t$ cut.  To remove all paths from $s$ to $t$, we need to remove all edges of a cut set $Cut(s, t)$. The weight of a cut set is given by the sum of weights of its edges:
 \[
@@ -243,7 +239,7 @@ Also, given a weighted directed graph $G_w(\CC)$ and nodes $s, t \in N$, a $s$-$
 \]
 A graph usually has many $s$-$t$ cuts; a $s$-$t$ cut is \emph{minimal} (\emph{min cut}) if it has minimal weight; it is finite if its cut set has only edges of finite weight.
 
-Then, the $\gel$-MaxSAT problem can be modeled as finding a min cut in a weighted directed graph, which leads to the solution in \autoref{alg:max-sat}. It receives a CBox $\CC \cup \PP$ and an $n$-vector $w$. First, we compute $G_w(\CC \cup \PP)$ where the weights are defined as $w(C_i, D_i) = w_i$ if $C_i \isa D_i$ appears in $\PP$; otherwise, $w(C, D) = \infty$. After that, we use the program \textsc{MinCut} to calculate the cut set of a $Init$-$\bot$ min cut. If the weight of the minimal cut set is infinite, meaning that we need to remove a certain axiom to keep satisfiability, then there is no solution; otherwise, return $E$ without the edges in the cut set.
+Then, the $\gel$-MaxSAT problem can be modeled as finding a min cut in a weighted directed graph, which leads to the solution in \cref{alg:max-sat}. It receives a CBox $\CC \cup \PP$ and an $n$-vector $w$. First, we compute $G_w(\CC \cup \PP)$ where the weights are defined as $w(C_i, D_i) = w_i$ if $C_i \isa D_i$ appears in $\PP$; otherwise, $w(C, D) = \infty$. After that, we use the program \textsc{MinCut} to calculate the cut set of a $Init$-$\bot$ min cut. If the weight of the minimal cut set is infinite, meaning that we need to remove a certain axiom to keep satisfiability, then there is no solution; otherwise, return $E$ without the edges in the cut set.
 
 \begin{algorithm}
 	\caption{The $\gel$-MaxSAT solver algorithm}
@@ -261,7 +257,7 @@ Then, the $\gel$-MaxSAT problem can be modeled as finding a min cut in a weighte
 	\end{algorithmic}
 \end{algorithm}
 
-The solution in \autoref{alg:min-cut} calculates the $Init$-$\bot$ min cut in $G_w(\CC \cup \PP)$, based on Edmonds-Karp algorithm for maximum-flow \citep{cormen2009introduction}. We create a \emph{residual graph} $G_R$ where its weights $w_R$ represent its \emph{residual capacity}. In each iteration we search for the shortest $Init$-$\bot$ path $P$ with positive weights (augment path), calculated with a \emph{breadth first search}. We get a augment flow $\alpha := \{ \, w_R(u,v) \, : \, (u,v) \in P \, \}$ and propagate the flow through the path, which is decrementing by $\alpha$ the residual capacity forward, and incrementing backwards. 
+The solution in \cref{alg:min-cut} calculates the $Init$-$\bot$ min cut in $G_w(\CC \cup \PP)$, based on Edmonds-Karp algorithm for maximum-flow \citep{cormen2009introduction}. We create a \emph{residual graph} $G_R$ where its weights $w_R$ represent its \emph{residual capacity}. In each iteration we search for the shortest $Init$-$\bot$ path $P$ with positive weights (augment path), calculated with a \emph{breadth first search}. We get a augment flow $\alpha := \{ \, w_R(u,v) \, : \, (u,v) \in P \, \}$ and propagate the flow through the path, which is decrementing by $\alpha$ the residual capacity forward, and incrementing backwards. 
 
 After executing the iterations in lines 5-10, we have a partition $(S, T)$, where $Init \in S$, $\bot \in T$ and every edge $(u, v)$ such that $u \in S$ and $v \in T$ have residual capacity 0. Also, the sum of residual capacities from edges from $T$ to $S$ is equal to the flow $f$ passing from $S$ to $T$. Then, because every edge from $S$ to $T$ have residual capacity 0, $f$ is the sum of capacities (or weights) of these edges in $G_w(\CC \cup \PP)$ which means that $Cut(S, T)$ is minimal \citep{ford1962flows}.
 
@@ -290,12 +286,17 @@ Also, note that edges with negative weight are removed beforehand from $G_w(\CC 
 \section{Time complexity analysis}
 \label{sec:time-compl}
 
-In this section, we concentrate on presenting a polynomial time complexity bound of \textsc{PGEL-SAT} in \autoref{alg:pgelsat}. Consider a probabilistic $\gel$-knowledge base with $n$~concepts, $m$ certain axioms, $p$ uncertain axioms and $k$ probabilistic restrictions. Also, define $N = p + k + 1$.
+In this section, we concentrate on presenting a polynomial time complexity bound of \textsc{PGEL-SAT} in \cref{alg:pgelsat}. Consider a probabilistic $\gel$-knowledge base with $n$~concepts, $m$ certain axioms, $p$ uncertain axioms and $k$ probabilistic restrictions. Also, define $N = p + k + 1$.
 
-\autoref{alg:pgelsat} starts with $O(N^2)$ arithmetic operations plus a call to \textsc{LinProg}. After that, it executes several iterations with calls to \textsc{GenerateColumn} and \textsc{LinProg}. From Carathéodory's Theorem \citep{eckhoff1993helly}, the algorithm stops after at most $N$ iterations. 
+\cref{alg:pgelsat} starts with $O(N^2)$ arithmetic operations plus a call to \textsc{LinProg}. After that, it executes several iterations with calls to \textsc{GenerateColumn} and \textsc{LinProg}. From Carathéodory's Theorem \citep{eckhoff1993helly}, the algorithm stops after at most $N$ iterations. 
 
-The linear solver \textsc{LinProg} in this project implements an easy version of the primal-dual interior-point method based on Mehrotra's technique \citep{makhorin2001gnu, mehrotra1992implementation}. Although there are polynomial bounds for several variations of this method \citep{zhang1995polynomiality, salahi2008mehrotra, teixeira2012complexity}, we did not investigate the exact implementation to justify the use of a specific bound. Thus, for simplicity, we choose the known $O(N^3L)$ time complexity for interior-point methods \citep{goldfarb1989chapter}, where $L$ is the bit-length of input data. \todo{improve this. Read the discussion in e-mails}
+The linear solver \textsc{LinProg} in this project implements an easy version of the primal-dual interior-point method based on Mehrotra's technique \citep{makhorin2001gnu, mehrotra1992implementation}. Although there are polynomial bounds for several variations of this method \citep{zhang1995polynomiality, salahi2008mehrotra, teixeira2012complexity}, we did not investigate the exact implementation to justify the use of a specific bound. Thus, for simplicity, we choose the known $O(N^3L)$ time complexity for interior-point methods \citep{goldfarb1989chapter}, where $L$ is the bit-length of input data. 
 
-The program \textsc{GenerateColumn} in \autoref{alg:gen-col} executes $O(N)$ operations, to handle the column, plus a call to $\gel$-\textsc{Max-SAT-Solver}. This function, in \autoref{alg:max-sat}, builds the weighted graph, whose complexity is $O(n + (m + p))$, and calculates the minimal cut with \autoref{alg:min-cut}. The program \textsc{MinCut} is based on Edmonds-Karp algorithm \citep{cormen2009introduction}, which is $O(n (m + p)^2)$, with an additional search in the graph for the cut, which is~$O(n + m + p)$. Then, we have that \autoref{alg:gen-col} has an upper bound of $O(N + n(m + p)^2)$. 
+The program \textsc{GenerateColumn} in \cref{alg:gen-col} executes $O(N)$ operations, to handle the column, plus a call to $\gel$-\textsc{Max-SAT-Solver}. This function, in \cref{alg:max-sat}, builds the weighted graph, whose complexity is $O(n + (m + p))$, and calculates the minimal cut with \cref{alg:min-cut}. The program \textsc{MinCut} is based on Edmonds-Karp algorithm \citep{cormen2009introduction}, which is $O(n (m + p)^2)$, with an additional search in the graph for the cut, which is~$O(n + m + p)$. Then, we have that \cref{alg:gen-col} has an upper bound of $O(N + n(m + p)^2)$. 
 
-Finally, \autoref{alg:pgelsat} has an upper bound of $O(N^4L + Nn(m+p)^2)$ operations. Therefore, the algorithm proposed to solve the PGEL-SAT problem is polynomial.
+Finally, because one column is generated for each iteration, the size of the restriction matrix increases. Thus, the upper bound of the number of operations for solving the linear programs of every iteration can be calculated as
+\[
+	O( N^3L + N^3 (L+N) + \cdots + N^3 (L + N^2)) = O(N ^4L + N^6).
+\]
+
+Then, \cref{alg:pgelsat} has an upper bound of $O(N^6 + N^4L + Nn(m+p)^2)$ operations. Therefore, the algorithm proposed to solve the PGEL-SAT problem is polynomial.

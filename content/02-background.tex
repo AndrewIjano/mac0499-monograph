@@ -6,14 +6,14 @@
 In this chapter, we present the theoretical background of description logics and the fragment of logic focused in this work. The main satisfatibility problems are defined and detailed.  
 
 \section{Description logics}
-Description logics (DLs) are used to represent knowledge, such as the semantic of words,  people and their relations, and medical terms. These scenarios require precise specification and meaning so that different systems behave the same way. The first DL modeling languages appeared in the mid-1980s and have an important role in the context of the Semantic Web, an initiative to represent web content in a form that is more machine friendly \citep{krotzsch2012description}.
+Description logics (DLs) are used to represent knowledge, such as the semantic of words,  people and their relations, and medical terms. Such set of terms are called an \emph{ontology}. These scenarios require precise specification and meaning so that different systems behave the same way. The first DL modeling languages appeared in the mid-1980s and have an important role in the context of the Semantic Web, an initiative to represent web content in a form that is more machine friendly \citep{krotzsch2012description}.
 
 As their name suggests, DLs are logics; indeed, most of them are fragments of first-order logic. This relation with logics is what provides their precise specification, called \emph{formal semantics}. Also, it equips their languages with a formal deduction to \emph{infer} additional information, and the computation of these inferences is called \emph{reasoning}. The performance of algorithms for reasoning strongly relies on the expressiveness of the DL: fast algorithms usually exist for lightweight logics. Then, there is not just a single DL because the balance between expressiveness and performance depends on the application. \citep{krotzsch2012description}
 
 \subsection{Building blocks of description logic ontologies}
 A DL is composed of concepts, roles, and individual names. Concepts are sets of individuals, roles are binary relations between individuals, and individual names are single individuals in the domain.
 
-For example, an ontology\todo{Maybe explain what is an ontology} modeling the situation in \autoref{exmp:real-example} can use the concepts \textsf{Patient}, to represent the set of all patients in the hospital, and \textsf{Symptom}, to represent the set of all symptoms; roles such \textsf{hasSymptom}, to represent the binary relation between patients and symptoms; and individual names such as \textsf{mary} and \textsf{s1}, to represent the individuals Mary and Mary's symptoms.
+For example, an ontology modeling the situation in \cref{exmp:real-example} can use the concepts \textsf{Patient}, to represent the set of all patients in the hospital, and \textsf{Symptom}, to represent the set of all symptoms; roles such \textsf{hasSymptom}, to represent the binary relation between patients and symptoms; and individual names such as \textsf{mary} and \textsf{s1}, to represent the individuals Mary and Mary's symptoms.
 
 Additionally, DLs allows us to describe more complex situations, creating new concepts and roles from the previously defined ones.
 
@@ -43,7 +43,7 @@ and the fact that Mary is a patient of the hospital and has symptoms is represen
 
 After that, if we have a set of these relations, one could ask if there is a set of individuals, or instances, that satisfies these relations, which is called an \emph{interpretation}. Interpretations can be understood as the assignment of meaning to logical terms in an ontology. Because a DL usually considers all the possibles situations, property that is sometimes referred to as \emph{open world assumption}, an ontology can have multiple satisfiable interpretations. The fewer restrictions it has, the more interpretations satisfy this ontology. The computational complexity to find the existence of these interpretations is one of the key aspects to choose different DL fragments.
 
-These terms will be formally defined in the \autoref{sec:el}, in the case of the DL $\elpp$.
+These terms will be formally defined in the \cref{sec:el}, in the case of the DL $\elpp$.
 
 \subsection{Description logic fragments and OWL}
 
@@ -54,7 +54,7 @@ To express DL ontologies, the World Wide Web Consortium (W3C) designed the OWL~2
 \section{The description logic \texorpdfstring{$\elpp$}{GEL++}}
 \label{sec:el}
 
-$\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large bio-health ontologies in mind, such as SNOMED-CT, the NCI thesaurus, and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains.
+The logic $\elpp$ is an extension of the DL $\el$ \citep{Baader2005a}. It was created with large bio-health ontologies in mind, such as SNOMED-CT, the NCI thesaurus, and Galen, and became an official OWL 2 profile \citep{owl2}. We concentrate on presenting $\elpp$ without concrete domains.
 
 \subsection{Syntax}
 In $\elpp$, \emph{concept descriptions} are defined inductively from a set $\Nc$ of \emph{concept names}, a set $\Nr$ of \emph{role names} and set $\Ni$ of \emph{individual names} as follows:
@@ -74,7 +74,7 @@ Similarly, a \emph{concept assertion} is an expression of the form $C(a)$ and a 
 Then, an $\elpp$ \emph{knowledge base} $\K$ (KB) is a pair ($\mathcal{C}, \mathcal{A}$), where $\mathcal{C}$ is a CBox and $\mathcal{A}$ is an~ABox.
 
 \subsection{Semantics}
-The semantics of $\elpp$ are given by \emph{interpretations} $\I = (\Delta^\I, \cdot^\I)$. The \emph{domain} $\Delta^\I$ is a non-empty set of individuals, and the \emph{interpretation function} $\cdot^\I$ maps each concept name $A \in \Nc$ to a subset $A^\I$ of $\Delta^\I$, each role name $r$ to a binary relation $r^\I \subseteq \Delta^\I \times \Delta^\I$, and each individual name $a$ to an element $a^\I \in \Delta^\I$. The extension of $\cdot^\I$ for an arbitrary concept description is inductively defined by the third column of \autoref{table:elpp-syntax-semant}.
+The semantics of $\elpp$ are given by \emph{interpretations} $\I = (\Delta^\I, \cdot^\I)$. The \emph{domain} $\Delta^\I$ is a non-empty set of individuals, and the \emph{interpretation function} $\cdot^\I$ maps each concept name $A \in \Nc$ to a subset $A^\I$ of $\Delta^\I$, each role name $r$ to a binary relation $r^\I \subseteq \Delta^\I \times \Delta^\I$, and each individual name $a$ to an element $a^\I \in \Delta^\I$. The extension of $\cdot^\I$ for an arbitrary concept description is inductively defined by the third column of \cref{table:elpp-syntax-semant}.
 
 \begin{table}
 	\centering
@@ -134,7 +134,7 @@ And every RI are of the form $r \isa s$ or $r_1 \circ r_2 \isa s$.
 
 \begin{example}
 	\label{exmp:el-cbox-def}
-	Consider the following CBox $\CC_{exa}$ representing the situation in \autoref{exmp:real-example}. On the left, we have basic knowledge of diseases and, on the right, the specific knowledge about Mary. Note that, for simplicity, it is not in normal form.
+	Consider the following CBox $\CC_{exa}$ representing the situation in \cref{exmp:real-example}. On the left, we have basic knowledge of diseases and, on the right, the specific knowledge about Mary. Note that, for simplicity, it is not in normal form.
 
 		{
 			\sffamily
@@ -180,7 +180,7 @@ We want to model uncertain information using DLs. However, it has been proved th
 
 \begin{example}
 	\label{exmp:gel-def}
-	Since there are conjunctive-body axioms in the CBox in \autoref{exmp:el-cbox-def}, we need to modify this knowledge in order to represent it in $\gel$. First, we substitute every concept description {\sffamily Fever $\sqcap$ Cough} by a new basic concept  {\sffamily FeverAndCough}. After that, we add axioms {\sffamily FeverAndCough $\isa$ Fever} and {\sffamily FeverAndCough $\isa$ Cough} to CBox.
+	Since there are conjunctive-body axioms in the CBox in \cref{exmp:el-cbox-def}, we need to modify this knowledge in order to represent it in $\gel$. First, we substitute every concept description {\sffamily Fever $\sqcap$ Cough} by a new basic concept  {\sffamily FeverAndCough}. After that, we add axioms {\sffamily FeverAndCough $\isa$ Fever} and {\sffamily FeverAndCough $\isa$ Cough} to CBox.
 \end{example}
 
 The name of this fragment comes from the fact that each GCI can be represented as arrows in a graph where nodes are basic concepts. This representation is useful for the development of algorithms and it is used to define its SAT decision.
@@ -208,7 +208,7 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 \end{enumerate}
 
 \begin{example}
-	Consider the CBox in \autoref{exmp:gel-def} and the uncertain information in \autoref{exmp:el-cbox-def}. Its graphical representation is displayed in the \autoref{fig:gel-graph}. The $\to_0$-edges are represented by continuous black arrows, the $\to_i$-edges, $i \geq 1$, are represented by blue labeled arrows and red dotted arrows indicate that source is uncertain information.
+	Consider the CBox in \cref{exmp:gel-def} and the uncertain information in \cref{exmp:el-cbox-def}. Its graphical representation is displayed in the \cref{fig:gel-graph}. The $\to_0$-edges are represented by continuous black arrows, the $\to_i$-edges, $i \geq 1$, are represented by blue labeled arrows and red dotted arrows indicate that source is uncertain information.
 \end{example}
 
 \tikzstyle{block} = [draw, rectangle, rounded corners=.2cm, fill=black!5, draw=white]
@@ -269,14 +269,14 @@ Then, the graph $G(\cbox) = (N, E, \ell)$ can be constructed from a CBox $\cbox$
 		;
 
 	\end{tikzpicture}
-	\caption{Graphical representation of the ontology in \autoref{exmp:gel-def}.}
+	\caption{Graphical representation of the ontology in \cref{exmp:gel-def}.}
 
 	\label{fig:gel-graph}
 \end{figure}
 
 \subsection{SAT decision}
 
-To calculate the satisfiability of a CBox $\CC$, \citet{Fin2020} defined a completed graph $G^\bullet(\CC)$, obtained by applying the \emph{graph completion rules} in \autoref{fig:rules} until no more rules apply. Also, edges from the original graph $G(\CC)$ are called \emph{basic edges} and the edges inserted from the rules in $G^\bullet(\CC)$ are called \emph{derived edges}. 
+To calculate the satisfiability of a CBox $\CC$, \citet{Fin2020} defined a completed graph $G^\bullet(\CC)$, obtained by applying the \emph{graph completion rules} in \cref{fig:rules} until no more rules apply. Also, edges from the original graph $G(\CC)$ are called \emph{basic edges} and the edges inserted from the rules in $G^\bullet(\CC)$ are called \emph{derived edges}. 
 
 \begin{figure}[h]
 	\centering
@@ -338,7 +338,7 @@ We break the proof in two parts.
     
     \item $(a) \impliedby (b)$. Suppose that we have $Init \to_0^* \bot$ in~$G^\bullet(\CC)$. In particular, consider one path $P^\bullet := (Init, e_1, \dots, e_m, \bot)$ such that $\ell(e_j) = 0$ $\forall j$, $1 \leq j \leq m$. This path may have derived edges, which are not in $G(\CC)$. 
     
-    We can create a path $P'$ in $G^\bullet(\CC)$ without derived edges using the following algorithm: If there is an derived edge $e := (u \to_i v)$ in $P^\bullet$, it was derived by some graph completion rule $N$. Then, modify $P^\bullet$ following the \emph{path recovering rule} $N$ (PR$N$). At the end, we obtain a path $P'$ without derived edges. Because there are a finite number of edges, this algorithm terminates. \todo{Need to improve this because of PR5. I'm not sure if this is a valid argument that the algorithm terminates}
+    We can create a path $P'$ in $G^\bullet(\CC)$ without derived edges using the following algorithm: If there is an derived edge $e := (u \to_i v)$ in $P^\bullet$, it was derived by some graph completion rule $N$. Then, modify $P^\bullet$ following the \emph{path recovering rule} $N$ (PR$N$). At the end, we obtain a path $P'$ without derived edges. Because there are a finite number of edges, this algorithm terminates.
     
     \begin{description}
         \item[PR1] If $e$ was inserted by rule GC1, there is a vertex $u'$ such that $u \to_0 u'$ and $u' \to_i v$, for some $i \neq 0$. 
@@ -374,7 +374,7 @@ We break the proof in two parts.
 Given a $\gel$-CBox $\CC$, it is unsatisfiable iff $Init \rightsquigarrow \bot$ in $G(\CC)$. Furthermore, this decision can be made in polynomial time in $|\CC|$, the number of symbols in $\CC$.
 \end{theorem}
 \begin{proof}
-    By \autoref{lemma-comp-sat} and \autoref{lemma-equiv}, we have that a $\gel$-CBox $\CC$ is unsatisfiable iff $Init \rightsquigarrow \bot$ in $G(\CC)$. Also, by \autoref{lemma-comp-sat}, the graph construction can be made in polynomial time, and finding a path in a graph is also computed in polynomial time, and so is the satisfiability decision. 
+    By \cref{lemma-comp-sat,lemma-equiv}, we have that a $\gel$-CBox $\CC$ is unsatisfiable iff $Init \rightsquigarrow \bot$ in $G(\CC)$. Also, by \cref{lemma-comp-sat}, the graph construction can be made in polynomial time, and finding a path in a graph is also computed in polynomial time, and so is the satisfiability decision. 
 \end{proof}
 
 Then, we have that the unsatisfiability decision in $\gel$ can be reduced to finding a path $Init-\bot$ in the graph $G(\CC)$.
@@ -402,9 +402,10 @@ To handle evenly finite and infinite weights, and given that $\CC$ is finite, we
 
 Probability in $\gel$ is constructed from a \emph{probability function} $P$ \citep{Fin2020}. Consider a finite number of interpretation, $\I_1, \dots, \I_m$, we define the probability function $P: \{\I_1, \dots, \I_m\} \to \Ratios$, such that $P(\I_i) \geq 0$ and $\sum_{i = 1}^m P(\I_i) = 1$. We can also define the probability of an axiom $C \isa D$ as follows
 
-\[
+\begin{equation}
+	\label{eq:axiom-pbox}
 	P(C \isa D) = \sum_{\I_i \models C \isa D} P(\I_i).
-\]
+\end{equation}
 
 A \emph{probabilistic knowledge base} is a pair $\tuple{\CC, \PP}$, where $\CC$ is a CBox and $\PP$ is a PBox. A PBox is a set of $k$ linear constraints over $n$ axioms, of the form
 
@@ -416,7 +417,7 @@ A \emph{probabilistic knowledge base} is a pair $\tuple{\CC, \PP}$, where $\CC$ 
 We can define the \emph{satisfiability problem} for this probabilistic KB (PGEL-SAT) as deciding if it is consistent or not. If it is consistent, the solution is a set of interpretations $\{\I_1, \dots, \I_m \}$ and a probability function $P: \{\I_1, \dots, \I_m \} \to \Ratios^+$ such that $\sum_{i = 1}^m P(\I_i) = 1$, $P(C \isa D) = 1$ for $C \isa D \in \CC$ (axioms in CBox are certain) and P verifies all linear constraints in $\PP$.
 % 
 \begin{example}
-	Now we can model the uncertain situation stated in \autoref{exmp:real-example} using the probability knowledge base $\tuple{\CC_{exa}, \PP_{exa}}$, where $\CC_{exa}$ is the CBox from \autoref{exmp:gel-def} and $\PP_{exa}$ is given by
+	Now we can model the uncertain situation stated in \cref{exmp:real-example} using the probability knowledge base $\tuple{\CC_{exa}, \PP_{exa}}$, where $\CC_{exa}$ is the CBox from \cref{exmp:gel-def} and $\PP_{exa}$ is given by
 	\begin{align*}
 		\PP_{exa} := \{ \quad P(Ax_2) - P(Ax_1) & = 0.2,           \\
 		P(Ax_3)                                 & = 0.9  \quad \}.
@@ -454,8 +455,8 @@ The PGEL-SAT problem was also defined by \citet{Fin2020} in a linear algebraic v
 
 and
 \begin{itemize}
-	\item $A_{k \times n}$ is a $k \times n$ matrix whose elements $a_{ij}$ are given by \autoref{eq:pbox-restric};
-	\item $b_k$ is a $k$ vector whose elements $b_i$ are also given by \autoref{eq:pbox-restric};
+	\item $A_{k \times n}$ is a $k \times n$ matrix whose elements $a_{ij}$ are given by \cref{eq:pbox-restric};
+	\item $b_k$ is a $k$ vector whose elements $b_i$ are also given by \cref{eq:pbox-restric};
 	\item $M_{n \times m}$ is a $n \times m$ matrix given by the following steps:
 
 	      Consider an interpretation $\I$ model of $\CC$, also called $\CC$-\emph{satisfiable interpretation}, its corresponding vector in $\PP$ is  a $\{0, 1\}$-vector $y$ such that $y_i = 1$ iff $\I \models C_i \isa D_i$, for $1 \leq i \leq n$.
@@ -465,10 +466,11 @@ and
 	\item $0_n$ is a column $0$-vector of size $n$ (similarly for $1_n$);
 	\item $0'_n$ is the previous vector's transpose;
 	\item $0_{k \times m}$ is a $0$-matrix of shape $k \times m$;
-	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \autoref{eq:pbox-restric};
+	\item $p_n$ is a vector of size $n$ which corresponds to the probability of axioms occurring in \cref{eq:pbox-restric};
 	\item $\pi_m$ is a vector of size $m$ which corresponds to the probability distribution over interpretations $\I_1, \dots, \I_m$.
 \end{itemize}
 
-\todo[inline]{Maybe add the intuition about this matrices}
+To add some intuition about this linear algebraic view, each row of matrices in $C$ represents some linear restriction of the problem. The first one describes \cref{eq:axiom-pbox}, the second row codifies \cref{eq:pbox-restric} and last represents the restriction $\sum_{i = 1}^m P(\I_i) = 1$. 
+
 
 Thus, we can use techniques for solving linear equations to find a tractable algorithm for PGEL-SAT.

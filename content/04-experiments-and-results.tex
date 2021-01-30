@@ -14,7 +14,7 @@ Based on the work of \citeauthor{Finger2011ProbabilisticSL}, we create a similar
 
 The random KB generation is described as follows. Start with a graph $G$ with no edges and 3 vertices: $\bot, \top$ and $Init$; add $n$ vertices and $n_R$ roles to $G$. Then, add $m$ edges correspoding to certain axioms, and $p$ edges correspoding to uncertain axioms. Edges are added by choosing randomly two vertices $C$ and $D$ ($n+3$ possibilities for each one), their role is chosen uniformly from $C \isa D$ and the $n_R$ other roles ($C \isa \exists r_i.D$). Also, a probabilistic restriction of the form $P(C \isa D) \leq b$ is generated for each uncertain axiom $C \isa D$, with a uniformly random $b \in [0, 2]$.
 
-For this experiment, we fixed $n = 700$, $n_R = 3$, $p = 10$ and increased $m$ from $100$ to $2000$ in steps of $10$. For each value of $m$ we generated $500$ instances of $\pgelsat$, computed the ratio of satisfiable instances (\%$\pgelsat$) and average run time. Also, it is applied a simple moving average with an window of 5 points to the curve.  Then, we obtained the graphic in the \autoref{fig:plot-phase}.
+For this experiment, we fixed $n = 700$, $n_R = 3$, $p = 10$ and increased $m$ from $100$ to $2000$ in steps of $10$. For each value of $m$ we generated $500$ instances of $\pgelsat$, computed the ratio of satisfiable instances (\%$\pgelsat$) and average run time. Also, it is applied a simple moving average with an window of 5 points to the curve.  Then, we obtained the graphic in the \cref{fig:plot-phase}.
 
 \begin{figure}[ht]
   \centering
@@ -34,9 +34,9 @@ These experiments show that:
 
 This experiment aims to estimate empirically the time complexity of the algorithm and verify its tractability.
 
-Consider a probabilistic KB as defined in \autoref{sec:phase-trans}. Create three experiments for each parameter $n, m$ and $p$; varying one parameter and fixing others. For each value of the varying parameter, generate several instances of $\pgel$-KBs as described in \autoref{sec:phase-trans}.
+Consider a probabilistic KB as defined in \cref{sec:phase-trans}. Create three experiments for each parameter $n, m$ and $p$; varying one parameter and fixing others. For each value of the varying parameter, generate several instances of $\pgel$-KBs as described in \cref{sec:phase-trans}.
 
-For this experiment, the fixed parameters had the values $n = 10, n_R = 3, m = 10$ and $p = 10$. Each parameter $n, m$ and $m$ varied from $10$ to $400$ in steps of $20$. For each varying value, we generated $100$ instances of $\pgelsat$, computed the average run time, average run time of a single iteration and number of iterations. Also, it is applied a simple moving average with an window of 5 points to the curves.  Then, we obtained the graphics in \autoref{fig:plot-comp-1}, \autoref{fig:plot-comp-2} and \autoref{fig:plot-comp-3}. 
+For this experiment, the fixed parameters had the values $n = 10, n_R = 3, m = 10$ and $p = 10$. Each parameter $n, m$ and $m$ varied from $10$ to $400$ in steps of $20$. For each varying value, we generated $100$ instances of $\pgelsat$, computed the average run time, average run time of a single iteration and number of iterations. Also, it is applied a simple moving average with an window of 5 points to the curves.  Then, we obtained the graphics in \cref{fig:plot-comp-1,fig:plot-comp-2,fig:plot-comp-3}. 
 
 These experiments show that:
 \begin{enumerate}[label=(\alph*)]
@@ -44,7 +44,7 @@ These experiments show that:
   \item The increase of uncertain axioms has high impact in the run time;
   \item The number of iterations increases linearly with the number of uncertain axioms.
 \end{enumerate}
-Then, we have a result similar to the estimated complexity in \autoref{sec:time-compl}.
+Then, we have a result similar to the estimated complexity in \cref{sec:time-compl}.
 
 However, one could argue that the run time growth of varying uncertain axioms is exponential. Thus, we propose a new experiment to analyse this curve.
 
@@ -57,9 +57,9 @@ Define a polinomial $p(x)$ and an exponential function $e(x)$, such that
 \end{align*}
 We want to find parameters $A_0, \dots, A_7$ and $B_0, \dots, B_2$ in such a way that $p(x)$ and $e(x)$ best approximate the experimental measures. 
 
-After applying the algorithm, we obtain $p(x)$ and $e(x)$ with the following approximated parameters, which are illustrated in the \autoref{fig:plot-comp-prob},
+After applying the algorithm, we obtain $p(x)$ and $e(x)$ with the following approximated parameters, which are illustrated in the \cref{fig:plot-comp-prob},
 \begin{align*}
-  p(x) :=& -1.5  \cdot  10^{-15} \cdot x^7 
+  p(x) =& -1.5  \cdot  10^{-15} \cdot x^7 
         + 2 \cdot 10^{-12} \cdot x^6 
         - 1 \cdot 10^{-9} \cdot x^5 
         + 2.9 \cdot 10^{-7} \cdot x^4\\ 
@@ -67,7 +67,7 @@ After applying the algorithm, we obtain $p(x)$ and $e(x)$ with the following app
         + 2.8  \cdot  10^{-3}\cdot x^2 
         - 0.08 \cdot x 
         + 0.64\\
-  e(x) :=& \, 0.282 \cdot 2^{0.014 \cdot x} - 0.592.
+  e(x) =& \, 0.282 \cdot 2^{0.014 \cdot x} - 0.592.
 \end{align*}
 From this analysis, we have that:
 \begin{enumerate}[label=(\alph*)]

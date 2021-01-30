@@ -3,20 +3,12 @@
 \chapter{Conclusion and future work}
 \label{cap:conclusion}
 
-Different studies focused on description logics with probabilistic reasoning. In particular, finding a logic that is both tractable and expressive enough became a problem of special interest in the field.
+Different studies focused on description logics with probabilistic reasoning. In particular, finding a logic that is both tractable and expressive enough became a problem of special interest in the field. 
 
-- this work proposed a fragment of el++ with probabilistic capabilities.
+This work presented a fragment of $\elpp$ with probabilistic capabilities called Probabilistic Graphic $\el$. It was shown that its satisfiability problem can be modeled as a linear program, using a column generation technique. Each column generation is an instance of a MaxSAT problem, which can be solved by representing the knowledge base as a weighted graph and finding a minimal cut. 
 
-- probabilistic description logics are important
+Also, all algorithms for solving $\pgelsat$ were implemented and its tractability was presented. For this solution, a theoretical upper bound was estimated and experimental analysis confirm the polynomial complexity of the run time.
 
-- proposed solution is polynomial
+Furthermore, studies and implementations from this work contributed for improving the theory for this algorithm of \citet{Fin2020}, which is under development.
 
-- an upper bound of O() was estimated and experimental analysis confirm the polynomial complexity of the run time. 
-
-- future work
-
-- modeling of existential body axioms and conjunctive axioms using probabilistic restrictions
-
-- modeling of conditional probabilities
-
-\todo[inline]{add conclusion}
+Further research directions include finding tractable extensions of $\pgel$. Existential body axioms and conjunctive axioms could be approximated using probabilistic restrictions; thus, it is expected to achieve tractable approximate reasoning for a probabilistic $\elpp$. Also, conditional probabilities could be modeled using linear restrictions.

@@ -43,9 +43,9 @@
 }
 
 % Palavras-chave separadas por ponto e finalizadas também com ponto.
-\palavraschave{Lógicas de descrição. Palavra-chave2. Palavra-chave3.}
+\palavraschave{Lógicas de descrição. Polinomial. Tratável. PSAT. MaxSAT. Corte Mínimo. Programação Linear. Geração de colunas.}
 
-\keywords{Description logics. Keyword2. Keyword3.}
+\keywords{Description logics. Polynomial. Tractable. PSAT. MaxSAT. Minimal Cut. Linear Programming. Column generation.}
 
 \tcc[masc]
 
@@ -90,7 +90,7 @@
 %\pagrostoime[port]{definitiva}
 % \pagrostoime[port]{provisoria}
 %\pagrostoime[eng]{definitiva}
-\pagrostoime[eng]{provisoria}
+% \pagrostoime[eng]{provisoria}
 
 %%%%%%%%%%%%%%%%%%%% DEDICATÓRIA, RESUMO, AGRADECIMENTOS %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -156,17 +156,25 @@
   %%%%% Listas criadas manualmente
 
   %\chapter*{Lista de Abreviaturas}
-  \disablenewpage{\chapter*{Lista de Abreviaturas}}
+  \disablenewpage{\chapter*{Abbreviations}}
 
   \begin{tabular}{rl}
-    DL & Description Logic
+    DL & Description logic\\
+    SAT & Satisfiability problem\\
+    PSAT & Probailistic satisfatibility problem\\
+    $\gel$ & Graphic $\el$\\
+    $\gel$-MaxSAT & Weighted partial maximum satisfiability problem for $\gel$\\
+    $\pgelsat$ & Probablistic satisfiability problem for $\gel$ \\
+    KB & Knowledge base\\
+    GCI & General concept inclusion\\
+    RI & Role inclusion
   \end{tabular}
 
   %\chapter*{Lista de Símbolos}
-  \disablenewpage{\chapter*{Lista de Símbolos}}
+  % \disablenewpage{\chapter*{Lista de Símbolos}}
 
-  \begin{tabular}{rl}
-  \end{tabular}
+  % \begin{tabular}{rl}
+  % \end{tabular}
 
   % Quebra de página manual
   \clearpage
@@ -185,12 +193,12 @@
   % definimos o novo tipo de float "program" (em utils.tex)
   % Você pode escolher se quer ou não permitir a quebra de página
   %\listof{program}{\programlistname}
-  \disablenewpage{\listof{program}{\programlistname}}
+  \disablenewpage{\listof{algorithm}{\programlistname}}
 
   % Sumário (obrigatório)
   \tableofcontents
 
-  \listoftodos
+  % \listoftodos
 
 } % Final de "raggedbottom"
 

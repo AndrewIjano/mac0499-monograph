@@ -1,17 +1,28 @@
 %!TeX root=../tese.tex
 
 \begin{resumo}{port}
-  Elemento obrigatório, constituído de uma sequência de frases concisas e
-  objetivas, em forma de texto.  Deve apresentar os objetivos, métodos empregados,
-  resultados e conclusões.  O resumo deve ser redigido em parágrafo único, conter
-  no máximo 500 palavras e ser seguido dos termos representativos do conteúdo do
-  trabalho (palavras-chave). Deve ser precedido da referência do documento.
-  \end{resumo}
-  
-  \begin{resumo}{eng}
-  Elemento obrigatório, elaborado com as mesmas características do resumo em
-  língua portuguesa. De acordo com o Regimento da Pós-Graduação da USP (Artigo
-  99), deve ser redigido em inglês para fins de divulgação. É uma boa ideia usar
-  o sítio \url{www.grammarly.com} na preparação de textos em inglês.
-  \end{resumo}
-  
+  Lógicas de descrição (LDs) são uma família de linguagens de representação de conhecimento. Uma delas, o $\elpp$, está dentre uma das LDs mais expressivas cuja complexidade de raciocínio inferencial é tratável. Entretanto, simplesmente adicionar restrições probabilísticas deixa complexidade de decisão intratável. Esse trabalho apresenta algoritmos para um raciocínio probabilístico em um fragmento do $\elpp$, chamado Graphic $\el$. Os algoritmos modelam seu problema de satisfatibilidade probabilística como um programa linear, que pode ser resolvido por uma adaptação do método simplex com geração de colunas. Então, é possível reduzir o problema de geração de colunas para o de satisfatibilidade máxima partial ponderada para $\gel$ ($\gel$-MaxSAT). Esse fragmento permite modelar axiomas como arestas de um grafo com pesos, o que motiva o uso de técnicas baseadas em grafos, calculando cortes mínimos, para desenvolver um algoritmo tratável para $\gel$-MaxSAT e, consequentemente, uma lógica de descrição probabilística tratável. Esses algoritmos foram implementados e, para essa solução, um limite super teórico foi estimado e análises experimentais confirmam a complexidade polinomial do tempo de execução.  
+\end{resumo}
+
+\begin{resumo}{eng}
+  Description logics (DLs) are a family of knowledge representation languages. One of them, the $\elpp$, is among the most expressive DLs in which the complexity of inferential reasoning is tractable. However, simply adding probabilistic constraints leaves its decision complexity unfeasible. This work presents tractable algorithms for a probabilistic reasoning in a fragment of $\elpp$, called Graphic $\el$ ($\gel$). The algorithms model its probabilistic satisfiability problem as a linear program, which can be solved by an adaptation of the simplex method with column generation. Thus, it is possible to reduce the column generation problem to the weighted partial maximum satisfiability for $\gel$ ($\gel$-MaxSAT). This fragment allows modeling axioms as edges in a weighted graph, which motivates the use of graph-based machinery, calculating minimal cuts, to develop a tractable algorithm for the $\gel$-MaxSAT and, as a result, a tractable probabilistic description logic. These algorithms were implemented and, for this solution, a theoretical upper bound was estimated and experimental analysis confirm the polynomial complexity of the run time. 
+\end{resumo}
+
+% description logics
+% el++
+% probability
+
+% graphic el
+% pgel-sat solver
+% max gel-sat
+% min cut
+
+% theoretical bound
+% experiments
+% tractability
+
+
+% The logic $\elpp$, is one of the most expressive description logics in which the complexity of inferential reasoning is tractable. However, simply adding probabilistic constraints leaves its decision complexity unfeasible. In this project, we present tractable algorithms for a graphic fragment of it, the $\gelpp$. This fragment allows us to model axioms as edges in a graph, which allows the use of graph-based machinery to develop a polynomial-time algorithm for $\gelpp$-MaxSAT, using max-flow/min-cut methods. Then we also show an present a tractable algorithm for Probabilistic SAT, using the MaxSAT solver above as a subroutine. Then, we present our implementation for these algorithms and experiments showing their tractability.
+
+% To solve this problem, ongoing studies of \citet{Fin2020} propose a fragment of $\elpp$ called \emph{Graphic $\el$} ($\gel$), which does not allow axioms with conjunctions or existential restrictions in the left-hand side. With this logic, using probabilistic constraints applied to axioms, its probabilistic satisfaction can be seen in a linear algebraic view. Furthermore, it can be reduced to an optimization problem, which can be solved by an adaptation of the simplex method with column generation. Thus, it is possible to reduce the column generation problem to the \emph{weighted partial maximum satisfiability for $\gel$} ($\gel$-MaxSAT). Another property of this fragment is that axioms can be modeled as edges in a graph, as opposed to hyperedges in a hypergraph, which is the case of $\elpp$. This allows the use of graph-based machinery to develop a tractable algorithm for the $\gel$-MaxSAT and, as a result, a tractable probabilistic description logic.
+

@@ -21,7 +21,7 @@
 % geração do PDF final.
 %
 % ATENÇÃO: varioref, hyperref e cleveref devem ser carregadas nessa ordem!
-%\usepackage{varioref}
+\usepackage{varioref}
 
 %\labelformat{figure}{Figura~#1}
 %\labelformat{table}{Tabela~#1}
@@ -57,17 +57,17 @@
 % por este bug.
 
 % TODO: remover isto quando o bug for corrigido
-\makeatletter
-\ifpdf
-  \ifxetex
-    \relax
-  \else
-    \let\AtEndDvi@AtBeginShipout\relax
-    \let\AtEndDvi@CheckImpl\relax
-    \let\hyxmp@at@end\AtEndDocument
-  \fi
-\fi
-\makeatother
+% \makeatletter
+% \ifpdf
+%   \ifxetex
+%     \relax
+%   \else
+%     \let\AtEndDvi@AtBeginShipout\relax
+%     \let\AtEndDvi@CheckImpl\relax
+%     \let\hyxmp@at@end\AtEndDocument
+%   \fi
+% \fi
+% \makeatother
 
 % Usamos "PassOptions" aqui porque outras packages definem opções para
 % hyperref também e chamar a package com opções diretamente gera conflitos.
@@ -95,11 +95,11 @@
 % Cria hiperlinks para capítulos, seções, \ref's, URLs etc.
 \usepackage{hyperref}
 
-%\usepackage[nameinlink,noabbrev,capitalise]{cleveref}
+\usepackage[nameinlink,noabbrev,capitalise]{cleveref}
 %% cleveref não tem tradução para o português
 %\crefname{figure}{Figura}{Figuras}
 %\crefname{table}{Tabela}{Tabelas}
-%\crefname{chapter}{Capítulo}{Capítulos}
+\crefname{chapter}{Chapter}{Chapters}
 %\crefname{section}{Seção}{Seções}
 %\crefname{subsection}{Seção}{Seções}
 %\crefname{subsubsection}{Seção}{Seções}
