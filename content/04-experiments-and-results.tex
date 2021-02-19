@@ -12,7 +12,7 @@ The phenomenon of \emph{phase transition} was conjectured as a property of all N
 
 Based on the work of \citeauthor{Finger2011ProbabilisticSL}, we create a similar experiment for $\pgelsat$, with randomly generated $\pgel$-KBs. Consider a probabilistic KB with $n$ concepts, $n_R$ roles, $m$ concept inclusions in the normal form, and $p$ uncertain axioms with $p$ probabilistic restrictions of the form $P(C \isa D) \leq b$, where $b \in \Ratios$ and $C, D$ are concepts. For this experiment, fix $n$, $n_R$, $p$ and vary $m$. For each value of $m$, generate several instances of $\pgel$-KBs as a random graph with linear restrictions.
 
-The random KB generation is described as follows. Start with a graph $G$ with no edges and 3 vertices: $\bot, \top$ and $Init$; add $n$ vertices and $n_R$ roles to $G$. Then, add $m$ edges correspoding to certain axioms, and $p$ edges correspoding to uncertain axioms. Edges are added by choosing randomly two vertices $C$ and $D$ ($n+3$ possibilities for each one), their role is chosen uniformly from $C \isa D$ and the $n_R$ other roles ($C \isa \exists r_i.D$). Also, a probabilistic restriction of the form $P(C \isa D) \leq b$ is generated for each uncertain axiom $C \isa D$, with a uniformly random $b \in [0, 2]$.
+The random KB generation is described as follows. Start with a graph $G$ with no edges and 3 vertices: $\bot, \top$ and $Init$; add $n$ vertices and $n_R$ roles to $G$. Then, add $m$ edges corresponding to certain axioms, and $p$ edges corresponding to uncertain axioms. Edges are added by choosing randomly two vertices $C$ and $D$ ($n+3$ possibilities for each one), their role is chosen uniformly from $C \isa D$ and the $n_R$ other roles ($C \isa \exists r_i.D$). Also, a probabilistic restriction of the form $P(C \isa D) \leq b$ is generated for each uncertain axiom $C \isa D$, with a uniformly random $b \in [0, 2]$.
 
 For this experiment, we fixed $n = 700$, $n_R = 3$, $p = 10$ and increased $m$ from $100$ to $2000$ in steps of $10$. For each value of $m$ we generated $500$ instances of $\pgelsat$, computed the ratio of satisfiable instances (\%$\pgelsat$) and average run time. Also, it is applied a simple moving average with an window of 5 points to the curve.  Then, we obtained the graphic in the \cref{fig:plot-phase}.
 
@@ -36,7 +36,7 @@ This experiment aims to estimate empirically the time complexity of the algorith
 
 Consider a probabilistic KB as defined in \cref{sec:phase-trans}. Create three experiments for each parameter $n, m$ and $p$; varying one parameter and fixing others. For each value of the varying parameter, generate several instances of $\pgel$-KBs as described in \cref{sec:phase-trans}.
 
-For this experiment, the fixed parameters had the values $n = 10, n_R = 3, m = 10$ and $p = 10$. Each parameter $n, m$ and $m$ varied from $10$ to $400$ in steps of $20$. For each varying value, we generated $100$ instances of $\pgelsat$, computed the average run time, average run time of a single iteration and number of iterations. Also, it is applied a simple moving average with an window of 5 points to the curves.  Then, we obtained the graphics in \cref{fig:plot-comp-1,fig:plot-comp-2,fig:plot-comp-3}. 
+For this experiment, the fixed parameters had the values $n = 10, n_R = 3, m = 10$ and $p = 10$. Each parameter $n, m$ and $p$ varied from $10$ to $400$ in steps of $20$. For each varying value, we generated $100$ instances of $\pgelsat$, computed the average run time, average run time of a single iteration and number of iterations. Also, it is applied a simple moving average with an window of 5 points to the curves.  Then, we obtained the graphics in \cref{fig:plot-comp-1,fig:plot-comp-2,fig:plot-comp-3}. 
 
 These experiments show that:
 \begin{enumerate}[label=(\alph*)]
@@ -46,11 +46,11 @@ These experiments show that:
 \end{enumerate}
 Then, we have a result similar to the estimated complexity in \cref{sec:time-compl}.
 
-However, one could argue that the run time growth of varying uncertain axioms is exponential. Thus, we propose a new experiment to analyse this curve.
+However, one could argue that the run time growth of varying uncertain axioms is exponential. Thus, we propose a new experiment to analyze this curve.
 
-Using the same data from the previous experiment, we applied the Levenberg–Marquardt algorithm \citep{levenberg1944method,marquardt1963algorithm}, which is a method for solving non-linear least squares problems. This method was applied with the SciPy's implemention called \textsf{curve\_fit} \citep{2020SciPy-NMeth}. 
+Using the same data from the previous experiment, we applied the Levenberg–Marquardt algorithm \citep{levenberg1944method,marquardt1963algorithm}, which is a method for solving non-linear least squares problems. This method was applied with the SciPy's implementation called \textsf{curve\_fit} \citep{2020SciPy-NMeth}. 
 
-Define a polinomial $p(x)$ and an exponential function $e(x)$, such that
+Define a polynomial $p(x)$ and an exponential function $e(x)$, such that
 \begin{align*}
   p(x) &:= A_7 \cdot x^7 + A_6 \cdot x^6 + A_5 \cdot x^5 +A_4 \cdot x^4 + A_3 \cdot x^3 + A_2 \cdot x^2 + A_1 \cdot x + A_0\\
   e(x) &:= B_2 \cdot 2^{B_2 \cdot x} + B_0.
@@ -72,7 +72,7 @@ After applying the algorithm, we obtain $p(x)$ and $e(x)$ with the following app
 From this analysis, we have that:
 \begin{enumerate}[label=(\alph*)]
   \item The terms that mostly contribute to the growth of $p(x)$ have a small degree ($x^4$ and $x^2$);
-  \item The factor multipling $x$ in $e(x)$ is small ($\approx 0.014$); therefore, $e(x)$ corresponds to the function $f(x) = 0.282 \cdot (1.01)^{x} - 0.592$, which has a very small exponential growth rate.
+  \item The factor multiplying $x$ in $e(x)$ is small ($\approx 0.014$); therefore, $e(x)$ corresponds to the function $f(x) = 0.282 \cdot (1.01)^{x} - 0.592$, which has a very small exponential growth rate.
 \end{enumerate}
 Thus, there is no experimental results to refute that the run time growth of \textsc{PGEL-SAT-Solver} is not polynomial. 
 

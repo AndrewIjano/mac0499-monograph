@@ -69,7 +69,7 @@ Now, consider that the matrix $C$ may have ill-formed columns. We define a binar
 	\end{array}
 \end{equation}
 
-This problem can be solved by a linear algebraic solver but we need to find beforehand $C$ and $d$ that reaches the minimum 0. Since matrix $A$ and vector $b$ are generated from PBox, we need to choose a set of interpretations that provides the solution. However, we potentially have an exponential collection of possible interpretations, which is encoded in $M$, and calculating all of them would make the algorithm untractable.
+This problem can be solved by a linear algebraic solver but we need to find beforehand $C$ and $d$ that reaches the minimum 0. Since matrix $A$ and vector $b$ are generated from PBox, we need to choose a set of interpretations that provides the solution. However, we potentially have an exponential collection of possible interpretations, which is encoded in $M$, and calculating all of them would make the algorithm intractable.
 
 Even though, from Carathéodory's Theorem \citep{eckhoff1993helly}, \citet{Fin2020} states that if constraints in \cref{eq:pbox-restric} are solvable then there exists  a solution where $x$ has at most $n + k + 1$ values such that $x_j > 0$. This allows us to avoid generating an exponential number of columns of $C$ by using a linear algebraic technique called \emph{column generation} \citep{gilmore1961linear,gilmore1963linear}. With this technique, we can create an algorithm \textsc{PGEL-SAT-Solver} which generates well-formed $\pi$-columns of $C$ on the fly by solving an auxiliary problem and uses a linear solver in each iteration to verify if the solution for \cref{eq:linprog} has reached minimum 0. This solution leads to the algorithm implemented, which is shown in \cref{alg:pgelsat}.
 
@@ -138,7 +138,7 @@ Then, the algorithm executes the column generation process while the minimal cos
 \section{Linear solver}
 The program \textsc{LinProg} was implemented using the open-source GNU linear program kit \citep{makhorin2001gnu} and the Python wrapper for this library, the \emph{swiglpk} package \citep{swiglpk}. The library was chosen because it is open-source, has tractable algorithms for large-scale problems, and provides a solution that contains the required elements described in \cref{sec:pgelsatsolver}.
 
-There are several methods for solving a linear optimization problem. The \emph{simplex method} is known to be very efficient in practice \citep{borgwardt2012simplex} although its worst time complexity is untractable \citep{klee1972good}. On the other hand, the modern \emph{interior point method} has a proven polynomial-time complexity and is especially ideal for very sparse problems \citep{boyd2004convex} but may not be as efficient as the simplex method in all cases.
+There are several methods for solving a linear optimization problem. The \emph{simplex method} is known to be very efficient in practice \citep{borgwardt2012simplex} although its worst time complexity is intractable \citep{klee1972good}. On the other hand, the modern \emph{interior point method} has a proven polynomial-time complexity and is especially ideal for very sparse problems \citep{boyd2004convex} but may not be as efficient as the simplex method in all cases.
 
 Because of the theoretical tractability, the linear solver \textsc{LinProg} implemented uses the interior point method.
 
